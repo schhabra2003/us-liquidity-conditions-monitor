@@ -198,7 +198,9 @@ def evidence_inventory() -> dict[str, Any]:
     visual_root = audit_root / "product_v1"
     paths = {
         "visual_audit": ROOT / "docs" / "VISUAL_AUDIT.md",
+        "design_system": ROOT / "docs" / "DESIGN_SYSTEM.md",
         "data_integrity_audit": ROOT / "docs" / "DATA_INTEGRITY_AUDIT.md",
+        "release_notes": ROOT / "docs" / "RELEASE_NOTES.md",
         "evidence_manifest": visual_root / "manifest.json",
     }
     files = {

@@ -60,10 +60,12 @@ GitHub Actions runs the Python 3.12 compile, test, coverage, and lint gates on e
 ## Documentation
 
 - [Model specification](docs/MODEL_SPECIFICATION.md)
+- [Interface and visual design system](docs/DESIGN_SYSTEM.md)
 - [Inputs and data dictionary](docs/DATA_DICTIONARY.md)
 - [Public data sources](docs/PUBLIC_DATA_SOURCES.md)
 - [Operating and release procedure](docs/OPERATIONS.md)
 - [Validation and limitations](docs/VALIDATION_AND_LIMITATIONS.md)
+- [Final release notes](docs/RELEASE_NOTES.md)
 
 ## Independence and use
 
