@@ -21,12 +21,12 @@ class SidebarGuide:
 
 
 TOOL = ToolDefinition(
-    title="Liquidity Conditions Monitor",
+    title="U.S. Liquidity Monitor",
     page_filename="Liquidity_Conditions_Monitor.py",
-    group="U.S. Macro Liquidity",
+    group="U.S. dollar liquidity",
     description=(
-        "Classifies U.S. liquidity across structural reserve capacity, overnight "
-        "funding, realized reserve flow, and bank credit."
+        "Tracks the level and direction of U.S. dollar liquidity using reserve "
+        "capacity, funding conditions, reserve flows, and bank credit."
     ),
     primary_inputs=(
         "Federal Reserve H.4.1 and H.8; Fedwire; Daily Treasury Statement; "
@@ -38,13 +38,13 @@ TOOL_CATALOG = (TOOL,)
 
 GUIDE = SidebarGuide(
     read_order=(
-        "Start with the Liquidity Conditions Index, regime, direction, and four model layers.",
-        "Use Reserve Mechanics to identify which Federal Reserve and Treasury items added or drained reserves.",
-        "Use Funding and Markets as independent cross-checks, then verify source dates and freshness in Data and Methods.",
+        "Start with the index level, four-week trend, and primary drivers.",
+        "Review Reserve flows to identify the Federal Reserve and Treasury items adding or draining reserves.",
+        "Use Funding and markets as confirmation, then verify source timing under Data and methodology.",
     ),
     caveat=(
-        "This is a point-in-time liquidity regime diagnostic for discretionary "
-        "research, not a standalone market-timing or portfolio instruction."
+        "This model describes the current U.S. liquidity backdrop. It is not a "
+        "standalone market-timing or portfolio instruction."
     ),
 )
 

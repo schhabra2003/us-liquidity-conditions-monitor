@@ -1,4 +1,4 @@
-# U.S. Liquidity Conditions Monitor
+# U.S. Liquidity Monitor
 
 An independently developed, public-data monitor of U.S. dollar liquidity conditions for discretionary macro and equity research.
 
@@ -9,7 +9,7 @@ The application separates four questions that are often mixed together:
 3. Is realized reserve flow adding to or draining system liquidity?
 4. Is bank credit creation reinforcing or offsetting those conditions?
 
-It produces a 0 to 100 Liquidity Conditions Index, a level regime, a four-week direction, an independent funding-stress alert, a reserve-flow decomposition, a mechanical seasonal comparison, and zero-weight market-confirmation diagnostics. It does not issue trades and it is not represented as a validated standalone market-timing model.
+It produces a 0 to 100 Liquidity Conditions Index, a level regime, a four-week direction, an independent funding-stress alert, a reserve-flow decomposition, a mechanical seasonal comparison, and zero-weight market-confirmation diagnostics. The interface is designed as a restrained institutional macro research product with one decision hierarchy across desktop and mobile. It does not issue trades and it is not represented as a validated standalone market-timing model.
 
 ## Run locally
 
@@ -20,7 +20,7 @@ python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt -r requirements-dev.txt
-streamlit run pages/Liquidity_Conditions_Monitor.py
+python -m streamlit run pages/Liquidity_Conditions_Monitor.py
 ```
 
 On macOS, you can also double-click `run_local.command`. The first launch creates the virtual environment and installs dependencies.
@@ -42,7 +42,7 @@ python -m unittest discover -s tests -p 'test_*.py' -q
 python scripts/audit_liquidity_release.py --output /tmp/liquidity-release-audit.json
 ```
 
-An optional GitHub Actions definition is included at `docs/templates/quality-workflow.yml`. To activate it, copy it to `.github/workflows/quality.yml` using a GitHub credential with `workflow` permission.
+GitHub Actions runs the Python 3.12 compile, test, coverage, and lint gates on every push and pull request through `.github/workflows/quality.yml`.
 
 ## Repository map
 

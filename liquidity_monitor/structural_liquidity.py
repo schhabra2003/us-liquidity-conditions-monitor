@@ -27,7 +27,38 @@ from liquidity_monitor.liquidity_live_snapshot import (
     apply_federal_reserve_release_availability,
     load_federal_reserve_release_calendars,
 )
-from liquidity_monitor.palette import PASTEL
+from liquidity_monitor.palette import PASTEL, PRODUCT
+
+CHART_FONT = "Arial, Helvetica, sans-serif"
+CHART_INK = PRODUCT["ink"]
+CHART_MUTED = PRODUCT["muted"]
+CHART_GRID = PRODUCT["grid"]
+CHART_NAVY = PRODUCT["navy"]
+CHART_POSITIVE = PRODUCT["green"]
+CHART_NEGATIVE = PRODUCT["brick"]
+MARKET_CONFIRMATION_SOURCE_COMPONENTS = {
+    "market": {
+        "Equal weight / SPY",
+        "Small caps / SPY",
+        "ARKK / QQQ",
+        "Biotech / QQQ",
+        "Regional banks / SPY",
+        "Bitcoin / SPY",
+        "EM / SPY",
+    },
+    "vix": {"VIX risk signal"},
+}
+
+
+def confirmation_components_for_stale_sources(stale_fields: set[str]) -> set[str]:
+    """Return zero-weight confirmation components that must be withheld."""
+
+    return set().union(
+        *(
+            MARKET_CONFIRMATION_SOURCE_COMPONENTS.get(field, set())
+            for field in stale_fields
+        )
+    )
 
 STRUCTURAL_WEIGHTS = {
     "reserve_availability": 0.40,
@@ -482,13 +513,12 @@ def structural_history_figure(result: StructuralLiquidityResult, years: int | No
             go.Scatter(
                 x=[frame.index[-1]],
                 y=[current_percentile],
-                mode="markers+text",
+                mode="markers",
                 name="Current",
                 marker={"color": "#111111", "size": 8},
-                text=[f"Current: {current_percentile:.0f}th"],
-                textposition="top left",
-                hoverinfo="skip",
-                cliponaxis=False,
+                customdata=[f"{current_percentile:.0f}th percentile"],
+                hovertemplate="Current: %{customdata}<extra></extra>",
+                showlegend=False,
             )
         )
     figure.add_hline(y=40, line={"color": "#aaaaaa", "width": 1, "dash": "dot"})
@@ -633,8 +663,8 @@ def transmission_snapshot(snapshot: LiveLiquiditySnapshot) -> pd.DataFrame:
 
 def transmission_conditions_figure(snapshot: LiveLiquiditySnapshot) -> go.Figure:
     frame = transmission_snapshot(snapshot).iloc[::-1].copy()
-    colors = ["#C0504D" if value > 0 else "#548235" for value in frame["tightening_score_z"]]
-    labels = [f"{value:+.2f}".replace("-", "−") for value in frame["tightening_score_z"]]
+    frame["support_score_z"] = -frame["tightening_score_z"]
+    colors = [CHART_POSITIVE if value > 0 else CHART_NEGATIVE for value in frame["support_score_z"]]
     level_display = []
     change_display = []
     for _, row in frame.iterrows():
@@ -652,43 +682,63 @@ def transmission_conditions_figure(snapshot: LiveLiquiditySnapshot) -> go.Figure
             change_display.append(format_percent(change, signed=True))
     hover_data = np.column_stack(
         [
+            [format_normalized(value, signed=True) for value in frame["support_score_z"]],
             [format_normalized(value, signed=True) for value in frame["tightening_score_z"]],
             level_display,
             change_display,
             [pd.Timestamp(value).strftime("%d %b %Y") for value in frame["date"]],
         ]
     )
-    max_abs = max(1.0, float(frame["tightening_score_z"].abs().max()) * 1.35)
-    figure = go.Figure(
-        go.Bar(
-            x=frame["tightening_score_z"],
-            y=frame["component"],
-            orientation="h",
-            marker={"color": colors},
-            text=labels,
-            textposition="outside",
-            cliponaxis=False,
-            customdata=hover_data,
-            hovertemplate=(
-                "%{y}<br>Oriented scaled change: %{customdata[0]}"
-                "<br>Level: %{customdata[1]}"
-                "<br>20-session change: %{customdata[2]}"
-                "<br>%{customdata[3]}<extra></extra>"
-            ),
+    max_abs = max(1.0, float(frame["support_score_z"].abs().max()) * 1.35)
+    figure = go.Figure()
+    for (_, row), color, hover_row in zip(
+        frame.iterrows(), colors, hover_data, strict=True
+    ):
+        value = float(row["support_score_z"])
+        label = str(row["component"])
+        figure.add_trace(
+            go.Scatter(
+                x=[0.0, value],
+                y=[label, label],
+                mode="lines",
+                line={"color": color, "width": 4},
+                hoverinfo="skip",
+                showlegend=False,
+            )
         )
-    )
-    figure.add_vline(x=0, line={"color": "#111111", "width": 1})
+        figure.add_trace(
+            go.Scatter(
+                x=[value],
+                y=[label],
+                mode="markers+text",
+                marker={"color": color, "size": 9, "line": {"color": "#FFFFFF", "width": 1.5}},
+                text=[f"{value:+.2f}".replace("-", "−")],
+                textposition="top center",
+                textfont={"family": CHART_FONT, "size": 11, "color": CHART_INK},
+                cliponaxis=False,
+                customdata=[hover_row],
+                hovertemplate=(
+                    "%{y}<br>Support-oriented score: %{customdata[0]}"
+                    "<br>Original tightening score: %{customdata[1]}"
+                    "<br>Level: %{customdata[2]}"
+                    "<br>20-session change: %{customdata[3]}"
+                    "<br>%{customdata[4]}<extra></extra>"
+                ),
+                showlegend=False,
+            )
+        )
+    figure.add_vline(x=0, line={"color": CHART_NAVY, "width": 1})
     figure.update_layout(
-        height=330,
-        margin={"l": 24, "r": 56, "t": 16, "b": 50},
+        height=310,
+        margin={"l": 20, "r": 44, "t": 14, "b": 38},
         paper_bgcolor="#ffffff",
         plot_bgcolor="#ffffff",
-        font={"family": "Arial, Helvetica, sans-serif", "color": "#202020", "size": 11},
+        font={"family": CHART_FONT, "color": CHART_INK, "size": 11},
         showlegend=False,
         xaxis={
-            "title": "Scaled tightening signal",
+            "title": None,
             "range": [-max_abs, max_abs],
-            "gridcolor": "#e5e5e5",
+            "gridcolor": CHART_GRID,
             "zeroline": False,
         },
         yaxis={"title": None, "showgrid": False, "automargin": True},
@@ -696,7 +746,11 @@ def transmission_conditions_figure(snapshot: LiveLiquiditySnapshot) -> go.Figure
     return figure
 
 
-def market_confirmation_snapshot(snapshot: LiveLiquiditySnapshot) -> pd.DataFrame:
+def market_confirmation_snapshot(
+    snapshot: LiveLiquiditySnapshot,
+    excluded_components: set[str] | None = None,
+) -> pd.DataFrame:
+    excluded = excluded_components or set()
     market = pd.read_csv(
         snapshot.root / "raw" / "market_adjusted_close.csv", parse_dates=["date"]
     ).set_index("date")
@@ -715,6 +769,8 @@ def market_confirmation_snapshot(snapshot: LiveLiquiditySnapshot) -> pd.DataFram
     )
     rows: list[dict[str, object]] = []
     for label, numerator, denominator in ratios:
+        if label in excluded:
+            continue
         ratio = (market[numerator] / market[denominator]).dropna()
         response = ratio.pct_change(20) * 100
         z = lagged_scaled_change(response, window=756, min_periods=252)
@@ -734,7 +790,7 @@ def market_confirmation_snapshot(snapshot: LiveLiquiditySnapshot) -> pd.DataFram
     vix_change = -(vix.diff(20))
     vix_z = lagged_scaled_change(vix_change, window=756, min_periods=252)
     vix_valid = pd.concat({"response": vix_change, "score": vix_z}, axis=1).dropna()
-    if not vix_valid.empty:
+    if not vix_valid.empty and "VIX risk signal" not in excluded:
         row = vix_valid.iloc[-1]
         rows.append(
             {
@@ -747,10 +803,23 @@ def market_confirmation_snapshot(snapshot: LiveLiquiditySnapshot) -> pd.DataFram
     return pd.DataFrame(rows)
 
 
-def market_confirmation_figure(snapshot: LiveLiquiditySnapshot) -> go.Figure:
-    frame = market_confirmation_snapshot(snapshot).iloc[::-1].copy()
-    colors = ["#548235" if value > 0 else "#C0504D" for value in frame["response_score_z"]]
-    labels = [f"{value:+.2f}".replace("-", "−") for value in frame["response_score_z"]]
+def market_confirmation_figure(
+    snapshot: LiveLiquiditySnapshot,
+    excluded_components: set[str] | None = None,
+) -> go.Figure:
+    frame = market_confirmation_snapshot(snapshot, excluded_components).iloc[::-1].copy()
+    display_labels = {
+        "Equal weight / SPY": "Equal weight",
+        "Small caps / SPY": "Small caps",
+        "ARKK / QQQ": "Speculative growth",
+        "Biotech / QQQ": "Biotech",
+        "Regional banks / SPY": "Regional banks",
+        "Bitcoin / SPY": "Crypto",
+        "EM / SPY": "Emerging markets",
+        "VIX risk signal": "Volatility",
+    }
+    frame["display_component"] = frame["component"].replace(display_labels)
+    colors = [CHART_POSITIVE if value > 0 else CHART_NEGATIVE for value in frame["response_score_z"]]
     change_display = [
         f"{float(value):+.2f} VIX points".replace("-", "−")
         if component == "VIX risk signal"
@@ -767,35 +836,53 @@ def market_confirmation_figure(snapshot: LiveLiquiditySnapshot) -> go.Figure:
         ]
     )
     max_abs = max(1.0, float(frame["response_score_z"].abs().max()) * 1.35)
-    figure = go.Figure(
-        go.Bar(
-            x=frame["response_score_z"],
-            y=frame["component"],
-            orientation="h",
-            marker={"color": colors},
-            text=labels,
-            textposition="outside",
-            cliponaxis=False,
-            customdata=hover_data,
-            hovertemplate=(
-                "%{y}<br>Risk-appetite direction: %{customdata[0]} standardized"
-                "<br>20-session change: %{customdata[1]}"
-                "<br>%{customdata[2]}<extra></extra>"
-            ),
+    figure = go.Figure()
+    for (_, row), color, hover_row in zip(
+        frame.iterrows(), colors, hover_data, strict=True
+    ):
+        value = float(row["response_score_z"])
+        label = str(row["display_component"])
+        figure.add_trace(
+            go.Scatter(
+                x=[0.0, value],
+                y=[label, label],
+                mode="lines",
+                line={"color": color, "width": 4},
+                hoverinfo="skip",
+                showlegend=False,
+            )
         )
-    )
-    figure.add_vline(x=0, line={"color": "#111111", "width": 1})
+        figure.add_trace(
+            go.Scatter(
+                x=[value],
+                y=[label],
+                mode="markers+text",
+                marker={"color": color, "size": 9, "line": {"color": "#FFFFFF", "width": 1.5}},
+                text=[f"{value:+.2f}".replace("-", "−")],
+                textposition="top center",
+                textfont={"family": CHART_FONT, "size": 11, "color": CHART_INK},
+                cliponaxis=False,
+                customdata=[hover_row],
+                hovertemplate=(
+                    "%{y}<br>Standardized risk-appetite change: %{customdata[0]}"
+                    "<br>20-session change: %{customdata[1]}"
+                    "<br>%{customdata[2]}<extra></extra>"
+                ),
+                showlegend=False,
+            )
+        )
+    figure.add_vline(x=0, line={"color": CHART_NAVY, "width": 1})
     figure.update_layout(
-        height=420,
-        margin={"l": 36, "r": 56, "t": 16, "b": 50},
+        height=310,
+        margin={"l": 20, "r": 44, "t": 14, "b": 38},
         paper_bgcolor="#ffffff",
         plot_bgcolor="#ffffff",
-        font={"family": "Arial, Helvetica, sans-serif", "color": "#202020", "size": 11},
+        font={"family": CHART_FONT, "color": CHART_INK, "size": 11},
         showlegend=False,
         xaxis={
-            "title": "Scaled risk confirmation",
+            "title": None,
             "range": [-max_abs, max_abs],
-            "gridcolor": "#e5e5e5",
+            "gridcolor": CHART_GRID,
             "zeroline": False,
         },
         yaxis={"title": None, "showgrid": False, "automargin": True},

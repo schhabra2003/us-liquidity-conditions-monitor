@@ -38,13 +38,13 @@
   "all_sources_current": true,
   "model_spec": {
     "version": "3.0.0-research",
-    "model_code_sha256": "833ce785fa17c12425c1092b550da6cf9f603577b37f236d74464549bbab41eb",
+    "model_code_sha256": "1fd966192d66a7f9cd93d75083ac48b14e4c87d6b63052ed8b2d0ef689c1fab5",
     "implementation_files": {
       "liquidity_monitor/liquidity_live_snapshot.py": "9d879955723e39159862987d8e738734216cbc7c557688418e5f69dee97375db",
-      "liquidity_monitor/structural_liquidity.py": "0dc3f1b3e2c731185eb9f01e18e25566f0b5713160cdd36de1caf2acbb5b8d8e",
-      "liquidity_monitor/us_liquidity_model.py": "833ce785fa17c12425c1092b550da6cf9f603577b37f236d74464549bbab41eb"
+      "liquidity_monitor/structural_liquidity.py": "104bfb55d692c83f454d72e4efd69088cffdc530d089170c61e7f0c1f7fc5ed2",
+      "liquidity_monitor/us_liquidity_model.py": "1fd966192d66a7f9cd93d75083ac48b14e4c87d6b63052ed8b2d0ef689c1fab5"
     },
-    "implementation_bundle_sha256": "0b89ae1bee17a3eb0c82d36d246a770252377771077c49cb2ffd3af27fce4d03",
+    "implementation_bundle_sha256": "625c4f0254f0c9986fd9f2825d021bff1e3f8d7af850b69d8cb56e59c4d02b70",
     "weights": {
       "reserve_capacity": 0.35,
       "funding_support": 0.25,

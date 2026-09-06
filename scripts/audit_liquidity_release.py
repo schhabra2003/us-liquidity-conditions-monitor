@@ -25,6 +25,17 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+PRESENTATION_SOURCES = (
+    ".streamlit/config.toml",
+    "pages/Liquidity_Conditions_Monitor.py",
+    "liquidity_monitor/ui.py",
+    "liquidity_monitor/palette.py",
+    "liquidity_monitor/liquidity_signal_monitor.py",
+    "liquidity_monitor/structural_liquidity.py",
+    "liquidity_monitor/us_liquidity_model.py",
+    "scripts/capture_liquidity_visual_audit.py",
+)
+
 
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
@@ -115,6 +126,7 @@ def liquidity_data_integrity() -> dict[str, Any]:
         live_source_status_table,
         load_liquidity_bundle,
     )
+    from liquidity_monitor.us_liquidity_model import CORE_SOURCE_FIELDS
 
     live_root = ROOT / "data" / "liquidity_live_snapshot"
     research_root = ROOT / "data" / "liquidity_model_bundle"
@@ -124,7 +136,13 @@ def liquidity_data_integrity() -> dict[str, Any]:
         runtime_status = live_source_status_table(live)
         runtime_stale = runtime_status.loc[
             ~runtime_status["Live status"].astype(str).str.startswith("CURRENT"),
-            ["Series", "Observation date", "Expected date", "Live status"],
+            ["field", "Series", "Observation date", "Expected date", "Live status"],
+        ]
+        core_stale = runtime_stale.loc[
+            runtime_stale["field"].astype(str).isin(CORE_SOURCE_FIELDS)
+        ]
+        supplemental_stale = runtime_stale.loc[
+            ~runtime_stale["field"].astype(str).isin(CORE_SOURCE_FIELDS)
         ]
         return {
             "status": "PASS",
@@ -137,9 +155,16 @@ def liquidity_data_integrity() -> dict[str, Any]:
                 "manifest": str((live_root / "manifest.json").relative_to(ROOT)),
                 "manifest_sha256": sha256(live_root / "manifest.json"),
                 "current_operating_status": (
-                    "PASS" if runtime_stale.empty else "HOLD_FOR_REFRESH"
+                    "PASS" if core_stale.empty else "HOLD_FOR_CORE_REFRESH"
+                ),
+                "supplemental_operating_status": (
+                    "CURRENT"
+                    if supplemental_stale.empty
+                    else "REFRESH_PENDING_EXCLUDED_FROM_CORE"
                 ),
                 "current_stale_source_count": len(runtime_stale),
+                "current_core_stale_source_count": len(core_stale),
+                "current_supplemental_stale_source_count": len(supplemental_stale),
                 "current_stale_sources": runtime_stale.astype(str).to_dict("records"),
             },
             "research_bundle": {
@@ -169,8 +194,8 @@ def liquidity_data_integrity() -> dict[str, Any]:
 
 
 def evidence_inventory() -> dict[str, Any]:
-    audit_root = ROOT / "docs" / "qa" / "liquidity_visual_audit_2026-09-04"
-    visual_root = audit_root / "final_v2"
+    audit_root = ROOT / "docs" / "qa" / "liquidity_visual_audit_2026-09-06"
+    visual_root = audit_root / "product_v1"
     paths = {
         "visual_audit": ROOT / "docs" / "VISUAL_AUDIT.md",
         "data_integrity_audit": ROOT / "docs" / "DATA_INTEGRITY_AUDIT.md",
@@ -197,12 +222,12 @@ def evidence_inventory() -> dict[str, Any]:
                 {
                     "manifest_schema": manifest.get("schema_version") == "2.0.0",
                     "audit_identity": manifest.get("audit_id")
-                    == "U.S.-LIQ-VISUAL-2026-09-04-FINAL-V2",
+                    == "US-LIQUIDITY-PRODUCT-2026-09-06-V1",
                     "route": manifest.get("route") == "/",
                     "viewports": manifest.get("viewports")
                     == {"desktop": [1440, 900], "mobile": [390, 844], "narrow": [320, 844]},
                     "tabs": manifest.get("tabs")
-                    == ["Overview", "Reserve mechanics", "Funding and markets", "Data and methods"],
+                    == ["Dashboard", "Reserve flows", "Funding and markets", "Data and methodology"],
                     "source_coverage_at_capture": manifest.get("required_source_count") == 28
                     and manifest.get("all_sources_current_at_release") is True,
                 }
@@ -217,15 +242,28 @@ def evidence_inventory() -> dict[str, Any]:
                 live_manifest.is_file()
                 and sha256(live_manifest) == manifest.get("live_manifest_sha256")
             )
+            presentation_sources = manifest.get("presentation_sources", {})
+            checks["presentation_source_inventory"] = (
+                isinstance(presentation_sources, dict)
+                and set(presentation_sources) == set(PRESENTATION_SOURCES)
+            )
+            checks["presentation_source_binding"] = bool(
+                checks["presentation_source_inventory"]
+                and all(
+                    (ROOT / relative).is_file()
+                    and sha256(ROOT / relative) == expected_hash
+                    for relative, expected_hash in presentation_sources.items()
+                )
+            )
             aggregate = manifest.get("aggregate_results", {})
             runtime_checks = manifest.get("runtime_checks", [])
             expected_runtime_keys = {
                 (surface, tab, state)
                 for surface in ("desktop", "mobile", "narrow")
-                for tab in ("Overview", "Reserve mechanics", "Funding and markets", "Data and methods")
+                for tab in ("Dashboard", "Reserve flows", "Funding and markets", "Data and methodology")
                 for state in (
                     ("collapsed", "expanded")
-                    if tab in {"Overview", "Reserve mechanics", "Data and methods"}
+                    if tab in {"Dashboard", "Reserve flows", "Data and methodology"}
                     else ("collapsed",)
                 )
             }
@@ -257,12 +295,12 @@ def evidence_inventory() -> dict[str, Any]:
                 "desktop_contact_sheet.png",
                 "mobile_contact_sheet.png",
                 "narrow_contact_sheet.png",
-                "desktop_overview_collapsed_01.png",
-                "desktop_overview_expanded_01.png",
-                "mobile_overview_collapsed_01.png",
-                "mobile_overview_expanded_01.png",
-                "narrow_overview_collapsed_01.png",
-                "narrow_overview_expanded_01.png",
+                "desktop_dashboard_collapsed_01.png",
+                "desktop_dashboard_expanded_01.png",
+                "mobile_dashboard_collapsed_01.png",
+                "mobile_dashboard_expanded_01.png",
+                "narrow_dashboard_collapsed_01.png",
+                "narrow_dashboard_expanded_01.png",
             }
             listed_names: set[str] = set()
             root_resolved = visual_root.resolve()

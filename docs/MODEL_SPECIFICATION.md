@@ -12,7 +12,7 @@ The headline model is weekly. A new row is admitted only after 4:30 p.m. America
 
 The filtered composite is mapped to a bounded index:
 
-`Index = 100 / (1 + exp(-1.2 * filtered_composite))`
+`Index = 100 / (1 + exp(-filtered_composite))`
 
 The filter is a one-sided four-week exponential moving average. No future observation enters a historical score.
 
@@ -67,6 +67,8 @@ The expected seasonal value is the one-sided median of prior ISO years near the 
 
 Credit spreads, broad dollar, real yields, volatility, equity breadth, equal weight, small caps, high-beta innovation, biotechnology, regional banks, Bitcoin, and emerging markets are displayed as independent transmission checks. They cannot create or improve the liquidity regime score.
 
+Publication status is separated by role. A stale required model or absolute-funding-control input holds the core index at its last verified value. These inputs include weighted index sources and the TGCR, BGCR, and Federal Reserve repo series used by the independent funding stress check. A stale zero-weight market-confirmation series does not suppress an otherwise current core index; it is excluded from the current confirmation count and identified separately in the interface.
+
 ## Frozen release parameters
 
 - Model version: `3.0.0-research`
@@ -78,4 +80,3 @@ Credit spreads, broad dollar, real yields, volatility, equity breadth, equal wei
 - Model observation clock: Friday 16:30 America/New_York
 - Fedwire publication lag: 25 calendar days after month-end
 - Deposit fallback publication lag: 9 calendar days
-

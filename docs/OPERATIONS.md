@@ -6,7 +6,7 @@
 2. Run `scripts/refresh_liquidity_live_snapshot.py` after the required release windows.
 3. Confirm that all required sources are current or inspect the fail-closed exception.
 4. Run the complete unit suite and release audit.
-5. Launch the Streamlit page and inspect Overview, Reserve Mechanics, Funding and Markets, and Data and Methods at desktop and mobile widths.
+5. Launch the Streamlit page and inspect Dashboard, Reserve flows, Funding and markets, and Data and methodology at desktop, mobile, and narrow-mobile widths.
 6. Commit the new snapshot, source payloads, manifest, and audit result together.
 
 ## Failure behavior
@@ -16,4 +16,3 @@ The refresh writes to a temporary staging directory. It validates schema, unique
 ## Deployment
 
 The page can run locally or on any Python-capable host that supports Streamlit. A public web deployment should not include secrets. The current data pipeline does not require private API keys.
-

@@ -1,0 +1,1018 @@
+{
+  "schema_version": "2.0.0",
+  "audit_id": "US-LIQUIDITY-PRODUCT-2026-09-06-V1",
+  "captured_at_et": "2026-09-06T15:33:04-04:00",
+  "route": "/",
+  "page_source": "pages/Liquidity_Conditions_Monitor.py",
+  "page_source_sha256": "5fffe1f885d483575d239bd72553a6ac6143e81e2b118078db850faaea3c73bd",
+  "live_manifest": "data/liquidity_live_snapshot/manifest.json",
+  "live_manifest_sha256": "ecd3c129571509279aceecd48bb46f9732bcae7ecda26870e03517fe8cb49968",
+  "presentation_sources": {
+    ".streamlit/config.toml": "7e059dec0c82476b6c6820cb578414500ea480002d127c14412f8c7b98533c66",
+    "pages/Liquidity_Conditions_Monitor.py": "5fffe1f885d483575d239bd72553a6ac6143e81e2b118078db850faaea3c73bd",
+    "liquidity_monitor/ui.py": "87c1bf3d835f5172d7d1a2f8fbdd2182f11db55ff6f9e3202c4f5015ff9930d1",
+    "liquidity_monitor/palette.py": "7faef66f51f820954fd018c520d9d6509b7c0893b52d1bf1219127e75862ea92",
+    "liquidity_monitor/liquidity_signal_monitor.py": "09f39b691389f8642c012fc9775f33a4ac1f51d7f69145ced19ece8d670b8cc0",
+    "liquidity_monitor/structural_liquidity.py": "104bfb55d692c83f454d72e4efd69088cffdc530d089170c61e7f0c1f7fc5ed2",
+    "liquidity_monitor/us_liquidity_model.py": "1fd966192d66a7f9cd93d75083ac48b14e4c87d6b63052ed8b2d0ef689c1fab5",
+    "scripts/capture_liquidity_visual_audit.py": "cda48682c951797f018099bdf0d13684cb4b18094dae82d32d8a58c76f1150e0"
+  },
+  "live_release_id": "US-LIQ-LIVE-2026-09-04",
+  "information_cutoff_et": "2026-09-04T18:44:53-04:00",
+  "required_source_count": 28,
+  "all_sources_current_at_release": true,
+  "viewports": {
+    "desktop": [
+      1440,
+      900
+    ],
+    "mobile": [
+      390,
+      844
+    ],
+    "narrow": [
+      320,
+      844
+    ]
+  },
+  "tabs": [
+    "Dashboard",
+    "Reserve flows",
+    "Funding and markets",
+    "Data and methodology"
+  ],
+  "runtime_checks": [
+    {
+      "surface": "desktop",
+      "tab": "Dashboard",
+      "state": "collapsed",
+      "scroll_height_px": 1050,
+      "client_height_px": 900,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "desktop_dashboard_collapsed_01.png",
+        "desktop_dashboard_collapsed_02.png"
+      ],
+      "expanded_sections": [
+        "View level and direction classifier map",
+        "View reserve-capacity inputs"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "tab": "Dashboard",
+      "state": "expanded",
+      "scroll_height_px": 1731,
+      "client_height_px": 900,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "desktop_dashboard_expanded_01.png",
+        "desktop_dashboard_expanded_02.png",
+        "desktop_dashboard_expanded_03.png"
+      ],
+      "expanded_sections": [
+        "View level and direction classifier map",
+        "View reserve-capacity inputs"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "tab": "Reserve flows",
+      "state": "collapsed",
+      "scroll_height_px": 2516,
+      "client_height_px": 900,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "desktop_reserve_flows_collapsed_01.png",
+        "desktop_reserve_flows_collapsed_02.png",
+        "desktop_reserve_flows_collapsed_03.png",
+        "desktop_reserve_flows_collapsed_04.png"
+      ],
+      "expanded_sections": [
+        "Reserve-flow mechanics"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "tab": "Reserve flows",
+      "state": "expanded",
+      "scroll_height_px": 2585,
+      "client_height_px": 900,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "desktop_reserve_flows_expanded_01.png",
+        "desktop_reserve_flows_expanded_02.png",
+        "desktop_reserve_flows_expanded_03.png",
+        "desktop_reserve_flows_expanded_04.png"
+      ],
+      "expanded_sections": [
+        "Reserve-flow mechanics"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "tab": "Funding and markets",
+      "state": "collapsed",
+      "scroll_height_px": 1473,
+      "client_height_px": 900,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "desktop_funding_and_markets_collapsed_01.png",
+        "desktop_funding_and_markets_collapsed_02.png"
+      ],
+      "expanded_sections": []
+    },
+    {
+      "surface": "desktop",
+      "tab": "Data and methodology",
+      "state": "collapsed",
+      "scroll_height_px": 1235,
+      "client_height_px": 900,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "desktop_data_and_methodology_collapsed_01.png",
+        "desktop_data_and_methodology_collapsed_02.png"
+      ],
+      "expanded_sections": [
+        "View source status and details"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "tab": "Data and methodology",
+      "state": "expanded",
+      "scroll_height_px": 3141,
+      "client_height_px": 900,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "desktop_data_and_methodology_expanded_01.png",
+        "desktop_data_and_methodology_expanded_02.png",
+        "desktop_data_and_methodology_expanded_03.png",
+        "desktop_data_and_methodology_expanded_04.png",
+        "desktop_data_and_methodology_expanded_05.png"
+      ],
+      "expanded_sections": [
+        "View source status and details"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "tab": "Dashboard",
+      "state": "collapsed",
+      "scroll_height_px": 1725,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "mobile_dashboard_collapsed_01.png",
+        "mobile_dashboard_collapsed_02.png",
+        "mobile_dashboard_collapsed_03.png"
+      ],
+      "expanded_sections": [
+        "View level and direction classifier map",
+        "View reserve-capacity inputs"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "tab": "Dashboard",
+      "state": "expanded",
+      "scroll_height_px": 2633,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "mobile_dashboard_expanded_01.png",
+        "mobile_dashboard_expanded_02.png",
+        "mobile_dashboard_expanded_03.png",
+        "mobile_dashboard_expanded_04.png"
+      ],
+      "expanded_sections": [
+        "View level and direction classifier map",
+        "View reserve-capacity inputs"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "tab": "Reserve flows",
+      "state": "collapsed",
+      "scroll_height_px": 3357,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "mobile_reserve_flows_collapsed_01.png",
+        "mobile_reserve_flows_collapsed_02.png",
+        "mobile_reserve_flows_collapsed_03.png",
+        "mobile_reserve_flows_collapsed_04.png",
+        "mobile_reserve_flows_collapsed_05.png"
+      ],
+      "expanded_sections": [
+        "Reserve-flow mechanics"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "tab": "Reserve flows",
+      "state": "expanded",
+      "scroll_height_px": 3519,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "mobile_reserve_flows_expanded_01.png",
+        "mobile_reserve_flows_expanded_02.png",
+        "mobile_reserve_flows_expanded_03.png",
+        "mobile_reserve_flows_expanded_04.png",
+        "mobile_reserve_flows_expanded_05.png"
+      ],
+      "expanded_sections": [
+        "Reserve-flow mechanics"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "tab": "Funding and markets",
+      "state": "collapsed",
+      "scroll_height_px": 2335,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "mobile_funding_and_markets_collapsed_01.png",
+        "mobile_funding_and_markets_collapsed_02.png",
+        "mobile_funding_and_markets_collapsed_03.png",
+        "mobile_funding_and_markets_collapsed_04.png"
+      ],
+      "expanded_sections": []
+    },
+    {
+      "surface": "mobile",
+      "tab": "Data and methodology",
+      "state": "collapsed",
+      "scroll_height_px": 1956,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "mobile_data_and_methodology_collapsed_01.png",
+        "mobile_data_and_methodology_collapsed_02.png",
+        "mobile_data_and_methodology_collapsed_03.png"
+      ],
+      "expanded_sections": [
+        "View source status and details"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "tab": "Data and methodology",
+      "state": "expanded",
+      "scroll_height_px": 5724,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "mobile_data_and_methodology_expanded_01.png",
+        "mobile_data_and_methodology_expanded_02.png",
+        "mobile_data_and_methodology_expanded_03.png",
+        "mobile_data_and_methodology_expanded_04.png",
+        "mobile_data_and_methodology_expanded_05.png",
+        "mobile_data_and_methodology_expanded_06.png",
+        "mobile_data_and_methodology_expanded_07.png",
+        "mobile_data_and_methodology_expanded_08.png",
+        "mobile_data_and_methodology_expanded_09.png"
+      ],
+      "expanded_sections": [
+        "View source status and details"
+      ]
+    },
+    {
+      "surface": "narrow",
+      "tab": "Dashboard",
+      "state": "collapsed",
+      "scroll_height_px": 1771,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "narrow_dashboard_collapsed_01.png",
+        "narrow_dashboard_collapsed_02.png",
+        "narrow_dashboard_collapsed_03.png"
+      ],
+      "expanded_sections": [
+        "View level and direction classifier map",
+        "View reserve-capacity inputs"
+      ]
+    },
+    {
+      "surface": "narrow",
+      "tab": "Dashboard",
+      "state": "expanded",
+      "scroll_height_px": 2698,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "narrow_dashboard_expanded_01.png",
+        "narrow_dashboard_expanded_02.png",
+        "narrow_dashboard_expanded_03.png",
+        "narrow_dashboard_expanded_04.png"
+      ],
+      "expanded_sections": [
+        "View level and direction classifier map",
+        "View reserve-capacity inputs"
+      ]
+    },
+    {
+      "surface": "narrow",
+      "tab": "Reserve flows",
+      "state": "collapsed",
+      "scroll_height_px": 3545,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "narrow_reserve_flows_collapsed_01.png",
+        "narrow_reserve_flows_collapsed_02.png",
+        "narrow_reserve_flows_collapsed_03.png",
+        "narrow_reserve_flows_collapsed_04.png",
+        "narrow_reserve_flows_collapsed_05.png"
+      ],
+      "expanded_sections": [
+        "Reserve-flow mechanics"
+      ]
+    },
+    {
+      "surface": "narrow",
+      "tab": "Reserve flows",
+      "state": "expanded",
+      "scroll_height_px": 3744,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "narrow_reserve_flows_expanded_01.png",
+        "narrow_reserve_flows_expanded_02.png",
+        "narrow_reserve_flows_expanded_03.png",
+        "narrow_reserve_flows_expanded_04.png",
+        "narrow_reserve_flows_expanded_05.png",
+        "narrow_reserve_flows_expanded_06.png"
+      ],
+      "expanded_sections": [
+        "Reserve-flow mechanics"
+      ]
+    },
+    {
+      "surface": "narrow",
+      "tab": "Funding and markets",
+      "state": "collapsed",
+      "scroll_height_px": 2440,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "narrow_funding_and_markets_collapsed_01.png",
+        "narrow_funding_and_markets_collapsed_02.png",
+        "narrow_funding_and_markets_collapsed_03.png",
+        "narrow_funding_and_markets_collapsed_04.png"
+      ],
+      "expanded_sections": []
+    },
+    {
+      "surface": "narrow",
+      "tab": "Data and methodology",
+      "state": "collapsed",
+      "scroll_height_px": 2095,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "narrow_data_and_methodology_collapsed_01.png",
+        "narrow_data_and_methodology_collapsed_02.png",
+        "narrow_data_and_methodology_collapsed_03.png"
+      ],
+      "expanded_sections": [
+        "View source status and details"
+      ]
+    },
+    {
+      "surface": "narrow",
+      "tab": "Data and methodology",
+      "state": "expanded",
+      "scroll_height_px": 6582,
+      "client_height_px": 844,
+      "horizontal_overflow_px": 0,
+      "runtime_exception_count": 0,
+      "alert_text": [],
+      "frame_paths": [
+        "narrow_data_and_methodology_expanded_01.png",
+        "narrow_data_and_methodology_expanded_02.png",
+        "narrow_data_and_methodology_expanded_03.png",
+        "narrow_data_and_methodology_expanded_04.png",
+        "narrow_data_and_methodology_expanded_05.png",
+        "narrow_data_and_methodology_expanded_06.png",
+        "narrow_data_and_methodology_expanded_07.png",
+        "narrow_data_and_methodology_expanded_08.png",
+        "narrow_data_and_methodology_expanded_09.png",
+        "narrow_data_and_methodology_expanded_10.png"
+      ],
+      "expanded_sections": [
+        "View source status and details"
+      ]
+    }
+  ],
+  "aggregate_results": {
+    "route_viewport_state_combinations": 21,
+    "sequential_viewport_frames": 90,
+    "runtime_exceptions": 0,
+    "manager_alerts": 0,
+    "maximum_horizontal_overflow_px": 0
+  },
+  "evidence_files": [
+    {
+      "path": "desktop_contact_sheet.png",
+      "sha256": "39a2c9b791919fcb1a9311f46c4ca602b8fc6df0c6622600c85c81c029dd484a",
+      "width_px": 1140,
+      "height_px": 2200
+    },
+    {
+      "path": "desktop_dashboard_collapsed_01.png",
+      "sha256": "c93e1247922b8155097a9e0a7bc736e1762cc5433c4d274ac1588a0b5a331671",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_dashboard_collapsed_02.png",
+      "sha256": "31d5890d8c9f6f8b3732c1e364cf604d2ad94fd453eaf368e61e159e531cc558",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_dashboard_expanded_01.png",
+      "sha256": "ab2506f26fbfe6412d7541f64af05bc4eee3e5cce4e3d7170c1ebfb4f95d63b2",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_dashboard_expanded_02.png",
+      "sha256": "186d695f92a1b708dada15f5e8eb2325f9a308983750a88a41232b03b9eb9b63",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_dashboard_expanded_03.png",
+      "sha256": "6830f88e45a1449d572fa4657ae97061a8030833ca335e7593ecd53a99f096d7",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_data_and_methodology_collapsed_01.png",
+      "sha256": "6e8295c45eb99432daf91777cc76fb55d94ff06f72674b8217f0940e84c176fc",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_data_and_methodology_collapsed_02.png",
+      "sha256": "2fbe9e8d01c52885406006f3ad112a3bdbdd671861b9d3182663f67fb319889f",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_data_and_methodology_expanded_01.png",
+      "sha256": "4013305075f6878f99281f8fc350025535b86d87bb6eec60a1fa3f3dcb19640d",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_data_and_methodology_expanded_02.png",
+      "sha256": "1f2cbc4c535c42dd93d37274d25f8ce0af4aa6a0ca637527bcc807254360c481",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_data_and_methodology_expanded_03.png",
+      "sha256": "e7d6b82e99adf733c96d32ce055190d7cca0d5e9ee46873bbb348cd7b9882d84",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_data_and_methodology_expanded_04.png",
+      "sha256": "b80f455b7cb8eafc5dd00de5d1fba75d2c916338c968ba2af4ce94c5489bb0bc",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_data_and_methodology_expanded_05.png",
+      "sha256": "1293ef003913d1ff9a7c13da9470464fc509c09b54c0dd7803a7fe0bd5796e44",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_funding_and_markets_collapsed_01.png",
+      "sha256": "3fcc72803f6f921440d99212d2dd8dadf83740e22385fbcde9fe8c18537c343d",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_funding_and_markets_collapsed_02.png",
+      "sha256": "c1f21aa388a555f70412c3be8fbf7daf9317b19ed3dee65052ddce360c3a2455",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_reserve_flows_collapsed_01.png",
+      "sha256": "01a7ff3dab69be8f26eb09821deed505281d5151add30eb70d036a6f291b2ba3",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_reserve_flows_collapsed_02.png",
+      "sha256": "b516249bfea3dc7c6dcd047fcab7ba8269748f7723363eb241f68194ede0532f",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_reserve_flows_collapsed_03.png",
+      "sha256": "81a28ec82e18f0f233c2a8d05f03347c4a81c447a00873360f641ca85b159aad",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_reserve_flows_collapsed_04.png",
+      "sha256": "63c99c86d1fc6cfe7c4e1499a8122f5074b93791828a35ddfe5e901dcabf8f25",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_reserve_flows_expanded_01.png",
+      "sha256": "01a7ff3dab69be8f26eb09821deed505281d5151add30eb70d036a6f291b2ba3",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_reserve_flows_expanded_02.png",
+      "sha256": "78db410ac80d5ef896666ba73533898a07fd1ceaff34e9f7fe5b7479d39c41e1",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_reserve_flows_expanded_03.png",
+      "sha256": "41e7d44069f8344b4a97a32207a49d29668bd2c88ef06faa719d0e3b99e6750d",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "desktop_reserve_flows_expanded_04.png",
+      "sha256": "1614da03810ec25ee2d44622228183d74ed38dca7ca443b72365cefe15805c62",
+      "width_px": 1440,
+      "height_px": 900
+    },
+    {
+      "path": "mobile_contact_sheet.png",
+      "sha256": "4bebba9aa5b680e924ecaa52c2d06f1b84b543238182d129c2723ce506346b7c",
+      "width_px": 1120,
+      "height_px": 5508
+    },
+    {
+      "path": "mobile_dashboard_collapsed_01.png",
+      "sha256": "2edac4f86051f7f33a14b7a9cde74af3076307d98247537ec677567474e3a760",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_dashboard_collapsed_02.png",
+      "sha256": "246f2b0e27837169489da60bb058a024ad6ac7407b83f172a736f40c3415ee2b",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_dashboard_collapsed_03.png",
+      "sha256": "4bc9ee8157e215db64c47672c23945a603ffc71a84b632b423ad3e43283ca773",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_dashboard_expanded_01.png",
+      "sha256": "2edac4f86051f7f33a14b7a9cde74af3076307d98247537ec677567474e3a760",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_dashboard_expanded_02.png",
+      "sha256": "80147e826296568b13dc37153df5ccee7c9b58f3421e5e98b61bd24283e710b6",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_dashboard_expanded_03.png",
+      "sha256": "c255093e45b9dffb9220138b414c9cd80b9d1b9c08be92408f26dec100a6816b",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_dashboard_expanded_04.png",
+      "sha256": "40ec32b0a98b76150a66fdfba19477fb7fd7cb05b9e050547a156a62a7611b07",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_data_and_methodology_collapsed_01.png",
+      "sha256": "a0d18e913d842b3b2e5bce06985a442abc997d2d21df01a12c7097072c960ff6",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_data_and_methodology_collapsed_02.png",
+      "sha256": "592c3fa841997aea65dd18f96d74defe46ca1f60f21c221d862675cd17ed7be2",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_data_and_methodology_collapsed_03.png",
+      "sha256": "ae0c9a77f88e2a98f354d5d830f57514755570d72d5f98d55410a0d9290599ae",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_data_and_methodology_expanded_01.png",
+      "sha256": "fc23fdd8e2e4140ebac2ee84f74d744df4e5fc15b73f9a9ed8bd7be0cf6e33a4",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_data_and_methodology_expanded_02.png",
+      "sha256": "85002c35298b0b17c458e8765cbba916a0e057cfa49edaa51275eb3fbec33493",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_data_and_methodology_expanded_03.png",
+      "sha256": "b174c288dc7be0f26cd52a190c2322d92291c27d77c5acf46c6a1796dbf78a45",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_data_and_methodology_expanded_04.png",
+      "sha256": "27ace3de850747e2e43073aa5860c284cb33b8af3ac56c1707a12758ca69680d",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_data_and_methodology_expanded_05.png",
+      "sha256": "94619e238cda7f769784b8bb40e3c240435139ef6ce7df777c749d18fc4f4a2b",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_data_and_methodology_expanded_06.png",
+      "sha256": "0b6c9c2f10276398ae228e389eb09eded531e27eeeb0dc10d241e498e14b4d1b",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_data_and_methodology_expanded_07.png",
+      "sha256": "7dec03a86a37d2792ee6d171085f492e31b65b606e76cd2bf9c7220329fbb70e",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_data_and_methodology_expanded_08.png",
+      "sha256": "43891af35c759a84d1e4d9e66e871f66aeacbc6a4689badc54f9dfd705029c23",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_data_and_methodology_expanded_09.png",
+      "sha256": "276139a2e48a5594b90f00c265285b1036d36c832592458f5f2496c147fe06fb",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_funding_and_markets_collapsed_01.png",
+      "sha256": "83dc081bc6cd40e213ab3bc76e2cdb4d553282fdf05cdb672265314366db7522",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_funding_and_markets_collapsed_02.png",
+      "sha256": "6281026becefbbcdb5cdd13b57ec5a273ba793c601dd3ee9bb8a006fcc3b9815",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_funding_and_markets_collapsed_03.png",
+      "sha256": "03de63c174ad9e3a42848e2b9bcffef9e51e763784002e1e58514dd44c2a9c65",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_funding_and_markets_collapsed_04.png",
+      "sha256": "500a1e6fc2f963804692736ea9ec962fed47b07e7a8efed04bd7a3a11c4f4fa0",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_reserve_flows_collapsed_01.png",
+      "sha256": "a8d766422ec3e7dee3785a8cc482dc670fcf46fc3793dd6e8bda47f90fd0c019",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_reserve_flows_collapsed_02.png",
+      "sha256": "8e0754e391cb2db3893a6a23b684936a2987fba9ce2339b7a8ac4543b62b3e24",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_reserve_flows_collapsed_03.png",
+      "sha256": "4215f1f9d322bc1757de3ea9f91af267a0c98048b5db44b5e4715795f4510e88",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_reserve_flows_collapsed_04.png",
+      "sha256": "b48ea568214bdde83a289eb67bb3391aec942ea3cd69d9d8d747bad36ae066bf",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_reserve_flows_collapsed_05.png",
+      "sha256": "922251c7b5078b65edeed30f9f0876fa354f9c7a273c435c1fba90ce9fbb50b6",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_reserve_flows_expanded_01.png",
+      "sha256": "7c23126d9a7c004018c6d1ef16a8ebbcde66b99ca7aeac7ab46130b53d0c9f30",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_reserve_flows_expanded_02.png",
+      "sha256": "8e0754e391cb2db3893a6a23b684936a2987fba9ce2339b7a8ac4543b62b3e24",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_reserve_flows_expanded_03.png",
+      "sha256": "4215f1f9d322bc1757de3ea9f91af267a0c98048b5db44b5e4715795f4510e88",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_reserve_flows_expanded_04.png",
+      "sha256": "b48ea568214bdde83a289eb67bb3391aec942ea3cd69d9d8d747bad36ae066bf",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "mobile_reserve_flows_expanded_05.png",
+      "sha256": "b1a8ed23dd99f6c7df2734628ca0b2a53f1c7d0b49e311452baea6ba319f90e9",
+      "width_px": 390,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_contact_sheet.png",
+      "sha256": "5b8dfb8d05ba1e808874fe434c0398c86587a902a68e5f6dc98aeea4b0ef3513",
+      "width_px": 1120,
+      "height_px": 6615
+    },
+    {
+      "path": "narrow_dashboard_collapsed_01.png",
+      "sha256": "ea71b3decc995b53a4c9214ef71597a701b1a72be7a94d5f5aa82d82216810e6",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_dashboard_collapsed_02.png",
+      "sha256": "6aece4273a69d8b816d61095467413190668a43d6e59823e2b51e5278cec51b0",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_dashboard_collapsed_03.png",
+      "sha256": "9fc8e1ec4062ab226fd6c84be749e48f2124becd465b7480cf4b29699105b2d8",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_dashboard_expanded_01.png",
+      "sha256": "194563abaf8150484afec09775f77c566a36cc8b583566596e7fd1d7ca6724f7",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_dashboard_expanded_02.png",
+      "sha256": "23f8ba717e9f9234d2ac111998f07193f583a084a5604311bd60b102108dd24b",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_dashboard_expanded_03.png",
+      "sha256": "671634c27118194017e3d5927db28748897b259a7a5100638e85662df828b562",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_dashboard_expanded_04.png",
+      "sha256": "2d87b31bded404ad1ff4e5f0e5e806ba65bffe3dd7f191398834aa0eddb769b0",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_collapsed_01.png",
+      "sha256": "fc2af7f47b82d77cb7c5d9eaaa3d8d9b49a8bda391d6a8cf0267358f604c2f07",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_collapsed_02.png",
+      "sha256": "204c6ce1739ab65484626d34221cc3fb47ea4cf889fb6522ff9437b5916b1a97",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_collapsed_03.png",
+      "sha256": "fb2de213985d99e777ee31fdd665006bb4b0e00efc53058e95cad9f740dec065",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_expanded_01.png",
+      "sha256": "f5154fe90711d90ee66aad9bde712a0c6eee998d237c54be13880091477a6aa0",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_expanded_02.png",
+      "sha256": "c737ffcbb042c1492308d67c5ce6ab87d418677c0bb841b2b9074db27edb4336",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_expanded_03.png",
+      "sha256": "dabb75a296f607234c5a369278c7693436179c6d669cd7a9084f394e1fbeb0cd",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_expanded_04.png",
+      "sha256": "6a41daee7b5455480ef5bc9dec83e4e7397f19000d311fa56573db73ab950e67",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_expanded_05.png",
+      "sha256": "e096d050638ee93a0a75bf15e3eba186357ea1c2a8a5d3c8e3e2663ebd5830de",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_expanded_06.png",
+      "sha256": "7f0657d82f715686f52e5445d2e1da96bcd782e39c50728788be9bcffad0a861",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_expanded_07.png",
+      "sha256": "64b445fbf49ef9958ac730f515329ff8da8b8ba0323bd3e30177025177497799",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_expanded_08.png",
+      "sha256": "19dffbe523700c3ac5f1214f4a32c291c298faa8d0df1274e7140d78c5d48a63",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_expanded_09.png",
+      "sha256": "f3a88c598f7c979dff8ec291408177f5fef5a014e3da4dc518a42c3b41ab5b89",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_data_and_methodology_expanded_10.png",
+      "sha256": "5132a1629609d5ad37ffed3d24e83086671cc1a0235c642abe8b84b0b44e363e",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_funding_and_markets_collapsed_01.png",
+      "sha256": "b6deeed532de48530f06e654c9942f0a12561606307d86391283889ef3f0bd44",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_funding_and_markets_collapsed_02.png",
+      "sha256": "58e2dfc24fb0859c8e77eb5e0062087a8c00b267a7213e5b25af252400d1d2f8",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_funding_and_markets_collapsed_03.png",
+      "sha256": "5f1f4fd687e1e7535b30ac781b0aefdda71f5c791eecf762427c279b68353495",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_funding_and_markets_collapsed_04.png",
+      "sha256": "440edde61c994c0bdadd59547b6113d39d25737d9c7a422dadb5516ab19e5fb5",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_reserve_flows_collapsed_01.png",
+      "sha256": "c1f1f65fa6a83ffcb45391b5b92cdf8902ac41c38572056b3067646891d69093",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_reserve_flows_collapsed_02.png",
+      "sha256": "47f5a2a32b1ccea4dc3c85f88b95f470e321c8383c1dfe5a21e225038990069a",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_reserve_flows_collapsed_03.png",
+      "sha256": "21b95155d7c8c230d5ebd1f6f6af421035a644827fc538942d6ad3dc6f6a003d",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_reserve_flows_collapsed_04.png",
+      "sha256": "4acf9ac243213c94219024a238ee8348a8146a3ee3c826758702ffddb0a5716c",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_reserve_flows_collapsed_05.png",
+      "sha256": "393b5f571a99161ed153e91049d4480588e4a236b79388439d63444394195ccb",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_reserve_flows_expanded_01.png",
+      "sha256": "bd37dc147dad4c2ca58f239a8d2ed627f1dcaeca1b6482bf1fb1a85057678905",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_reserve_flows_expanded_02.png",
+      "sha256": "47f5a2a32b1ccea4dc3c85f88b95f470e321c8383c1dfe5a21e225038990069a",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_reserve_flows_expanded_03.png",
+      "sha256": "21b95155d7c8c230d5ebd1f6f6af421035a644827fc538942d6ad3dc6f6a003d",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_reserve_flows_expanded_04.png",
+      "sha256": "4acf9ac243213c94219024a238ee8348a8146a3ee3c826758702ffddb0a5716c",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_reserve_flows_expanded_05.png",
+      "sha256": "1ff4d0734e333d182d7471e59a4df81c8764d3572a8b34d84f9335fc2eef897c",
+      "width_px": 320,
+      "height_px": 844
+    },
+    {
+      "path": "narrow_reserve_flows_expanded_06.png",
+      "sha256": "108960ea819c7630983eb5f674fff71441d9a1289d055c83f085dcd91c560ea4",
+      "width_px": 320,
+      "height_px": 844
+    }
+  ]
+}

@@ -35,22 +35,23 @@ from liquidity_monitor.liquidity_live_snapshot import (
     snapshot_is_current,
     source_current_mask,
 )
-from liquidity_monitor.palette import PASTEL
+from liquidity_monitor.palette import PRODUCT
 
-BLACK = "#000000"
-TEXT = "#202020"
-MUTED = "#555555"
-BORDER = "#bdbdbd"
-GRID = "#e5e5e5"
-GREEN = PASTEL["sage"]
-RED = PASTEL["rose"]
-GRAY = PASTEL["slate_blue"]
+BLACK = PRODUCT["navy"]
+TEXT = PRODUCT["ink"]
+MUTED = PRODUCT["muted"]
+BORDER = PRODUCT["border"]
+GRID = PRODUCT["grid"]
+GREEN = PRODUCT["green"]
+RED = PRODUCT["brick"]
+GRAY = PRODUCT["slate"]
+CHART_FONT = "Arial, Helvetica, sans-serif"
 DRIVER_COLORS = {
-    "Fed assets": PASTEL["blue"],
-    "TGA": PASTEL["coral"],
-    "ON RRP": PASTEL["teal"],
-    "Currency": PASTEL["lavender"],
-    "Other liabilities / residual": PASTEL["slate_blue"],
+    "Fed assets": PRODUCT["blue"],
+    "TGA": PRODUCT["amber"],
+    "ON RRP": PRODUCT["teal"],
+    "Currency": PRODUCT["purple"],
+    "Other liabilities / residual": PRODUCT["slate"],
 }
 
 OBSERVED_LEVEL_LOWER = 40.0
@@ -1568,10 +1569,10 @@ def _base_layout(
     fig.update_layout(
         template="plotly_white",
         height=height,
-        margin=dict(l=58, r=36, t=28, b=70),
+        margin=dict(l=54, r=28, t=24, b=42),
         paper_bgcolor="#ffffff",
         plot_bgcolor="#ffffff",
-        font=dict(family="Arial, Helvetica, sans-serif", color=TEXT, size=12),
+        font=dict(family=CHART_FONT, color=TEXT, size=11),
         hovermode=hovermode,
         legend=dict(
             orientation="h",
@@ -1579,11 +1580,11 @@ def _base_layout(
             y=1.01,
             xanchor="left",
             x=0,
-            font=dict(size=10),
+            font=dict(size=11),
         ),
     )
-    fig.update_xaxes(showgrid=False, linecolor=BORDER, zeroline=False)
-    fig.update_yaxes(gridcolor=GRID, linecolor=BORDER, zeroline=False)
+    fig.update_xaxes(showgrid=False, linecolor=BORDER, zeroline=False, tickfont=dict(color=MUTED))
+    fig.update_yaxes(gridcolor=GRID, linecolor=BORDER, zeroline=False, tickfont=dict(color=MUTED))
     return fig
 
 
@@ -1602,6 +1603,8 @@ def liquidity_impulse_figure(
     years: int | None,
     live_snapshot: LiveLiquiditySnapshot | None = None,
 ) -> go.Figure:
+    """Show net reserve flow above a contribution heatmap."""
+
     history = bundle.weekly.copy()
     if live_snapshot is not None:
         live = live_snapshot.state.copy()
@@ -1609,28 +1612,43 @@ def liquidity_impulse_figure(
         shared = [column for column in history.columns if column in live.columns]
         history = pd.concat([history, live[shared]], ignore_index=True, sort=False)
     frame = filter_lookback(history, years, "signal_date")
+    driver_labels = ["Fed assets", "TGA", "ON RRP", "Currency", "Other liabilities"]
+    driver_values = np.vstack(
+        [
+            frame["fed_asset_change_4w_bp"].to_numpy(dtype=float),
+            -frame["tga_change_4w_bp_assets"].to_numpy(dtype=float),
+            -frame["onrrp_change_4w_bp_assets"].to_numpy(dtype=float),
+            -frame["currency_change_4w_bp_assets"].to_numpy(dtype=float),
+            frame["other_liability_residual_4w_bp"].to_numpy(dtype=float),
+        ]
+    )
+    finite = np.abs(driver_values[np.isfinite(driver_values)])
+    color_limit = float(np.quantile(finite, 0.98)) if finite.size else 1.0
+    color_limit = max(color_limit, 1.0)
     fig = make_subplots(
         rows=2,
         cols=1,
         shared_xaxes=True,
-        vertical_spacing=0.10,
-        row_heights=(0.38, 0.62),
+        vertical_spacing=0.12,
+        row_heights=(0.55, 0.45),
         subplot_titles=(
-            "Realized reserve impulse",
-            "Reserve-accounting contribution by driver",
+            "Net reserve flow",
+            "Contribution by driver",
         ),
     )
     fig.add_trace(
         go.Scatter(
             x=frame["signal_date"],
             y=frame["reserve_impulse_4w_bp"],
-            name="Realized reserves",
+            name="Net reserve flow",
             line=dict(color=BLACK, width=2.5),
+            fill="tozeroy",
+            fillcolor="rgba(22,50,92,0.08)",
             customdata=[
                 format_basis_points(value, signed=True)
                 for value in frame["reserve_impulse_4w_bp"]
             ],
-            hovertemplate="Realized: %{customdata}<extra></extra>",
+            hovertemplate="Net reserve flow: %{customdata}<extra></extra>",
             showlegend=False,
         ),
         row=1,
@@ -1644,69 +1662,59 @@ def liquidity_impulse_figure(
                 x=[live_date],
                 y=[live_value],
                 mode="markers",
-                name="Current release",
+                name="Latest observation",
                 marker=dict(
-                    color=BLACK, size=8, symbol="circle-open", line=dict(width=2)
+                    color=BLACK,
+                    size=10,
+                    line=dict(color="#FFFFFF", width=2),
                 ),
                 customdata=[format_basis_points(live_value, signed=True)],
-                hovertemplate="Current release: %{customdata}<extra></extra>",
+                hovertemplate="Latest observation: %{customdata}<extra></extra>",
                 showlegend=False,
             ),
             row=1,
             col=1,
         )
-    contributions = (
-        ("Fed assets", frame["fed_asset_change_4w_bp"], ""),
-        ("TGA", -frame["tga_change_4w_bp_assets"], "/"),
-        ("ON RRP", -frame["onrrp_change_4w_bp_assets"], "\\"),
-        ("Currency", -frame["currency_change_4w_bp_assets"], "x"),
-        (
-            "Other liabilities / residual",
-            frame["other_liability_residual_4w_bp"],
-            ".",
-        ),
-    )
-    for name, values, pattern in contributions:
-        fig.add_trace(
-            go.Bar(
-                x=frame["signal_date"],
-                y=values,
-                name=name,
-                marker=dict(
-                    color=DRIVER_COLORS[name],
-                    pattern=dict(shape=pattern, solidity=0.22),
-                    line=dict(color="#ffffff", width=0.35),
-                ),
-                opacity=0.80,
-                customdata=[
-                    format_basis_points(value, signed=True) for value in values
-                ],
-                hovertemplate=f"{name}: %{{customdata}}<extra></extra>",
+    fig.add_trace(
+        go.Heatmap(
+            x=frame["signal_date"],
+            y=driver_labels,
+            z=driver_values,
+            zmid=0,
+            zmin=-color_limit,
+            zmax=color_limit,
+            colorscale=[
+                [0.0, RED],
+                [0.5, "#FFFFFF"],
+                [1.0, GREEN],
+            ],
+            colorbar=dict(
+                title=dict(text="bp", side="top"),
+                thickness=10,
+                len=0.45,
+                y=0.18,
+                tickfont=dict(size=10, color=MUTED),
             ),
-            row=2,
-            col=1,
-        )
-    fig.add_hline(y=0, line_color=MUTED, line_width=1, row=1, col=1)
-    fig.add_hline(y=0, line_color=MUTED, line_width=1, row=2, col=1)
-    fig.update_layout(barmode="relative", bargap=0.08)
-    fig.update_annotations(
-        font=dict(family="Arial, Helvetica, sans-serif", color=TEXT, size=12)
-    )
-    # Keep the axis unit compact so the two vertical labels remain legible on
-    # narrow manager screens; the surrounding section copy defines the basis.
-    fig.update_yaxes(title_text="bp", row=1, col=1)
-    fig.update_yaxes(title_text="bp", row=2, col=1)
-    fig = _base_layout(fig, 560)
-    fig.update_layout(
-        margin=dict(l=58, r=36, t=92, b=60),
-        legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=1.14,
-            xanchor="left",
-            x=0,
-            font=dict(size=10),
+            customdata=np.vectorize(
+                lambda value: format_basis_points(value, signed=True)
+            )(driver_values),
+            hovertemplate="%{y}<br>%{x|%d %b %Y}<br>%{customdata}<extra></extra>",
+            hoverongaps=False,
+            showscale=True,
         ),
+        row=2,
+        col=1,
+    )
+    fig.add_hline(y=0, line_color=MUTED, line_width=1, row=1, col=1)
+    fig.update_annotations(
+        font=dict(family=CHART_FONT, color=TEXT, size=11)
+    )
+    fig.update_yaxes(title_text="Reserve effect (bp)", row=1, col=1)
+    fig.update_yaxes(title_text=None, row=2, col=1, showgrid=False)
+    fig = _base_layout(fig, 390)
+    fig.update_layout(
+        margin=dict(l=66, r=34, t=52, b=40),
+        showlegend=False,
     )
     return fig
 
@@ -1714,55 +1722,62 @@ def liquidity_impulse_figure(
 def current_mechanics_figure(
     bundle: LiquidityBundle, live_snapshot: LiveLiquiditySnapshot | None = None
 ) -> go.Figure:
-    """Show the latest reserve-accounting contribution by driver."""
+    """Show the latest reserve-accounting contributions on a common scale."""
 
     row = latest_observed_state(bundle, live_snapshot)
-    labels = (
+    labels = [
         "Fed assets",
         "TGA",
         "ON RRP",
         "Currency",
-        "Other liabilities",
-    )
-    values = (
+        "Other",
+        "Net flow",
+    ]
+    components = [
         float(row["fed_asset_change_4w_bp"]),
         -float(row["tga_change_4w_bp_assets"]),
         -float(row["onrrp_change_4w_bp_assets"]),
         -float(row["currency_change_4w_bp_assets"]),
         float(row["other_liability_residual_4w_bp"]),
-    )
-    limit = max(abs(value) for value in values) * 1.25
+    ]
+    net = float(row["reserve_impulse_4w_bp"])
+    values = components + [net]
+    colors = [GREEN if value >= 0 else RED for value in components] + [BLACK]
+    limit = max(abs(value) for value in values) * 1.30
     fig = go.Figure(
         go.Bar(
             x=values,
             y=labels,
             orientation="h",
-            marker_color=[
-                DRIVER_COLORS[
-                    "Other liabilities / residual"
-                    if label == "Other liabilities"
-                    else label
-                ]
-                for label in labels
-            ],
-            text=[format_basis_points(value, signed=True) for value in values],
-            textposition="auto",
-            textangle=0,
-            textfont=dict(color=BLACK, size=12),
-            cliponaxis=False,
+            marker={"color": colors},
             customdata=[format_basis_points(value, signed=True) for value in values],
             hovertemplate="%{y}: %{customdata}<extra></extra>",
         )
     )
     fig.add_vline(x=0, line_color=BLACK, line_width=1)
+    for label, value in zip(labels, values, strict=True):
+        fig.add_annotation(
+            x=0.98,
+            xref="paper",
+            y=label,
+            yref="y",
+            text=format_basis_points(value, signed=True),
+            showarrow=False,
+            xanchor="right",
+            font=dict(color=TEXT, size=11, family=CHART_FONT),
+            bgcolor="rgba(255,255,255,0.88)",
+            borderpad=1,
+        )
     fig.update_xaxes(
-        title="Reserve contribution<br>(bp of lagged Fed assets)",
-        range=[-limit * 1.15, limit * 1.15],
+        title="Reserve effect (bp)",
+        range=[-limit, limit],
         automargin=True,
     )
-    fig.update_yaxes(autorange="reversed", automargin=True)
-    fig.update_layout(showlegend=False)
-    return _base_layout(fig, 360, hovermode="closest")
+    fig.update_yaxes(title=None, automargin=True, autorange="reversed")
+    fig.update_layout(showlegend=False, bargap=0.32)
+    fig = _base_layout(fig, 320, hovermode="closest")
+    fig.update_layout(margin=dict(l=72, r=30, t=18, b=46))
+    return fig
 
 
 def domain_diagnostic_figure(

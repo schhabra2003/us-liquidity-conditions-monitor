@@ -5,12 +5,19 @@ import unittest
 from pathlib import Path
 
 from liquidity_monitor.catalog import TOOL_CATALOG
-from liquidity_monitor.palette import EXCEL, EXCEL_20, PASTEL, PASTEL_20, pastel
+from liquidity_monitor.palette import (
+    EXCEL,
+    EXCEL_20,
+    PASTEL,
+    PASTEL_20,
+    PRODUCT,
+    pastel,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class ExcelPaletteTests(unittest.TestCase):
+class ProductPaletteTests(unittest.TestCase):
     def test_palette_has_exactly_twenty_distinct_hex_colors(self) -> None:
         self.assertEqual(len(PASTEL), 20)
         self.assertEqual(len(PASTEL_20), 20)
@@ -21,12 +28,12 @@ class ExcelPaletteTests(unittest.TestCase):
         self.assertIs(PASTEL, EXCEL)
         self.assertIs(PASTEL_20, EXCEL_20)
 
-    def test_primary_colors_match_the_excel_finance_convention(self) -> None:
-        self.assertEqual(EXCEL["blue"], "#4472C4")
-        self.assertEqual(EXCEL["coral"], "#ED7D31")
-        self.assertEqual(EXCEL["sage"], "#70AD47")
-        self.assertEqual(EXCEL["amber"], "#FFC000")
-        self.assertEqual(EXCEL["rose"], "#C0504D")
+    def test_primary_colors_match_the_standalone_product_system(self) -> None:
+        self.assertEqual(PRODUCT["navy"], "#16325C")
+        self.assertEqual(PRODUCT["blue"], "#2F6FED")
+        self.assertEqual(PRODUCT["green"], "#137A5B")
+        self.assertEqual(PRODUCT["red"], "#B42318")
+        self.assertEqual(PRODUCT["amber"], "#B7791F")
 
     def test_palette_cycles_stably_after_twenty_series(self) -> None:
         self.assertEqual(pastel(0), PASTEL_20[0])
@@ -35,6 +42,9 @@ class ExcelPaletteTests(unittest.TestCase):
 
     def test_every_analytical_page_uses_the_shared_palette(self) -> None:
         indirect_palette_pages = {
+            "Liquidity_Conditions_Monitor.py": ROOT
+            / "liquidity_monitor"
+            / "us_liquidity_model.py",
             "7_Sector_Breadth_and_Rotation.py": ROOT / "liquidity_sector_rotation_config.py",
             "6_Currency_Tension_Engine.py": ROOT / "cte" / "dashboard" / "plots.py",
             "17_SEC_13F_Exposure_Browser.py": ROOT / "liquidity_monitor" / "sec_13f_browser.py",

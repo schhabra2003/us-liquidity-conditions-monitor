@@ -36,7 +36,7 @@ from liquidity_monitor.liquidity_live_snapshot import (
     apply_federal_reserve_release_availability,
     load_federal_reserve_release_calendars,
 )
-from liquidity_monitor.palette import PASTEL
+from liquidity_monitor.palette import PRODUCT
 from liquidity_monitor.structural_liquidity import (
     lagged_robust_z,
     percentile_against_prior,
@@ -44,6 +44,13 @@ from liquidity_monitor.structural_liquidity import (
 
 MODEL_VERSION = "3.0.0-research"
 MODEL_WEEKLY_CLOSE_ET = (16, 30)
+CHART_FONT = "Arial, Helvetica, sans-serif"
+CHART_INK = PRODUCT["ink"]
+CHART_MUTED = PRODUCT["muted"]
+CHART_GRID = PRODUCT["grid"]
+CHART_NAVY = PRODUCT["navy"]
+CHART_POSITIVE = PRODUCT["green"]
+CHART_NEGATIVE = PRODUCT["brick"]
 LIQUIDITY_LAYER_WEIGHTS = {
     "reserve_capacity": 0.35,
     "funding_support": 0.25,
@@ -874,16 +881,18 @@ def build_us_liquidity_model(snapshot: LiveLiquiditySnapshot) -> USLiquidityResu
 
 
 def liquidity_layers_figure(result: USLiquidityResult) -> go.Figure:
-    frame = result.layers.iloc[::-1].copy()
+    frame = result.layers.copy()
     display_labels = {
-        "Structural reserve capacity": "Structural capacity",
-        "Overnight funding support": "Funding support",
-        "Realized reserve impulse": "Reserve impulse",
-        "Bank credit creation": "Bank credit",
+        "Structural reserve capacity": "Reserve capacity · 35%",
+        "Overnight funding support": "Funding conditions · 25%",
+        "Realized reserve impulse": "Reserve flow · 30%",
+        "Bank credit creation": "Bank credit growth · 10%",
     }
     frame["display_layer"] = frame["layer"].replace(display_labels)
-    colors = ["#548235" if value >= 0 else PASTEL["rose"] for value in frame["weighted_contribution"]]
-    labels = [f"{value:+.2f}".replace("-", "−") for value in frame["weighted_contribution"]]
+    colors = [
+        CHART_POSITIVE if value >= 0 else CHART_NEGATIVE
+        for value in frame["weighted_contribution"]
+    ]
     hover_data = np.column_stack(
         [
             [format_normalized(value, signed=True) for value in frame["weighted_contribution"]],
@@ -893,38 +902,129 @@ def liquidity_layers_figure(result: USLiquidityResult) -> go.Figure:
             frame["method"].astype(str),
         ]
     )
-    maximum = max(1.0, float(frame["weighted_contribution"].abs().max()) * 1.35)
-    figure = go.Figure(
-        go.Bar(
-            x=frame["weighted_contribution"],
-            y=frame["display_layer"],
-            orientation="h",
-            marker={"color": colors},
-            text=labels,
-            textposition="auto",
-            insidetextfont={"color": "#ffffff"},
-            outsidetextfont={"color": "#171717"},
-            cliponaxis=False,
-            customdata=hover_data,
-            hovertemplate=(
-                "%{y}<br>Weighted contribution: %{customdata[0]}"
-                "<br>Layer score: %{customdata[1]} normalized model units"
-                "<br>Model weight: %{customdata[2]}"
-                "<br>State: %{customdata[3]}"
-                "<br>%{customdata[4]}<extra></extra>"
-            ),
+    # Preserve space between long category labels and negative endpoint values
+    # when the chart is rendered at narrow widths.
+    maximum = max(1.3, float(frame["weighted_contribution"].abs().max()) * 1.5)
+    figure = go.Figure()
+    for (_, row), color, hover_row in zip(
+        frame.iterrows(), colors, hover_data, strict=True
+    ):
+        value = float(row["weighted_contribution"])
+        label = str(row["display_layer"])
+        figure.add_trace(
+            go.Scatter(
+                x=[0.0, value],
+                y=[label, label],
+                mode="lines",
+                line={"color": color, "width": 4},
+                hoverinfo="skip",
+                showlegend=False,
+            )
         )
-    )
-    figure.add_vline(x=0, line={"color": "#111111", "width": 1})
+        figure.add_trace(
+            go.Scatter(
+                x=[value],
+                y=[label],
+                mode="markers+text",
+                marker={
+                    "color": color,
+                    "size": 9,
+                    "line": {"color": "#FFFFFF", "width": 1.5},
+                },
+                text=[f"{value:+.2f}".replace("-", "−")],
+                textposition="top center",
+                textfont={"family": CHART_FONT, "size": 11, "color": CHART_INK},
+                cliponaxis=False,
+                customdata=[hover_row],
+                hovertemplate=(
+                    "%{y}<br>Weighted contribution: %{customdata[0]}"
+                    "<br>Layer score: %{customdata[1]} standardized"
+                    "<br>Model weight: %{customdata[2]}"
+                    "<br>State: %{customdata[3]}"
+                    "<br>%{customdata[4]}<extra></extra>"
+                ),
+                showlegend=False,
+            )
+        )
+    figure.add_vline(x=0, line={"color": CHART_NAVY, "width": 1.25})
     figure.update_layout(
-        height=360,
-        margin={"l": 28, "r": 54, "t": 18, "b": 48},
+        height=270,
+        margin={"l": 18, "r": 38, "t": 20, "b": 34},
         paper_bgcolor="#ffffff",
         plot_bgcolor="#ffffff",
-        font={"family": "Arial, Helvetica, sans-serif", "color": "#202020"},
+        font={"family": CHART_FONT, "color": CHART_INK, "size": 11},
         showlegend=False,
-        xaxis={"title": "Weighted normalized contribution", "range": [-maximum, maximum], "gridcolor": "#e5e5e5", "zeroline": False},
+        xaxis={"title": None, "range": [-maximum, maximum], "gridcolor": CHART_GRID, "zeroline": False, "tickfont": {"color": CHART_MUTED}},
         yaxis={"title": None, "showgrid": False, "automargin": True},
+    )
+    return figure
+
+
+def liquidity_regime_map_figure(result: USLiquidityResult) -> go.Figure:
+    """Show the current level and model-classified four-week trend together."""
+
+    current_index = float(result.current["index"])
+    current_change = float(result.current["change_4w"])
+    band = float(result.current["direction_band"])
+    direction = str(result.current["direction"])
+    level = str(result.current["state"])
+    y_extent = max(0.75, abs(current_change) * 1.8, band * 3.0)
+    figure = go.Figure()
+    for lower, upper, color in (
+        (0, 35, "#FEF1F1"),
+        (35, 65, "#F4F6F8"),
+        (65, 100, "#EAF7F2"),
+    ):
+        figure.add_vrect(x0=lower, x1=upper, fillcolor=color, line_width=0, layer="below")
+    figure.add_hrect(
+        y0=-band,
+        y1=band,
+        fillcolor="rgba(100,116,139,0.10)",
+        line_width=0,
+        layer="below",
+    )
+    figure.add_vline(x=35, line={"color": "#CBD5E1", "width": 1, "dash": "dot"})
+    figure.add_vline(x=65, line={"color": "#CBD5E1", "width": 1, "dash": "dot"})
+    figure.add_hline(y=band, line={"color": "#CBD5E1", "width": 1, "dash": "dot"})
+    figure.add_hline(y=-band, line={"color": "#CBD5E1", "width": 1, "dash": "dot"})
+    figure.add_trace(
+        go.Scatter(
+            x=[current_index],
+            y=[current_change],
+            mode="markers",
+            marker={"color": CHART_NAVY, "size": 15, "line": {"color": "#FFFFFF", "width": 3}},
+            customdata=[[level, direction, f"{current_change:+.2f}".replace("-", "−")]],
+            hovertemplate=(
+                "Liquidity index: %{x:.1f}<br>Level: %{customdata[0]}"
+                "<br>Four-week trend: %{customdata[1]}"
+                "<br>Standardized change: %{customdata[2]}<extra></extra>"
+            ),
+            showlegend=False,
+            cliponaxis=False,
+        )
+    )
+    figure.update_layout(
+        height=270,
+        margin={"l": 76, "r": 18, "t": 22, "b": 42},
+        paper_bgcolor="#FFFFFF",
+        plot_bgcolor="#FFFFFF",
+        font={"family": CHART_FONT, "color": CHART_INK, "size": 11},
+        hovermode="closest",
+        xaxis={
+            "title": "Liquidity level (0 to 100)",
+            "range": [0, 100],
+            "tickvals": [0, 20, 35, 50, 65, 80, 100],
+            "gridcolor": CHART_GRID,
+            "zeroline": False,
+        },
+        yaxis={
+            "title": "Four-week change (standardized)",
+            "range": [-y_extent, y_extent],
+            "tickvals": [-band * 1.6, 0, band * 1.6],
+            "ticktext": ["Deteriorating", "Stable", "Improving"],
+            "gridcolor": CHART_GRID,
+            "zeroline": False,
+        },
     )
     return figure
 
@@ -936,18 +1036,19 @@ def liquidity_conditions_history_figure(
     if years is not None and not frame.empty:
         frame = frame.loc[frame.index >= frame.index.max() - pd.DateOffset(years=years)]
     figure = go.Figure()
-    figure.add_hrect(y0=0, y1=35, fillcolor="#f8eaea", line_width=0, layer="below")
-    figure.add_hrect(y0=35, y1=65, fillcolor="#f6f4ed", line_width=0, layer="below")
-    figure.add_hrect(y0=65, y1=100, fillcolor="#eaf2e7", line_width=0, layer="below")
+    figure.add_hrect(y0=0, y1=35, fillcolor="#FEF1F1", line_width=0, layer="below")
+    figure.add_hrect(y0=35, y1=65, fillcolor="#F4F6F8", line_width=0, layer="below")
+    figure.add_hrect(y0=65, y1=100, fillcolor="#EAF7F2", line_width=0, layer="below")
     figure.add_trace(
         go.Scatter(
             x=frame.index,
             y=frame["liquidity_raw_index"],
-            mode="markers",
-            name="Weekly measurement",
-            marker={"color": "#6f6f6f", "size": 4, "opacity": 0.72},
+            mode="lines",
+            name="Weekly model estimate",
+            line={"color": "#A8B4C3", "width": 1.2},
+            opacity=0.72,
             customdata=[f"{value:.0f}" for value in frame["liquidity_raw_index"]],
-            hovertemplate="Weekly measurement<br>%{x|%d %b %Y}<br>%{customdata}<extra></extra>",
+            hovertemplate="Weekly model estimate<br>%{x|%d %b %Y}<br>%{customdata}<extra></extra>",
         )
     )
     figure.add_trace(
@@ -956,28 +1057,45 @@ def liquidity_conditions_history_figure(
             y=frame["liquidity_conditions_index"],
             mode="lines",
             name="Filtered liquidity index",
-            line={"color": "#111111", "width": 3},
+            line={"color": CHART_NAVY, "width": 3},
             customdata=[f"{value:.0f}" for value in frame["liquidity_conditions_index"]],
             hovertemplate="Filtered index<br>%{x|%d %b %Y}<br>%{customdata}<extra></extra>",
         )
     )
     if not frame.empty:
         current = float(frame["liquidity_conditions_index"].iloc[-1])
+        prior = float(frame["liquidity_conditions_index"].iloc[-5]) if len(frame) >= 5 else current
+        prior_date = frame.index[-5] if len(frame) >= 5 else frame.index[-1]
+        figure.add_trace(
+            go.Scatter(
+                x=[prior_date, frame.index[-1]],
+                y=[prior, current],
+                mode="lines+markers",
+                line={"color": PRODUCT["blue"], "width": 3.5},
+                marker={
+                    "color": ["#FFFFFF", CHART_NAVY],
+                    "size": [7, 10],
+                    "line": {"color": CHART_NAVY, "width": 2},
+                },
+                name="Latest four weeks",
+                hoverinfo="skip",
+                showlegend=False,
+            )
+        )
         figure.add_trace(
             go.Scatter(
                 x=[frame.index[-1]],
                 y=[current],
-                mode="markers+text",
+                mode="markers",
                 name="Current",
-                marker={"color": "#111111", "size": 8},
-                text=[f"Current: {current:.0f}"],
-                textposition="top left",
-                cliponaxis=False,
-                hoverinfo="skip",
+                marker={"color": CHART_NAVY, "size": 10, "line": {"color": "#FFFFFF", "width": 2}},
+                customdata=[f"{current:.1f}"],
+                hovertemplate="Current index: %{customdata}<extra></extra>",
+                showlegend=False,
             )
         )
-    figure.add_hline(y=35, line={"color": "#aaaaaa", "width": 1, "dash": "dot"})
-    figure.add_hline(y=65, line={"color": "#aaaaaa", "width": 1, "dash": "dot"})
+    figure.add_hline(y=35, line={"color": "#A8B4C3", "width": 1, "dash": "dot"})
+    figure.add_hline(y=65, line={"color": "#A8B4C3", "width": 1, "dash": "dot"})
     for label, y_value in (("Restrictive", 17.5), ("Balanced", 50.0), ("Supportive", 82.5)):
         figure.add_annotation(
             x=0.995,
@@ -987,20 +1105,18 @@ def liquidity_conditions_history_figure(
             text=label,
             showarrow=False,
             xanchor="right",
-            font={"family": "Arial, Helvetica, sans-serif", "size": 10, "color": "#666666"},
-            bgcolor="rgba(255,255,255,0.72)",
-            borderpad=2,
+            font={"family": CHART_FONT, "size": 11, "color": CHART_MUTED},
         )
     figure.update_layout(
-        height=410,
-        margin={"l": 58, "r": 24, "t": 50, "b": 48},
+        height=315,
+        margin={"l": 54, "r": 20, "t": 26, "b": 38},
         paper_bgcolor="#ffffff",
         plot_bgcolor="#ffffff",
-        font={"family": "Arial, Helvetica, sans-serif", "color": "#202020"},
-        legend={"orientation": "h", "x": 0, "y": 1.13, "xanchor": "left", "yanchor": "top"},
+        font={"family": CHART_FONT, "color": CHART_INK, "size": 11},
+        showlegend=False,
         hovermode="x unified",
-        xaxis={"title": None, "showgrid": False, "linecolor": "#aaaaaa"},
-        yaxis={"title": "Liquidity Conditions Index", "range": [0, 100], "tickvals": [0, 20, 35, 50, 65, 80, 100], "gridcolor": "#e5e5e5", "zeroline": False},
+        xaxis={"title": None, "showgrid": False, "linecolor": "#CBD5E1", "tickfont": {"color": CHART_MUTED}},
+        yaxis={"title": "Liquidity Conditions Index", "range": [0, 100], "tickvals": [0, 20, 35, 50, 65, 80, 100], "gridcolor": CHART_GRID, "zeroline": False, "tickfont": {"color": CHART_MUTED}},
     )
     return figure
 
@@ -1010,49 +1126,79 @@ def funding_market_figure(result: USLiquidityResult, years: int | None = 3) -> g
     frame = result.history[columns].dropna(how="all").copy()
     if years is not None and not frame.empty:
         frame = frame.loc[frame.index >= frame.index.max() - pd.DateOffset(years=years)]
-    colors = {"sofr_iorb_bp": "#4472C4", "tgcr_iorb_bp": "#2F8FA8", "bgcr_iorb_bp": "#8064A2", "effr_iorb_bp": "#666666"}
-    dashes = {"sofr_iorb_bp": "solid", "tgcr_iorb_bp": "dash", "bgcr_iorb_bp": "dot", "effr_iorb_bp": "dashdot"}
-    labels = {"sofr_iorb_bp": "SOFR minus IORB", "tgcr_iorb_bp": "TGCR minus IORB", "bgcr_iorb_bp": "BGCR minus IORB", "effr_iorb_bp": "EFFR minus IORB"}
+    secured = frame[["sofr_iorb_bp", "tgcr_iorb_bp", "bgcr_iorb_bp"]]
+    frame["secured_low"] = secured.min(axis=1)
+    frame["secured_high"] = secured.max(axis=1)
     figure = go.Figure()
-    for column in columns:
-        figure.add_trace(
-            go.Scatter(
-                x=frame.index,
-                y=frame[column],
-                mode="lines",
-                name=labels[column],
-                line={"color": colors[column], "width": 2, "dash": dashes[column]},
-                customdata=[format_basis_points(value, signed=True) for value in frame[column]],
-                hovertemplate=f"{labels[column]}<br>%{{x|%d %b %Y}}<br>%{{customdata}}<extra></extra>",
-            )
+    figure.add_trace(
+        go.Scatter(
+            x=frame.index,
+            y=frame["secured_low"],
+            mode="lines",
+            line={"color": "rgba(62,108,136,0)", "width": 0},
+            hoverinfo="skip",
+            showlegend=False,
         )
-    figure.add_hline(y=0, line={"color": "#111111", "width": 1})
-    figure.add_hline(y=5, line={"color": "#c8a75d", "width": 1, "dash": "dot"})
-    figure.add_hline(y=10, line={"color": "#C0504D", "width": 1, "dash": "dot"})
-    for label, y_value, color in (("Pressured +5 bp", 5, "#8a6d2f"), ("Stressed +10 bp", 10, "#9f3d3b")):
-        figure.add_annotation(
-            x=0.995,
-            y=y_value,
-            xref="paper",
-            yref="y",
-            text=label,
-            showarrow=False,
-            xanchor="right",
-            yanchor="bottom",
-            font={"family": "Arial, Helvetica, sans-serif", "size": 9, "color": color},
-            bgcolor="rgba(255,255,255,0.78)",
-            borderpad=1,
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=frame.index,
+            y=frame["secured_high"],
+            mode="lines",
+            name="Secured funding range",
+            line={"color": "rgba(62,108,136,0)", "width": 0},
+            fill="tonexty",
+            fillcolor="rgba(62,108,136,0.16)",
+            hoverinfo="skip",
         )
+    )
+    hover_data = np.column_stack(
+        [
+            [format_basis_points(value, signed=True) for value in frame["tgcr_iorb_bp"]],
+            [format_basis_points(value, signed=True) for value in frame["bgcr_iorb_bp"]],
+            [format_basis_points(value, signed=True) for value in frame["secured_low"]],
+            [format_basis_points(value, signed=True) for value in frame["secured_high"]],
+        ]
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=frame.index,
+            y=frame["sofr_iorb_bp"],
+            mode="lines",
+            name="SOFR spread to IORB",
+            line={"color": CHART_NAVY, "width": 2.6},
+            customdata=hover_data,
+            hovertemplate=(
+                "SOFR: %{y:+.1f} bp<br>TGCR: %{customdata[0]}"
+                "<br>BGCR: %{customdata[1]}<br>Secured range: "
+                "%{customdata[2]} to %{customdata[3]}<extra></extra>"
+            ),
+        )
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=frame.index,
+            y=frame["effr_iorb_bp"],
+            mode="lines",
+            name="EFFR spread to IORB",
+            line={"color": CHART_MUTED, "width": 2, "dash": "dash"},
+            customdata=[format_basis_points(value, signed=True) for value in frame["effr_iorb_bp"]],
+            hovertemplate="EFFR: %{customdata}<extra></extra>",
+        )
+    )
+    figure.add_hline(y=0, line={"color": CHART_NAVY, "width": 1})
+    figure.add_hline(y=5, line={"color": PRODUCT["amber"], "width": 1, "dash": "dot"})
+    figure.add_hline(y=10, line={"color": CHART_NEGATIVE, "width": 1, "dash": "dot"})
     figure.update_layout(
-        height=360,
-        margin={"l": 58, "r": 24, "t": 58, "b": 48},
+        height=315,
+        margin={"l": 54, "r": 22, "t": 52, "b": 38},
         paper_bgcolor="#ffffff",
         plot_bgcolor="#ffffff",
-        font={"family": "Arial, Helvetica, sans-serif", "color": "#202020", "size": 11},
-        legend={"orientation": "h", "x": 0, "y": 1.17, "xanchor": "left", "yanchor": "top"},
+        font={"family": CHART_FONT, "color": CHART_INK, "size": 11},
+        legend={"orientation": "h", "x": 0, "y": 1.18, "xanchor": "left", "yanchor": "top", "font": {"size": 11}},
         hovermode="x unified",
-        xaxis={"title": None, "showgrid": False, "linecolor": "#aaaaaa"},
-        yaxis={"title": "Spread to IORB (bp)", "gridcolor": "#e5e5e5", "zeroline": False},
+        xaxis={"title": None, "showgrid": False, "linecolor": "#CBD5E1", "tickfont": {"color": CHART_MUTED}},
+        yaxis={"title": "Spread to IORB (bp)", "gridcolor": CHART_GRID, "zeroline": False, "tickfont": {"color": CHART_MUTED}},
     )
     return figure
 
@@ -1061,21 +1207,51 @@ def liquidity_deviation_figure(result: USLiquidityResult, years: int | None = 5)
     frame = result.history[["reserve_impulse_4w_bp", "expected_reserve_impulse_4w_bp", "mechanical_deviation_bp"]].dropna().copy()
     if years is not None and not frame.empty:
         frame = frame.loc[frame.index >= frame.index.max() - pd.DateOffset(years=years)]
-    colors = ["#548235" if value >= 0 else PASTEL["rose"] for value in frame["mechanical_deviation_bp"]]
+    colors = [CHART_POSITIVE if value >= 0 else CHART_NEGATIVE for value in frame["mechanical_deviation_bp"]]
     figure = go.Figure()
-    figure.add_trace(go.Bar(x=frame.index, y=frame["mechanical_deviation_bp"], name="Mechanical deviation", marker={"color": colors}, customdata=[format_basis_points(value, signed=True) for value in frame["mechanical_deviation_bp"]], hovertemplate="%{x|%d %b %Y}<br>Deviation: %{customdata}<extra></extra>"))
-    figure.add_trace(go.Scatter(x=frame.index, y=frame["reserve_impulse_4w_bp"], mode="lines", name="Realized reserve impulse", line={"color": "#111111", "width": 2}, customdata=[format_basis_points(value, signed=True) for value in frame["reserve_impulse_4w_bp"]], hovertemplate="Realized<br>%{x|%d %b %Y}<br>%{customdata}<extra></extra>"))
-    figure.add_trace(go.Scatter(x=frame.index, y=frame["expected_reserve_impulse_4w_bp"], mode="lines", name="Prior-year seasonal median", line={"color": "#666666", "width": 2, "dash": "dot"}, customdata=[format_basis_points(value, signed=True) for value in frame["expected_reserve_impulse_4w_bp"]], hovertemplate="Seasonal median<br>%{x|%d %b %Y}<br>%{customdata}<extra></extra>"))
-    figure.add_hline(y=0, line={"color": "#111111", "width": 1})
+    custom = np.column_stack(
+        [
+            [format_basis_points(value, signed=True) for value in frame["reserve_impulse_4w_bp"]],
+            [format_basis_points(value, signed=True) for value in frame["expected_reserve_impulse_4w_bp"]],
+            [format_basis_points(value, signed=True) for value in frame["mechanical_deviation_bp"]],
+        ]
+    )
+    figure.add_trace(
+        go.Bar(
+            x=frame.index,
+            y=frame["mechanical_deviation_bp"],
+            name="Deviation from seasonal pattern",
+            marker={"color": colors},
+            customdata=custom,
+            hovertemplate=(
+                "%{x|%d %b %Y}<br>Reserve flow: %{customdata[0]}"
+                "<br>Seasonal median: %{customdata[1]}"
+                "<br>Deviation: %{customdata[2]}<extra></extra>"
+            ),
+        )
+    )
+    if not frame.empty:
+        figure.add_trace(
+            go.Scatter(
+                x=[frame.index[-1]],
+                y=[frame["mechanical_deviation_bp"].iloc[-1]],
+                mode="markers",
+                marker={"color": CHART_NAVY, "size": 9, "line": {"color": "#FFFFFF", "width": 2}},
+                customdata=[format_basis_points(frame["mechanical_deviation_bp"].iloc[-1], signed=True)],
+                hovertemplate="Latest deviation: %{customdata}<extra></extra>",
+                showlegend=False,
+            )
+        )
+    figure.add_hline(y=0, line={"color": CHART_NAVY, "width": 1})
     figure.update_layout(
-        height=390,
-        margin={"l": 58, "r": 24, "t": 58, "b": 48},
+        height=260,
+        margin={"l": 54, "r": 20, "t": 24, "b": 38},
         paper_bgcolor="#ffffff",
         plot_bgcolor="#ffffff",
-        font={"family": "Arial, Helvetica, sans-serif", "color": "#202020", "size": 11},
-        legend={"orientation": "h", "x": 0, "y": 1.17, "xanchor": "left", "yanchor": "top"},
+        font={"family": CHART_FONT, "color": CHART_INK, "size": 11},
+        showlegend=False,
         hovermode="x unified",
-        xaxis={"title": None, "showgrid": False, "linecolor": "#aaaaaa"},
-        yaxis={"title": "Reserve effect (bp)", "gridcolor": "#e5e5e5", "zeroline": False},
+        xaxis={"title": None, "showgrid": False, "linecolor": "#CBD5E1", "tickfont": {"color": CHART_MUTED}},
+        yaxis={"title": "Difference from seasonal median (bp)", "gridcolor": CHART_GRID, "zeroline": False, "tickfont": {"color": CHART_MUTED}},
     )
     return figure

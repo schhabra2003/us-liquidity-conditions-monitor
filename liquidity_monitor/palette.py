@@ -1,63 +1,98 @@
-"""Shared Excel-style output palette for U.S. analytical charts and signals.
+"""Product design tokens shared by the liquidity monitor and its charts.
 
-The application shell remains black and white. These colors are reserved for
-data, series, regimes, risk states, and categorical distinctions inside outputs.
-The stronger Office-style RGB values are designed for legibility on a white
-canvas and in screenshots, exports, and investment-committee materials.
+The interface uses a restrained institutional palette. Navy is the primary
+data color; teal and brick are reserved for supportive and restrictive states;
+amber is reserved for freshness or escalation warnings. Additional series
+colors are used only when a multi-series chart requires them.
 """
 
 from __future__ import annotations
 
 from typing import Final
 
-EXCEL: Final[dict[str, str]] = {
-    "blue": "#4472C4",
-    "coral": "#ED7D31",
-    "sage": "#70AD47",
-    "amber": "#FFC000",
-    "lavender": "#8064A2",
-    "teal": "#4BACC6",
-    "rose": "#C0504D",
-    "periwinkle": "#5B9BD5",
-    "olive": "#9BBB59",
-    "mauve": "#A64D79",
-    "sky": "#00B0F0",
-    "apricot": "#F79646",
-    "mint": "#00B050",
-    "salmon": "#E26B6A",
-    "cornflower": "#2F5597",
-    "plum": "#7030A0",
-    "seafoam": "#008C95",
-    "sand": "#A67C00",
-    "slate_blue": "#7F8C8D",
-    "clay": "#C65911",
+PRODUCT: Final[dict[str, str]] = {
+    "navy": "#16325C",
+    "blue": "#2F6FED",
+    "teal": "#17806D",
+    "green": "#137A5B",
+    "brick": "#B5473C",
+    "red": "#B42318",
+    "amber": "#B7791F",
+    "purple": "#6657A8",
+    "slate": "#64748B",
+    "steel": "#3E6C88",
+    "cyan": "#238A9B",
+    "gold": "#A0712B",
+    "plum": "#7B5E7B",
+    "ink": "#0F172A",
+    "secondary": "#475569",
+    "muted": "#64748B",
+    "border": "#D9E1EA",
+    "grid": "#E8EDF3",
+    "surface": "#FFFFFF",
+    "canvas": "#F6F8FB",
 }
 
-EXCEL_20: Final[tuple[str, ...]] = tuple(EXCEL.values())
+SERIES_12: Final[tuple[str, ...]] = (
+    PRODUCT["navy"],
+    PRODUCT["blue"],
+    PRODUCT["teal"],
+    PRODUCT["amber"],
+    PRODUCT["purple"],
+    PRODUCT["steel"],
+    PRODUCT["brick"],
+    PRODUCT["cyan"],
+    PRODUCT["gold"],
+    PRODUCT["plum"],
+    "#8293A6",
+    "#40556F",
+)
 
-# Compatibility aliases keep every existing page on the centralized palette
-# without a broad rename touching analytical code.
-PASTEL: Final[dict[str, str]] = EXCEL
-PASTEL_20: Final[tuple[str, ...]] = EXCEL_20
+# Compatibility aliases preserve the analytical modules' existing key-based
+# imports while routing every chart through the standalone product palette.
+PASTEL: Final[dict[str, str]] = {
+    "blue": PRODUCT["blue"],
+    "coral": "#B7791F",
+    "sage": PRODUCT["green"],
+    "amber": "#C88A16",
+    "lavender": PRODUCT["purple"],
+    "teal": PRODUCT["teal"],
+    "rose": PRODUCT["red"],
+    "periwinkle": PRODUCT["steel"],
+    "olive": "#66845A",
+    "mauve": PRODUCT["plum"],
+    "sky": PRODUCT["cyan"],
+    "apricot": PRODUCT["gold"],
+    "mint": "#2B8A6E",
+    "salmon": PRODUCT["brick"],
+    "cornflower": PRODUCT["navy"],
+    "plum": "#584A8A",
+    "seafoam": "#1E7468",
+    "sand": "#8A641E",
+    "slate_blue": PRODUCT["slate"],
+    "clay": "#934A38",
+}
+PASTEL_20: Final[tuple[str, ...]] = tuple(PASTEL.values())
 
-# Negative or adverse values sit at the low end; positive or constructive
-# values sit at the high end. The neutral midpoint stays close to the canvas.
+# Legacy names are retained for public notebooks importing the module. Their
+# values intentionally follow the new product system.
+EXCEL: Final[dict[str, str]] = PASTEL
+EXCEL_20: Final[tuple[str, ...]] = PASTEL_20
+
 PASTEL_DIVERGING_SCALE: Final[list[list[float | str]]] = [
-    [0.0, PASTEL["rose"]],
-    [0.5, "#FBFBF8"],
-    [1.0, PASTEL["sage"]],
+    [0.0, PRODUCT["red"]],
+    [0.5, PRODUCT["surface"]],
+    [1.0, PRODUCT["green"]],
 ]
 
-# Rate-pressure matrices use the inverse interpretation: falling yields are
-# constructive and rising yields are adverse.
 PASTEL_RATES_SCALE: Final[list[list[float | str]]] = [
-    [0.0, PASTEL["sage"]],
-    [0.5, "#FBFBF8"],
-    [1.0, PASTEL["rose"]],
+    [0.0, PRODUCT["green"]],
+    [0.5, PRODUCT["surface"]],
+    [1.0, PRODUCT["red"]],
 ]
 
 
 def pastel(index: int) -> str:
-    """Return a stable Excel palette color, cycling after all 20 are used."""
+    """Return a stable product series color, cycling after all 20 slots."""
 
     return PASTEL_20[index % len(PASTEL_20)]

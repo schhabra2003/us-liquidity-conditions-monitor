@@ -38,6 +38,7 @@ from liquidity_monitor.structural_liquidity import (
     STRUCTURAL_WEIGHTS,
     build_structural_liquidity,
     classify_structural_regime,
+    confirmation_components_for_stale_sources,
     funding_conditions_figure,
     market_confirmation_figure,
     market_confirmation_snapshot,
@@ -47,6 +48,7 @@ from liquidity_monitor.structural_liquidity import (
     transmission_snapshot,
 )
 from liquidity_monitor.us_liquidity_model import (
+    CORE_SOURCE_FIELDS,
     LIQUIDITY_LAYER_WEIGHTS,
     _classify_direction,
     _prior_seasonal_expectation,
@@ -61,6 +63,7 @@ from liquidity_monitor.us_liquidity_model import (
     liquidity_conditions_history_figure,
     liquidity_deviation_figure,
     liquidity_layers_figure,
+    liquidity_regime_map_figure,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -581,6 +584,37 @@ class LiquidityBundleTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, message):
                     load_liquidity_bundle(target, verify_hashes=True)
 
+    def test_runtime_source_roles_gate_the_correct_outputs(self) -> None:
+        self.assertTrue({"tgcr", "bgcr"}.issubset(CORE_SOURCE_FIELDS))
+        self.assertEqual(
+            confirmation_components_for_stale_sources({"vix"}),
+            {"VIX risk signal"},
+        )
+        market_components = confirmation_components_for_stale_sources({"market"})
+        self.assertEqual(len(market_components), 7)
+        self.assertNotIn("VIX risk signal", market_components)
+        self.assertEqual(
+            len(confirmation_components_for_stale_sources({"market", "vix"})),
+            8,
+        )
+        self.assertEqual(
+            confirmation_components_for_stale_sources({"tgcr", "bgcr"}),
+            set(),
+        )
+        live = load_live_snapshot(LIVE_ROOT, verify_hashes=True)
+        all_confirmations = market_confirmation_snapshot(live)
+        without_market = market_confirmation_snapshot(live, market_components)
+        without_vix = market_confirmation_snapshot(live, {"VIX risk signal"})
+        without_all = market_confirmation_snapshot(
+            live,
+            market_components | {"VIX risk signal"},
+        )
+        self.assertEqual(len(all_confirmations), 8)
+        self.assertEqual(without_market["component"].tolist(), ["VIX risk signal"])
+        self.assertNotIn("VIX risk signal", without_vix["component"].tolist())
+        self.assertEqual(len(without_vix), 7)
+        self.assertTrue(without_all.empty)
+
     def test_source_status_has_effective_dates(self) -> None:
         status = source_status_table(self.bundle)
         self.assertEqual(len(status), 10)
@@ -855,13 +889,16 @@ class LiquidityBundleTests(unittest.TestCase):
             all(
                 str(value).endswith(" bp")
                 for trace in history.data
-                for value in trace.customdata
+                for value in np.asarray(trace.customdata, dtype=object).ravel()
             )
         )
+        self.assertEqual(current.data[0].type, "bar")
         self.assertEqual(
-            list(current.data[0].text),
+            list(current.data[0].customdata)[:-1],
             ["−10.8 bp", "+16.3 bp", "+0.9 bp", "−7.7 bp", "−39.9 bp"],
         )
+        current_values = np.asarray(current.data[0].x, dtype=float)
+        self.assertAlmostEqual(float(current_values[:-1].sum()), float(current_values[-1]))
         self.assertTrue(
             all(
                 len(str(value).removeprefix("+").removeprefix("−").split(".")[-1]) == 2
@@ -872,13 +909,13 @@ class LiquidityBundleTests(unittest.TestCase):
         self.assertEqual(
             list(domains.data[0].textfont.color),
             [
-                "#ffffff" if position == "inside" and value > 0 else "#202020"
+                "#ffffff" if position == "inside" and value > 0 else "#0F172A"
                 for position, value in zip(
                     domains.data[0].textposition, domains.data[0].x, strict=True
                 )
             ],
         )
-        self.assertEqual(current.data[0].textangle, 0)
+        self.assertIsNone(current.data[0].textangle)
         self.assertEqual(domains.data[0].textangle, 0)
         self.assertEqual(
             list(domains.data[0].y),
@@ -918,13 +955,13 @@ class LiquidityBundleTests(unittest.TestCase):
         self.assertEqual(
             [tab.label for tab in app.tabs],
             [
-                "Overview",
-                "Reserve mechanics",
+                "Dashboard",
+                "Reserve flows",
                 "Funding and markets",
-                "Data and methods",
+                "Data and methodology",
             ],
         )
-        self.assertEqual(len(app.get("plotly_chart")), 8)
+        self.assertEqual(len(app.get("plotly_chart")), 9)
         self.assertEqual(len(app.get("dataframe")), 0)
         self.assertEqual(len(app.get("number_input")), 0)
         self.assertEqual(len(app.get("radio")), 0)
@@ -945,17 +982,19 @@ class LiquidityBundleTests(unittest.TestCase):
             expected_change_copy = (
                 f"changed {abs(index_change_4w):.1f} index points over four weeks"
             )
-        self.assertIn("Current liquidity read", markdown_values)
+        self.assertIn("U.S. Liquidity Conditions Index", markdown_values)
+        self.assertIn("Restrictive", markdown_values)
+        self.assertIn("Deteriorating", markdown_values)
         self.assertIn(
-            "U.S. liquidity is restrictive and deteriorating", markdown_values
+            expected_change_copy.removesuffix(" over four weeks").capitalize(),
+            markdown_values,
         )
-        self.assertIn(expected_change_copy, markdown_values)
-        self.assertIn("Liquidity conditions", markdown_values)
-        self.assertIn("Historical position", markdown_values)
-        self.assertIn("Funding state", markdown_values)
+        self.assertIn("Current liquidity regime", markdown_values)
+        self.assertIn("Liquidity Conditions Index", markdown_values)
+        self.assertIn("Funding conditions", markdown_values)
         self.assertIn("Reserve-draining, broadly stable", markdown_values)
-        self.assertIn("How the U.S. liquidity classifier is built", markdown_values)
-        self.assertIn("Treasury General Account, H.4.1", markdown_values)
+        self.assertIn("Model construction", markdown_values)
+        self.assertIn("TGA accounting driver (weekly)", markdown_values)
         self.assertNotIn("Predictive overlay", markdown_values)
         self.assertNotIn("Liquidity surprise", markdown_values)
         self.assertNotIn("SPY 20-session", markdown_values)
@@ -966,6 +1005,16 @@ class LiquidityBundleTests(unittest.TestCase):
         for forbidden_character in forbidden_characters:
             with self.subTest(forbidden_character=forbidden_character):
                 self.assertNotIn(forbidden_character, markdown_values)
+
+    def test_regime_map_encodes_level_and_direction(self) -> None:
+        live = load_live_snapshot(LIVE_ROOT, verify_hashes=True)
+        result = build_us_liquidity_model(live)
+        figure = liquidity_regime_map_figure(result)
+        self.assertEqual(len(figure.data), 1)
+        self.assertEqual(figure.data[0].type, "scatter")
+        self.assertAlmostEqual(float(figure.data[0].x[0]), float(result.current["index"]))
+        self.assertAlmostEqual(float(figure.data[0].y[0]), float(result.current["change_4w"]))
+        self.assertEqual(figure.layout.xaxis.range, (0, 100))
 
     def test_reference_rate_availability_uses_observed_session_sequence(self) -> None:
         secured = pd.Series(

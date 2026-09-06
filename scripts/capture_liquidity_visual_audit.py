@@ -27,16 +27,26 @@ from playwright.sync_api import Browser, Page, Playwright, sync_playwright
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_URL = "http://127.0.0.1:8777"
 DEFAULT_OUTPUT = (
-    ROOT / "docs" / "qa" / "liquidity_visual_audit_2026-09-04" / "final_v2"
+    ROOT / "docs" / "qa" / "liquidity_visual_audit_2026-09-06" / "product_v1"
 )
 PAGE_SOURCE = ROOT / "pages" / "Liquidity_Conditions_Monitor.py"
 LIVE_MANIFEST = ROOT / "data" / "liquidity_live_snapshot" / "manifest.json"
+PRESENTATION_SOURCES = (
+    ROOT / ".streamlit" / "config.toml",
+    ROOT / "pages" / "Liquidity_Conditions_Monitor.py",
+    ROOT / "liquidity_monitor" / "ui.py",
+    ROOT / "liquidity_monitor" / "palette.py",
+    ROOT / "liquidity_monitor" / "liquidity_signal_monitor.py",
+    ROOT / "liquidity_monitor" / "structural_liquidity.py",
+    ROOT / "liquidity_monitor" / "us_liquidity_model.py",
+    ROOT / "scripts" / "capture_liquidity_visual_audit.py",
+)
 VIEWPORTS = {
     "desktop": (1440, 900),
     "mobile": (390, 844),
     "narrow": (320, 844),
 }
-TABS = ("Overview", "Reserve mechanics", "Funding and markets", "Data and methods")
+TABS = ("Dashboard", "Reserve flows", "Funding and markets", "Data and methodology")
 
 
 def sha256(path: Path) -> str:
@@ -47,10 +57,19 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def presentation_source_ledger() -> dict[str, str]:
+    """Bind the visual evidence to every source that can change presentation."""
+
+    return {
+        str(path.relative_to(ROOT)): sha256(path)
+        for path in PRESENTATION_SOURCES
+    }
+
+
 def browser_executable(explicit: str | None) -> str | None:
     candidates = (
         explicit,
-        os.environ.get("U.S._BROWSER_EXECUTABLE"),
+        os.environ.get("US_LIQUIDITY_BROWSER_EXECUTABLE"),
         "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
         "/usr/bin/google-chrome",
         "/usr/bin/google-chrome-stable",
@@ -196,17 +215,19 @@ def build_manifest(
     *,
     page_hash: str,
     data_hash: str,
+    presentation_sources: dict[str, str],
 ) -> dict[str, Any]:
     live_manifest = json.loads(LIVE_MANIFEST.read_text(encoding="utf-8"))
     return {
         "schema_version": "2.0.0",
-        "audit_id": "U.S.-LIQ-VISUAL-2026-09-04-FINAL-V2",
+        "audit_id": "US-LIQUIDITY-PRODUCT-2026-09-06-V1",
         "captured_at_et": datetime.now().astimezone().isoformat(timespec="seconds"),
         "route": "/",
         "page_source": str(PAGE_SOURCE.relative_to(ROOT)),
         "page_source_sha256": page_hash,
         "live_manifest": str(LIVE_MANIFEST.relative_to(ROOT)),
         "live_manifest_sha256": data_hash,
+        "presentation_sources": presentation_sources,
         "live_release_id": live_manifest["release_id"],
         "information_cutoff_et": live_manifest["information_cutoff_et"],
         "required_source_count": len(live_manifest["required_sources"]),
@@ -236,6 +257,7 @@ def capture(url: str, output: Path, executable: str | None) -> dict[str, Any]:
     stage = Path(tempfile.mkdtemp(prefix=f".{output.name}-", dir=output.parent))
     page_hash_before = sha256(PAGE_SOURCE)
     data_hash_before = sha256(LIVE_MANIFEST)
+    presentation_sources_before = presentation_source_ledger()
     records: list[dict[str, Any]] = []
     try:
         with sync_playwright() as playwright:
@@ -280,13 +302,21 @@ def capture(url: str, output: Path, executable: str | None) -> dict[str, Any]:
             make_contact_sheet(stage, surface, records)
         page_hash_after = sha256(PAGE_SOURCE)
         data_hash_after = sha256(LIVE_MANIFEST)
-        if page_hash_before != page_hash_after or data_hash_before != data_hash_after:
-            raise RuntimeError("Page source or live-data manifest changed during capture")
+        presentation_sources_after = presentation_source_ledger()
+        if (
+            page_hash_before != page_hash_after
+            or data_hash_before != data_hash_after
+            or presentation_sources_before != presentation_sources_after
+        ):
+            raise RuntimeError(
+                "Presentation source or live-data manifest changed during capture"
+            )
         manifest = build_manifest(
             stage,
             records,
             page_hash=page_hash_after,
             data_hash=data_hash_after,
+            presentation_sources=presentation_sources_after,
         )
         aggregate = manifest["aggregate_results"]
         if (
