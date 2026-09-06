@@ -1,0 +1,6 @@
+# Development and CI-only tooling. Production Streamlit deployments need only requirements.txt.
+-c constraints.txt
+coverage==7.15.2
+ruff==0.15.21
+pillow==12.3.0
+playwright==1.62.0

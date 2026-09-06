@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "trial_id": "V2-ECI-20260903",
+  "latest_signal_date": "2026-08-27",
+  "research_cutoff": "2026-09-02 18:00 America/New_York",
+  "release_state": "Gray / unavailable",
+  "directional_inference": "SUPPRESSED",
+  "source_release": "standalone_liquidity_research",
+  "expected_liquidity_path_status": "NOT_PACKAGED",
+  "registered_gate_count": 22,
+  "registered_gate_ids": [
+    "data/all_data_checks",
+    "effective_sample/independent_episodes_ordinal",
+    "effective_sample/outer_calendar_years",
+    "falsification/false_tax_calendar_family",
+    "falsification/liquidity_rotation_max_stat",
+    "falsification/oracle_and_exact_session_lag_decay",
+    "falsification/outcome_block_rotation_max_stat",
+    "falsification/stationary_block_ci",
+    "incremental/all_major_crisis_leaveouts",
+    "incremental/annual_bootstrap_lower_bound",
+    "incremental/best_year_removal",
+    "incremental/equal_year_brier_improvement",
+    "incremental/exact_annual_sign_randomization",
+    "incremental/log_loss_no_more_than_1pct_worse",
+    "incremental/positive_year_share",
+    "incremental/row_brier_improvement",
+    "timing_nondegeneracy/false_warning_increment_per_year",
+    "timing_nondegeneracy/positive_median_lead",
+    "timing_nondegeneracy/scores_vary_each_outer_year",
+    "timing_nondegeneracy/thetaI_expected_sign",
+    "timing_nondegeneracy/top_quintile_vs_bottom_half",
+    "timing_nondegeneracy/warning_episode_recall_increment"
+  ],
+  "parent_release": {
+    "release_id": "US-LIQUIDITY-V2-20260903",
+    "release_class": "RESEARCH_COMPLETE_NOT_PRODUCTION_CERTIFIED",
+    "decision": "Weak descriptive value; no validated SPY/QQQ buy or sell signal.",
+    "clean_raw_input_to_report_replay": "NOT_PERFORMED",
+    "manifest_file": "parent_release_manifest.json",
+    "manifest_sha256": "5f77d44859cb1b08e4eb9a24f980c101d9b9eb21f83a4cc2994a057bdcfc0499",
+    "known_exceptions_file": "KNOWN_RELEASE_EXCEPTIONS.md",
+    "known_exceptions_sha256": "29e023204fad636eab813385837ae6e2d80e47aab265e5ec637f65d7dbe0164f",
+    "known_exception_count": 8,
+    "known_exception_titles": [
+      "1. Full isolated end-to-end replay not completed",
+      "2. V2 freeze-clock metadata are internally inconsistent",
+      "3. Hypothetical all-gates-pass state issuance is not implemented",
+      "4. Primary crisis-leaveout gate reads across both embargo designs",
+      "5. Backtest precision p-value is descriptive only",
+      "6. Public-data point-in-time boundary",
+      "7. V2 manifest path convention and recomputation scope",
+      "8. Data-gate assertions are not counterfactual replay tests"
+    ],
+    "verified_source_hash_count": 9,
+    "manager_state_card_status": "CONTENT_RECONCILED_NOT_PARENT_HASH_PINNED"
+  },
+  "files": {
+    "weekly_state.csv": {
+      "rows": 504,
+      "columns": 55,
+      "sha256": "bfa5382ccc1e93fe941df3433b6b82a86af11a39f7417e80c42560f46dc0f01c"
+    },
+    "model_predictions.csv": {
+      "rows": 504,
+      "columns": 24,
+      "sha256": "f4f46c84439824d9d982a3762f407a8b32e0c94b59a28e7f74a3a0d830162a72"
+    },
+    "current_state.csv": {
+      "rows": 1,
+      "columns": 10,
+      "sha256": "a68a834567c417ffb57f8ed60ef829178c01815138bdbc55c77f9dffab9500d9"
+    },
+    "manager_state_card.csv": {
+      "rows": 1,
+      "columns": 11,
+      "sha256": "5365df923c29ac13d01e7a059846ba1e6876b885fc2d81ffaa7fa2a53c7e3a04"
+    },
+    "validation_metrics.csv": {
+      "rows": 10,
+      "columns": 16,
+      "sha256": "06c951a163a8a15c9783a35bc7a8aac8ff8752247d0f6e3a508b6eb93cb05c3a"
+    },
+    "annual_inference.csv": {
+      "rows": 2,
+      "columns": 15,
+      "sha256": "b9ce423cdc16f9d4335978d9d403315f7db01f3f04e8ebaacab9add5c43bb42b"
+    },
+    "warning_diagnostics.csv": {
+      "rows": 2,
+      "columns": 13,
+      "sha256": "8ad905d9ef8bcc660aa515b87631380e753d7b1067e0607b2602a50fbc594c93"
+    },
+    "validation_gates.csv": {
+      "rows": 22,
+      "columns": 5,
+      "sha256": "faf17f6e974c3d6fa6488ffe7c604fb92b5010cc4e6ab91ddf4595f05b4f9bf4"
+    }
+  }
+}

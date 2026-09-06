@@ -1,0 +1,2 @@
+as_of_anchor,data_cutoff,state,directional_inference,probability,severity,lead_time,primary_reason,data_quality,model_validity,next_update_condition
+2026-08-27,2026-09-02 18:00 America/New_York,Gray,unavailable,suppressed,suppressed,suppressed,No confirmatory horizon has an active feature-linked timing rank; the latest anchor is issuable/scored but its forward outcome is not mature,PASS_WITH_SCOPE_LIMITS,FAILED_PREDICTIVE_GATE,Reissue only after a new timestamped anchor; no state may become directional unless its own validation and effective-sample gates pass

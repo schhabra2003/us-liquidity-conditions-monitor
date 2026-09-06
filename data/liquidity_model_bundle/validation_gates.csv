@@ -1,0 +1,23 @@
+gate_group,gate,passed,value,threshold
+data,all_data_checks,True,11,11
+effective_sample,outer_calendar_years,True,9,8
+effective_sample,independent_episodes_ordinal,True,17,12
+incremental,row_brier_improvement,True,0.0015036823076970526,0
+incremental,equal_year_brier_improvement,True,0.001465272077106833,0
+incremental,annual_bootstrap_lower_bound,False,-0.0017028351997657714,0
+incremental,exact_annual_sign_randomization,False,0.2080078125,0.05
+incremental,positive_year_share,True,0.8,0.7
+incremental,best_year_removal,True,0.0002368466766044516,0
+incremental,all_major_crisis_leaveouts,True,0.0012888644389818244,0
+incremental,log_loss_no_more_than_1pct_worse,True,-0.009566142628400942,0.01
+timing_nondegeneracy,warning_episode_recall_increment,False,-0.0369829569074841,0.1
+timing_nondegeneracy,positive_median_lead,True,9.0,0
+timing_nondegeneracy,false_warning_increment_per_year,True,-1.5000000000000004,1
+timing_nondegeneracy,scores_vary_each_outer_year,True,,none
+timing_nondegeneracy,top_quintile_vs_bottom_half,True,2.1601402688486266,1.25
+timing_nondegeneracy,thetaI_expected_sign,True,1.0,0.7
+falsification,liquidity_rotation_max_stat,True,0.004,real > null 95th percentile
+falsification,outcome_block_rotation_max_stat,False,0.3836,real > null 95th percentile
+falsification,stationary_block_ci,False,-0.0009457103143269053,0
+falsification,oracle_and_exact_session_lag_decay,False,NOT_EVALUABLE,frozen materiality threshold and daily vintages required
+falsification,false_tax_calendar_family,False,EXPLORATORY_ONLY,false-calendar offsets/materiality margin not enumerated in frozen spec

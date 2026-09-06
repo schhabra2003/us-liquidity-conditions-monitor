@@ -1,0 +1,210 @@
+{
+  "schema_version": "3.0.0",
+  "release_id": "US-LIQ-LIVE-2026-09-04",
+  "as_of_et": "2026-09-04T18:44:53-04:00",
+  "information_cutoff_et": "2026-09-04T18:44:53-04:00",
+  "retrieved_at_utc": "2026-09-04T22:44:53.307841+00:00",
+  "purpose": "point-in-time U.S. liquidity conditions release for discretionary regime monitoring; not a standalone trading model",
+  "required_sources": [
+    "reserves_bn",
+    "assets_bn",
+    "tga_h41_bn",
+    "tga_dts_bn",
+    "onrrp_bn",
+    "currency_bn",
+    "baa10y",
+    "vix",
+    "sofr",
+    "iorb",
+    "deposits_bn",
+    "effr",
+    "hy_oas",
+    "ig_oas",
+    "broad_usd",
+    "real_yield_10y",
+    "market",
+    "bank_assets_bn",
+    "bank_cash_bn",
+    "large_bank_assets_bn",
+    "large_bank_cash_bn",
+    "small_bank_assets_bn",
+    "small_bank_cash_bn",
+    "bank_credit_bn",
+    "fedwire_daily_value_bn",
+    "tgcr",
+    "bgcr",
+    "repo_add_bn"
+  ],
+  "all_sources_current": true,
+  "model_spec": {
+    "version": "3.0.0-research",
+    "model_code_sha256": "833ce785fa17c12425c1092b550da6cf9f603577b37f236d74464549bbab41eb",
+    "implementation_files": {
+      "liquidity_monitor/liquidity_live_snapshot.py": "9d879955723e39159862987d8e738734216cbc7c557688418e5f69dee97375db",
+      "liquidity_monitor/structural_liquidity.py": "0dc3f1b3e2c731185eb9f01e18e25566f0b5713160cdd36de1caf2acbb5b8d8e",
+      "liquidity_monitor/us_liquidity_model.py": "833ce785fa17c12425c1092b550da6cf9f603577b37f236d74464549bbab41eb"
+    },
+    "implementation_bundle_sha256": "0b89ae1bee17a3eb0c82d36d246a770252377771077c49cb2ffd3af27fce4d03",
+    "weights": {
+      "reserve_capacity": 0.35,
+      "funding_support": 0.25,
+      "reserve_impulse": 0.3,
+      "bank_credit": 0.1
+    },
+    "component_clip": 3.0,
+    "index_thresholds": [
+      35.0,
+      65.0
+    ],
+    "deposit_publication_lag_days": 9,
+    "fedwire_publication_lag_days": 25,
+    "headline_filter_span_weeks": 4,
+    "model_observation_clock": "Friday 16:30 America/New_York"
+  },
+  "files": {
+    "current_state.csv": {
+      "sha256": "b548624dba699aa6330ec43b5976a8a4e3804537204225cf1eb7979bef1f4cc9",
+      "rows": 1,
+      "columns": 50
+    },
+    "source_status.csv": {
+      "sha256": "50005f726a4f4eb04bb614c8adf7fa5f84f8c9cdd6fd86a48af32d93c5790e97",
+      "rows": 28,
+      "columns": 14
+    }
+  },
+  "raw_files": [
+    {
+      "path": "raw/federalreserve_h10_release_dates.json",
+      "sha256": "cb3958b6d26348458e76ed151414ea0fae8ca6fc5af895ee37e6c662e63b99e4"
+    },
+    {
+      "path": "raw/federalreserve_h41_release_dates.json",
+      "sha256": "a0cf34f1d4757e2303e37000444a5cc3e5606c01cbb2b584030a29e7b9167d02"
+    },
+    {
+      "path": "raw/federalreserve_h8_release_dates.json",
+      "sha256": "70df6d43949d40553d8ddc207ea80ba26894ed91f5ea1c930ea7440adc86fe35"
+    },
+    {
+      "path": "raw/fedwire_monthly.html",
+      "sha256": "05751368536e67c4ea644400f683de8de937f0f5516e65a0602c2e4e20647111"
+    },
+    {
+      "path": "raw/fedwire_monthly.txt",
+      "sha256": "e53b379632e0e27549859c45a44f9c6b6596bb2b34a2273e6335e11c5954b636"
+    },
+    {
+      "path": "raw/fred_BAA10Y.csv",
+      "sha256": "31a19f94d46fde37dbc95e8d530fad3c4a7fc9720dafebcfcaa10fb3f22afc51"
+    },
+    {
+      "path": "raw/fred_BAMLC0A0CM.csv",
+      "sha256": "9e27dcc89e14834b5ac5ecf28d520782a52c342baad2b70ea254632a766c2636"
+    },
+    {
+      "path": "raw/fred_BAMLH0A0HYM2.csv",
+      "sha256": "1e41cd74c25dd21b105685af48bfb5f4735134450b4b4a28518744c850002a59"
+    },
+    {
+      "path": "raw/fred_CASACBW027SBOG.csv",
+      "sha256": "fe24b233c2c565937e8570bade48e13a8e1750ee984b8bc002c0a93a292c00a9"
+    },
+    {
+      "path": "raw/fred_CASLCBW027SBOG.csv",
+      "sha256": "5ac3b7ad061d1957dff328244420716ae7053bb1c39c67e99ae1d520a3ba6d82"
+    },
+    {
+      "path": "raw/fred_CASSCBW027SBOG.csv",
+      "sha256": "55e74373448fed7991a20e4f8e0c9568d7ed9a63cb6edc4ea8847ff9cae97516"
+    },
+    {
+      "path": "raw/fred_DFII10.csv",
+      "sha256": "7cd2a6e9b68fe720db26833b1680190363d41deb6b938b2ffc68d4463b730eda"
+    },
+    {
+      "path": "raw/fred_DPSACBW027SBOG.csv",
+      "sha256": "8cd5577dce708a35942704f3c84d0199b81d15ab89c7c805fdc9c550e92edaee"
+    },
+    {
+      "path": "raw/fred_DTWEXBGS.csv",
+      "sha256": "b20c5bd9504f3c2af41ab42cac69d4220d5e43f3577688a7d60ce63e8a85eebd"
+    },
+    {
+      "path": "raw/fred_EFFR.csv",
+      "sha256": "7de85f0368a33ec24b2a895268be5c456ebdcf76c6408f75ddb361e6c11174c6"
+    },
+    {
+      "path": "raw/fred_IOER.csv",
+      "sha256": "7e00dee924a8e5cc956302ca5aaf802a40341251a248a95d4860960df22e3292"
+    },
+    {
+      "path": "raw/fred_IORB.csv",
+      "sha256": "2393afdf5f105e779c13384031a2fcbc8ce490122654d937955d4effe3e25b61"
+    },
+    {
+      "path": "raw/fred_RPONTTLD.csv",
+      "sha256": "044a0121d6e9eb3d86c793dd74e3a499f014ff0c120a00430f91c3affe06874e"
+    },
+    {
+      "path": "raw/fred_RRPONTSYD.csv",
+      "sha256": "00c34eece59228c348f69fc93e508180c9d4f0a7d0567f37b64a00c120509167"
+    },
+    {
+      "path": "raw/fred_TLAACBW027SBOG.csv",
+      "sha256": "aec323252425dd248305e997bf66e4ac1e0752d03d1572452acdbb33b9281857"
+    },
+    {
+      "path": "raw/fred_TLALCBW027SBOG.csv",
+      "sha256": "fed13122e1f4194ff3278e08f0d825f1c21a76420eb1ffb4a2b8e8fca9ce9b37"
+    },
+    {
+      "path": "raw/fred_TLASCBW027SBOG.csv",
+      "sha256": "6e250c0c163118f07aa02367984f5ecc05733546a6fb3b56a7ab76b9e642dd6a"
+    },
+    {
+      "path": "raw/fred_TOTBKCR.csv",
+      "sha256": "e9e888105628622805e4593e5049a3964ad908ed75fdd09bc88aac3678a9f557"
+    },
+    {
+      "path": "raw/fred_VIXCLS.csv",
+      "sha256": "6b2cd4028784f69ae160250c3c10dbce88150e125f5fdc18f0c8d43ae557d5a3"
+    },
+    {
+      "path": "raw/fred_WALCL.csv",
+      "sha256": "3433fe438b3b39d07701b6f6a3cadea6b7daabfb8418c60891b13935dd3e8890"
+    },
+    {
+      "path": "raw/fred_WCURCIR.csv",
+      "sha256": "845b224719aa9cf2b3de325db8b2d2c1c7f2ab8d8708e2d39b6dc0b940ddc67f"
+    },
+    {
+      "path": "raw/fred_WDTGAL.csv",
+      "sha256": "0dcfa4ca1329ddb940c0fc619cf436d3fe6115b43c7d4e48f8b87db5bfdea15f"
+    },
+    {
+      "path": "raw/fred_WRBWFRBL.csv",
+      "sha256": "08dcf5da197c1c5a576e89fd55268c8ed1271aa8f4616407864e0a2d171b2c92"
+    },
+    {
+      "path": "raw/market_adjusted_close.csv",
+      "sha256": "d8686f24edeec15d99c13779de1202a36a239313ecc73b5cefc49123734977db"
+    },
+    {
+      "path": "raw/nyfed_bgcr.json",
+      "sha256": "2cd3a879db231a3121e874078021cfb5899bfcac0a43f606f2f4d06f6efaeb4f"
+    },
+    {
+      "path": "raw/nyfed_sofr.json",
+      "sha256": "83278d4a23205c9b78a74c612a580b9bde2022bf68b3a04d87149e5396453f97"
+    },
+    {
+      "path": "raw/nyfed_tgcr.json",
+      "sha256": "cad2b60725e53f99fb17145bbbd704ac5d936c85728b7e8f81c47a0e2ce7345d"
+    },
+    {
+      "path": "raw/treasury_tga.json",
+      "sha256": "e8bad1ebac6f67e2617dcb11e65b3522d33f5ef23b38ebf6edbd746217568507"
+    }
+  ]
+}

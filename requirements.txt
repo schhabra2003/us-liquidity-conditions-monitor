@@ -1,0 +1,10 @@
+# Runtime dependencies. Exact direct-dependency versions are in constraints.txt.
+-c constraints.txt
+
+numpy
+pandas
+plotly
+pyarrow
+requests
+streamlit
+yfinance

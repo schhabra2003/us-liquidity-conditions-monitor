@@ -1,0 +1,10 @@
+# Reproducible direct-dependency versions used by the verified release.
+numpy==2.3.5
+pandas==3.0.1
+pillow==12.3.0
+playwright==1.62.0
+plotly==6.8.0
+pyarrow==24.0.0
+requests==2.34.2
+streamlit==1.58.0
+yfinance==1.4.1

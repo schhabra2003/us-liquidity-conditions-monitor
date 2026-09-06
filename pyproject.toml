@@ -1,0 +1,14 @@
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = ["E501"]
+
+[tool.coverage.run]
+branch = true
+source = ["liquidity_monitor"]
+
+[tool.coverage.report]
+show_missing = true
+

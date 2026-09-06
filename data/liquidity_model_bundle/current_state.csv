@@ -1,0 +1,2 @@
+trial_id,latest_signal_date,state,directional_inference,ordinal_state_permitted,decimal_probability_permitted,primary_gates_pass,probability_gates_pass,reason,lineage
+V2-ECI-20260903,2026-08-27,Gray / unavailable,SUPPRESSED,False,False,False,False,"Every applicable V2 primary gate must pass before a directional state is issued. Gray means unavailable, not neutral, bullish, or bearish.",developmental pseudo-OOS; designed after v1 null; prospective shadow confirmation required even if historical gates pass

@@ -1,0 +1,3 @@
+# Preserve provider payload bytes exactly. These Federal Reserve calendar files
+# are hash-bound raw evidence and are intentionally stored with source line endings.
+data/liquidity_live_snapshot/raw/federalreserve_*_release_dates.json binary
