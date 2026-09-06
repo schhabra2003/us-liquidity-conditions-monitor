@@ -14,7 +14,7 @@ import hashlib
 import json
 import os
 import platform
-import subprocess
+import subprocess  # nosec B404
 import sys
 import time
 from datetime import datetime, timezone
@@ -37,7 +37,8 @@ def sha256(path: Path) -> str:
 def run(command: list[str], *, timeout: int = 900) -> dict[str, Any]:
     started = time.monotonic()
     try:
-        completed = subprocess.run(
+        # The command list is constructed internally and never uses a shell.
+        completed = subprocess.run(  # nosec B603
             command,
             cwd=ROOT,
             capture_output=True,
@@ -110,13 +111,21 @@ def dependency_files() -> dict[str, Any]:
 
 def liquidity_data_integrity() -> dict[str, Any]:
     from liquidity_monitor.liquidity_live_snapshot import load_live_snapshot
-    from liquidity_monitor.liquidity_signal_monitor import load_liquidity_bundle
+    from liquidity_monitor.liquidity_signal_monitor import (
+        live_source_status_table,
+        load_liquidity_bundle,
+    )
 
     live_root = ROOT / "data" / "liquidity_live_snapshot"
     research_root = ROOT / "data" / "liquidity_model_bundle"
     try:
         live = load_live_snapshot(live_root, verify_hashes=True)
         research = load_liquidity_bundle(research_root, verify_hashes=True)
+        runtime_status = live_source_status_table(live)
+        runtime_stale = runtime_status.loc[
+            ~runtime_status["Live status"].astype(str).str.startswith("CURRENT"),
+            ["Series", "Observation date", "Expected date", "Live status"],
+        ]
         return {
             "status": "PASS",
             "live_snapshot": {
@@ -127,6 +136,11 @@ def liquidity_data_integrity() -> dict[str, Any]:
                 "required_source_count": len(live.manifest["required_sources"]),
                 "manifest": str((live_root / "manifest.json").relative_to(ROOT)),
                 "manifest_sha256": sha256(live_root / "manifest.json"),
+                "current_operating_status": (
+                    "PASS" if runtime_stale.empty else "HOLD_FOR_REFRESH"
+                ),
+                "current_stale_source_count": len(runtime_stale),
+                "current_stale_sources": runtime_stale.astype(str).to_dict("records"),
             },
             "research_bundle": {
                 "trial_id": research.manifest["trial_id"],
@@ -334,7 +348,7 @@ def verification_commands(python: str) -> list[tuple[str, list[str]]]:
         ),
         (
             "coverage",
-            [python, "-m", "coverage", "report", "--show-missing", "--fail-under=45"],
+            [python, "-m", "coverage", "report", "--show-missing", "--fail-under=80"],
         ),
         (
             "lint_shared",

@@ -8,7 +8,6 @@ import hashlib
 import io
 import json
 import shutil
-import subprocess
 import sys
 import tempfile
 import time
@@ -106,7 +105,8 @@ def get(url: str, *, params: dict | None = None) -> requests.Response:
             last_error = error
             if attempt < 2:
                 time.sleep(2 ** attempt)
-    assert last_error is not None
+    if last_error is None:
+        raise RuntimeError("HTTP retrieval failed without an exception")
     raise last_error
 
 
@@ -131,12 +131,8 @@ def status_for(
 
 def fred_series(series: str, raw: Path) -> tuple[pd.Series, dict]:
     url = FRED.format(series=series)
-    completed = subprocess.run(
-        ["curl", "--fail", "--location", "--max-time", "45", "--silent", "--show-error", url],
-        check=True,
-        capture_output=True,
-    )
-    content = completed.stdout
+    response = get(url)
+    content = response.content
     (raw / f"fred_{series}.csv").write_bytes(content)
     frame = pd.read_csv(io.BytesIO(content), na_values=["."])
     frame.columns = ["date", "value"]
@@ -200,6 +196,7 @@ def download_adjusted_close(
     """Download a complete market panel with bounded batch and symbol retries."""
 
     collected = pd.DataFrame()
+    transport_errors: list[str] = []
     for attempt in range(attempts):
         try:
             batch = yf.download(
@@ -213,8 +210,8 @@ def download_adjusted_close(
             candidate = _adjusted_close_frame(batch, tickers)
             if not candidate.empty:
                 collected = candidate.combine_first(collected)
-        except Exception:  # yfinance can raise several transport-layer exceptions
-            pass
+        except Exception as error:  # yfinance exposes several transport exception types
+            transport_errors.append(f"batch attempt {attempt + 1}: {type(error).__name__}")
 
         missing = [
             ticker
@@ -234,8 +231,10 @@ def download_adjusted_close(
                 frame = _adjusted_close_frame(single, [ticker])
                 if not frame.empty:
                     collected = frame.combine_first(collected)
-            except Exception:
-                continue
+            except Exception as error:
+                transport_errors.append(
+                    f"{ticker} attempt {attempt + 1}: {type(error).__name__}"
+                )
         if not [
             ticker
             for ticker in tickers
@@ -249,7 +248,11 @@ def download_adjusted_close(
         for ticker in tickers
         if ticker not in collected or collected[ticker].dropna().empty
     ]
-    raise ValueError(f"Market download is incomplete after retries: {', '.join(missing)}")
+    error_detail = "; ".join(transport_errors[-5:]) or "no provider exception detail"
+    raise ValueError(
+        f"Market download is incomplete after retries: {', '.join(missing)}. "
+        f"Recent provider errors: {error_detail}"
+    )
 
 
 def build(as_of_text: str, output: Path) -> None:

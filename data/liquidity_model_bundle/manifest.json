@@ -33,12 +33,12 @@
     "timing_nondegeneracy/warning_episode_recall_increment"
   ],
   "parent_release": {
-    "release_id": "US-LIQUIDITY-V2-20260903",
+    "release_id": "US-LIQUIDITY-RESEARCH-20260903",
     "release_class": "RESEARCH_COMPLETE_NOT_PRODUCTION_CERTIFIED",
     "decision": "Weak descriptive value; no validated SPY/QQQ buy or sell signal.",
     "clean_raw_input_to_report_replay": "NOT_PERFORMED",
     "manifest_file": "parent_release_manifest.json",
-    "manifest_sha256": "5f77d44859cb1b08e4eb9a24f980c101d9b9eb21f83a4cc2994a057bdcfc0499",
+    "manifest_sha256": "eb8e0e8f902c7f703e6a2730e7d8963209350b8c6309c5203430b9513fa70fec",
     "known_exceptions_file": "KNOWN_RELEASE_EXCEPTIONS.md",
     "known_exceptions_sha256": "29e023204fad636eab813385837ae6e2d80e47aab265e5ec637f65d7dbe0164f",
     "known_exception_count": 8,

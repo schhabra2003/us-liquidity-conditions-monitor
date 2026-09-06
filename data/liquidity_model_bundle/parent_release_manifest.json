@@ -1,262 +1,32 @@
 {
-  "release_id": "US-LIQUIDITY-V2-20260903",
+  "schema_version": "1.0.0",
+  "release_id": "US-LIQUIDITY-RESEARCH-20260903",
   "created_utc": "2026-09-03T19:47:14.675516+00:00",
   "research_cutoff": "2026-09-02T18:00:00-04:00",
   "release_class": "RESEARCH_COMPLETE_NOT_PRODUCTION_CERTIFIED",
   "manager_state": "Gray / unavailable",
   "directional_inference": "SUPPRESSED",
-  "trial_lineage": "developmental pseudo-OOS; designed after V1 null",
+  "trial_lineage": "developmental pseudo-OOS; designed after an initial null result",
   "validation": {
     "v2_primary_gates_passed": 15,
     "v2_primary_gates_total": 22,
     "v2_artifact_recompute_checks_passed": 197,
     "v2_artifact_recompute_checks_total": 197,
-    "spy_qqq_release_checks_passed": 9,
-    "spy_qqq_release_checks_total": 9,
-    "dashboard_interaction_checks_passed": 6,
-    "dashboard_console_errors": 0,
-    "pdf_pages": 4,
-    "pdf_external_links": 4,
     "clean_raw_input_to_report_replay": "NOT_PERFORMED"
   },
-  "decision": "Weak descriptive value; no validated SPY/QQQ buy or sell signal.",
-  "known_exceptions_file": "audit/KNOWN_RELEASE_EXCEPTIONS.md",
-  "artifact_count": 47,
+  "decision": "Weak descriptive value; no validated SPY or QQQ buy or sell signal.",
+  "known_exceptions_file": "KNOWN_RELEASE_EXCEPTIONS.md",
+  "artifact_count": 2,
   "artifacts": [
     {
-      "path": "SIGNAL_V1_SPEC.md",
-      "bytes": 37088,
-      "sha256": "81e4f56257157dfd8966d5682040bd4ce55650ba0745d1da7c5f94ce7aebc5ce"
-    },
-    {
-      "path": "research/FREE_PUBLIC_V2_SPEC.md",
-      "bytes": 9510,
-      "sha256": "a438325d6a17c378e13cc2b170742e511dae6aa49ed90d110beb063e0638054d"
-    },
-    {
-      "path": "research/V2_FREE_PUBLIC_REGISTRY.json",
-      "bytes": 1980,
-      "sha256": "3e328879ec1ee5bd8b93e2419cf784d3324522fb91925d2bb7f4a887eb66b743"
-    },
-    {
-      "path": "research/V2_IMPLEMENTATION_FREEZE.md",
-      "bytes": 6979,
-      "sha256": "7f42e332d53789a915d7a7b0be0674541d47e1af34a8107b39c580c33b696429"
-    },
-    {
-      "path": "research/SPY_QQQ_SIGNAL_BACKTEST_SPEC.md",
-      "bytes": 5302,
-      "sha256": "1afbbbed38650c715677e4afdce4c02dc3e5e9e60a4adfe3207761caf107b734"
-    },
-    {
-      "path": "research/FULL_MODEL_RESEARCH_CONTEXT.md",
-      "bytes": 35050,
-      "sha256": "a58df6f182464edfaea3249da6fd1fac76d4684b0b65ed2dc84ce2284c0fc5f4"
-    },
-    {
-      "path": "research/claim_source_ledger.csv",
-      "bytes": 4911,
-      "sha256": "265b1b805318ba7c486582845fce3b1e535042400895bf6dc4ebed07d9f0ab4a"
-    },
-    {
-      "path": "src/run_free_public_v2.py",
-      "bytes": 96065,
-      "sha256": "e5d9c7f6f97c0aa6e6803652da46ce2b1624ffe845bfee2cecaad25980e6c121"
-    },
-    {
-      "path": "models/build_spy_qqq_signal_audit.py",
-      "bytes": 57859,
-      "sha256": "4a451dbb309bcf0e9a749e0b61f4f0d3273a37522193094921c51bbf67c59e1c"
-    },
-    {
-      "path": "models/build_dashboard.py",
-      "bytes": 30262,
-      "sha256": "da427ba10e66c411e8e28fb9eb219c0312b1dd46bdc2560063ed514a15376eb5"
-    },
-    {
-      "path": "models/build_final_report.py",
-      "bytes": 18786,
-      "sha256": "9dd8dd030bba3744b3725e17eb9a72c8420488ab1ac544e51108eb6307c18f10"
-    },
-    {
-      "path": "audit/v2_pre_run_freeze.json",
-      "bytes": 1806,
-      "sha256": "b9e65bd2ba8a42395bb764ec60eb4bb60278b279793a543830705dfd1dfd6d6e"
-    },
-    {
-      "path": "audit/v2_run_manifest.json",
-      "bytes": 29062,
-      "sha256": "4a1dd44abe65e752111b05f3279685cdbe1722cad930d852fce01389135df39b"
-    },
-    {
-      "path": "audit/v2_recompute_audit_manifest.json",
-      "bytes": 318,
-      "sha256": "4055b563dc7eeb171a87c6ce492e40dfb40287bc31f424820d63644c16428214"
-    },
-    {
-      "path": "audit/v2_INDEPENDENT_RECOMPUTE.md",
-      "bytes": 41244,
-      "sha256": "1056f83c1e75b5ea001cb5f9d8eeabeaf809d398abeb8ae566f9c25811a3e280"
-    },
-    {
-      "path": "audit/v2_primary_gates.csv",
+      "path": "validation_gates.csv",
       "bytes": 1601,
       "sha256": "faf17f6e974c3d6fa6488ffe7c604fb92b5010cc4e6ab91ddf4595f05b4f9bf4"
     },
     {
-      "path": "audit/spy_qqq_signal_backtest_manifest.json",
-      "bytes": 3840,
-      "sha256": "ee92c271e4d3fc24833650ef21369fa3df75077745d904b862fc11c5d10ab90e"
-    },
-    {
-      "path": "audit/SPY_QQQ_SIGNAL_BACKTEST_QA.md",
-      "bytes": 1684,
-      "sha256": "c4f1304b16b1ac1756398baa02a9612b4b431b0bd51e6a38de7c160e410d3b12"
-    },
-    {
-      "path": "audit/DASHBOARD_V2_QA.md",
-      "bytes": 2356,
-      "sha256": "03acd2252114bb3e55d11a3da72bb399738fc02d98856290ff0b942039f60d40"
-    },
-    {
-      "path": "audit/KNOWN_RELEASE_EXCEPTIONS.md",
+      "path": "KNOWN_RELEASE_EXCEPTIONS.md",
       "bytes": 6819,
       "sha256": "29e023204fad636eab813385837ae6e2d80e47aab265e5ec637f65d7dbe0164f"
-    },
-    {
-      "path": "audit/RELEASE_TEST_PLAN.md",
-      "bytes": 5909,
-      "sha256": "83daa37c89c9013ca9b338970c9af5101c105ec27e09e9f3e5cb9c27903c3d8d"
-    },
-    {
-      "path": "audit/free_public_data/run_manifest.json",
-      "bytes": 25911,
-      "sha256": "c10eb13d6adc02d03fd03bc33d00199bc65b54420520555d207c5b9cbe264367"
-    },
-    {
-      "path": "results/v2_predictions.csv",
-      "bytes": 1567009,
-      "sha256": "63411645647b31b80340173782fcf045bbcad380a05d748cf634985f04c9e52b"
-    },
-    {
-      "path": "results/v2_metrics.csv",
-      "bytes": 2145,
-      "sha256": "3c2c304b3cc7bd5a0cac093ba7226ce875e4a5577f4a8877c2ef4b4a972e39e3"
-    },
-    {
-      "path": "results/v2_annual_inference.csv",
-      "bytes": 701,
-      "sha256": "984556af010ccda040f63e6415cbfd0356107ab44e8746c054bcdb2a769f7086"
-    },
-    {
-      "path": "results/v2_warning_diagnostics.csv",
-      "bytes": 691,
-      "sha256": "d9d0529eacb4aa8d4a2e9aac2cedc744bd98ed48db61804d71cbe48fef997e51"
-    },
-    {
-      "path": "results/v2_current_state.csv",
-      "bytes": 510,
-      "sha256": "a68a834567c417ffb57f8ed60ef829178c01815138bdbc55c77f9dffab9500d9"
-    },
-    {
-      "path": "results/spy_qqq_signal_weekly.csv",
-      "bytes": 417882,
-      "sha256": "643a5d5ce090f44c36ab16ce9a1a797c4497624bfaa1380b65eb22988ad49894"
-    },
-    {
-      "path": "results/spy_qqq_signal_events.csv",
-      "bytes": 865634,
-      "sha256": "438250eef0c31d99949a8fce41cc545f0e7a064615ba507eb9aee911d89a323d"
-    },
-    {
-      "path": "results/spy_qqq_backtest_daily.csv",
-      "bytes": 9923304,
-      "sha256": "a918a5c195e3e97429d8a1c1a7bb50b21598b3e241bcd23d8ccd3b8cc0d455f0"
-    },
-    {
-      "path": "results/spy_qqq_backtest_metrics.csv",
-      "bytes": 7868,
-      "sha256": "9a156fed75609035744ab4c3333feafb7cf5befa3619082c1836f7746d2bdad6"
-    },
-    {
-      "path": "results/spy_qqq_event_metrics.csv",
-      "bytes": 1300,
-      "sha256": "0662848ee0ff33afb2779304e6e9276f3416584fe24a6842876005835f1bf1ec"
-    },
-    {
-      "path": "results/spy_qqq_annual_inference.csv",
-      "bytes": 954,
-      "sha256": "b2caed3abdcc100b11d5bc9b2dcb3abb0e250b0750bc3f201f677f939677d459"
-    },
-    {
-      "path": "figures/V11_calendar_mechanics.png",
-      "bytes": 205815,
-      "sha256": "a2bbed0e5947f46a6f93f013abda892ea9d27fcfaba9a89ba684f05c99ae93fb"
-    },
-    {
-      "path": "figures/V12_model_scorecard.png",
-      "bytes": 318316,
-      "sha256": "c97137b22a0c301f01845e1c1dd46a09f6ab0e954d7f71ef967936efac0fc703"
-    },
-    {
-      "path": "figures/V13_liquidity_architecture.png",
-      "bytes": 340650,
-      "sha256": "62d297d4cbfdf4c08edff70e2f5da523097fe2b1c7115bbe6da03d73abe7787a"
-    },
-    {
-      "path": "figures/V14_q4_scenario_matrix.png",
-      "bytes": 350733,
-      "sha256": "7442684720a0299df797f6a7d5b5753f9135bf185f5c079147424a08cdfa0eed"
-    },
-    {
-      "path": "figures/V15_validation_pipeline.png",
-      "bytes": 208122,
-      "sha256": "30cbeb8db6f84e93e4e5357bf4e5636ab2fdd6b12ab76a1954945cf0666f4c51"
-    },
-    {
-      "path": "figures/V16_SPY_signal_timeline.png",
-      "bytes": 443306,
-      "sha256": "a170cd98e3dea7e1620e551b0ac959a12f44c9597da30abc954cf596ed9c9e41"
-    },
-    {
-      "path": "figures/V17_QQQ_transportability_timeline.png",
-      "bytes": 441167,
-      "sha256": "c99943ec73dd190af55a3b77851bd6da903631ed55e5b10cbe5b6121f6d204ce"
-    },
-    {
-      "path": "figures/V18_SPY_QQQ_equity_drawdown.png",
-      "bytes": 676232,
-      "sha256": "98b372e5d952eb7af3347dc1f1147edd2049396d6350442bf0da49610b5d03f6"
-    },
-    {
-      "path": "figures/V19_SPY_QQQ_signal_diagnostics.png",
-      "bytes": 374597,
-      "sha256": "8d6ff3014ae77f01e495b3fa69d4303dafb9d45894b4ad50ab051af77743e5c6"
-    },
-    {
-      "path": "output/html/U.S._US_Liquidity_Conditions_Monitor.html",
-      "bytes": 1074737,
-      "sha256": "555344cbf9070490c0eed7d6e88449b312ac72d542b85cfd5228faf635827634"
-    },
-    {
-      "path": "output/html/dashboard_full.png",
-      "bytes": 421251,
-      "sha256": "37e94215d2af000e28d213b558734ed7e7255055e85d5f76f4b931fb685c7d6b"
-    },
-    {
-      "path": "output/html/dashboard_manifest.json",
-      "bytes": 2229,
-      "sha256": "718ee29c157cce0bad80365abe8f9497ac5ebaee8902f946f38b4b5a6a51d57a"
-    },
-    {
-      "path": "output/pdf/U.S._Equity_Drawdown_Risk_Monitor_2026-09-03.pdf",
-      "bytes": 2443963,
-      "sha256": "25509d39e16d1ffa391af051e57762408390b5803467e142d6ff06980708d2b7"
-    },
-    {
-      "path": "output/pdf/final_report_manifest.json",
-      "bytes": 807,
-      "sha256": "eca8a679607ad11e6ee59a7545d0d809198f6f186f0c3f4e4d61351376213f66"
     }
   ]
 }

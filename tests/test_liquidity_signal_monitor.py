@@ -524,6 +524,35 @@ class LiquidityBundleTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Column-count mismatch"):
                 load_liquidity_bundle(target, verify_hashes=False)
 
+    def test_parent_release_artifact_inventory_is_fully_packaged(self) -> None:
+        parent_path = BUNDLE_ROOT / "parent_release_manifest.json"
+        parent = json.loads(parent_path.read_text(encoding="utf-8"))
+        self.assertEqual(parent["artifact_count"], len(parent["artifacts"]))
+        for artifact in parent["artifacts"]:
+            path = BUNDLE_ROOT / artifact["path"]
+            self.assertTrue(path.is_file(), msg=f"Missing {artifact['path']}")
+            self.assertEqual(path.stat().st_size, artifact["bytes"])
+            self.assertEqual(
+                hashlib.sha256(path.read_bytes()).hexdigest(), artifact["sha256"]
+            )
+
+    def test_loader_rejects_parent_artifact_path_traversal(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "bundle"
+            shutil.copytree(BUNDLE_ROOT, target)
+            parent_path = target / "parent_release_manifest.json"
+            parent = json.loads(parent_path.read_text(encoding="utf-8"))
+            parent["artifacts"][0]["path"] = "../validation_gates.csv"
+            parent_path.write_text(json.dumps(parent), encoding="utf-8")
+            manifest_path = target / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["parent_release"]["manifest_sha256"] = hashlib.sha256(
+                parent_path.read_bytes()
+            ).hexdigest()
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "artifact path is invalid"):
+                load_liquidity_bundle(target, verify_hashes=True)
+
     def test_loader_rejects_text_and_infinite_numeric_values(self) -> None:
         for bad_value, message in (
             ("not-a-number", "Non-numeric"),

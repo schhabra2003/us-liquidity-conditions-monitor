@@ -606,6 +606,34 @@ def _verify_parent_release(root: Path, manifest: dict[str, object]) -> None:
     parent_manifest = json.loads(
         (root / str(parent["manifest_file"])).read_text(encoding="utf-8")
     )
+    artifacts = parent_manifest.get("artifacts")
+    if not isinstance(artifacts, list) or int(
+        parent_manifest.get("artifact_count", -1)
+    ) != len(artifacts):
+        raise ValueError("Parent release artifact inventory is incomplete")
+    root_resolved = root.resolve()
+    for artifact in artifacts:
+        if not isinstance(artifact, dict) or not {
+            "path",
+            "bytes",
+            "sha256",
+        }.issubset(artifact):
+            raise ValueError("Parent release artifact entry is incomplete")
+        artifact_path = (root / str(artifact["path"])).resolve()
+        if not artifact_path.is_relative_to(root_resolved):
+            raise ValueError("Parent release artifact path is invalid")
+        if not artifact_path.is_file():
+            raise ValueError(
+                f"Parent release artifact is missing: {artifact['path']}"
+            )
+        if artifact_path.stat().st_size != int(artifact["bytes"]):
+            raise ValueError(
+                f"Parent release artifact size mismatch: {artifact['path']}"
+            )
+        if _sha256(artifact_path) != str(artifact["sha256"]):
+            raise ValueError(
+                f"Parent release artifact checksum mismatch: {artifact['path']}"
+            )
     if str(parent_manifest.get("release_id")) != str(parent["release_id"]):
         raise ValueError(
             "Parent release identifier does not match the bundled manifest"
@@ -632,8 +660,8 @@ def _verify_parent_release(root: Path, manifest: dict[str, object]) -> None:
     gate_artifact = next(
         (
             item
-            for item in parent_manifest.get("artifacts", [])
-            if item.get("path") == "audit/v2_primary_gates.csv"
+            for item in artifacts
+            if item.get("path") == "validation_gates.csv"
         ),
         None,
     )
@@ -646,8 +674,8 @@ def _verify_parent_release(root: Path, manifest: dict[str, object]) -> None:
     exceptions_artifact = next(
         (
             item
-            for item in parent_manifest.get("artifacts", [])
-            if item.get("path") == "audit/KNOWN_RELEASE_EXCEPTIONS.md"
+            for item in artifacts
+            if item.get("path") == "KNOWN_RELEASE_EXCEPTIONS.md"
         ),
         None,
     )
