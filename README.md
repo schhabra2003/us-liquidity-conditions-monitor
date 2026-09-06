@@ -42,6 +42,8 @@ python -m unittest discover -s tests -p 'test_*.py' -q
 python scripts/audit_liquidity_release.py --output /tmp/liquidity-release-audit.json
 ```
 
+An optional GitHub Actions definition is included at `docs/templates/quality-workflow.yml`. To activate it, copy it to `.github/workflows/quality.yml` using a GitHub credential with `workflow` permission.
+
 ## Repository map
 
 | Path | Purpose |
