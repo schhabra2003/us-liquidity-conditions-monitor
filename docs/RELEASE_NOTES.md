@@ -1,5 +1,21 @@
 # Final release notes
 
+## Version 1.0.1
+
+Release date: September 6, 2026
+
+This release changes the operating VIX source from FRED `VIXCLS` to Yahoo Finance `^VIX`. The change removes the extra FRED publication delay from the zero-weight volatility confirmation while preserving the same latest-completed-market-close clock used by the equity panel.
+
+- The September 4, 2026 VIX close is 14.53 and is current in the operating release.
+- VIX remains a zero-weight confirmation input. It cannot change the Liquidity Conditions Index or its regime.
+- The source ledger now records Yahoo Finance, `^VIX`, the Yahoo observation date, and the hash of the retained market-history payload.
+- The live loader independently reconciles the VIX state and source ledger to the retained `^VIX` close.
+- The core 18-instrument market panel and VIX are validated separately so a VIX transport failure cannot alter SPY, sector breadth, or the structural regime.
+- The FRED `VIXCLS` operating payload and contract were removed. The immutable historical research bundle retains its original source provenance.
+- Public HTTP retrieval gained a standard-library fallback for greater refresh resilience without weakening any source, date, hash, or freshness control.
+
+The operating snapshot is `US-LIQ-LIVE-2026-09-06`. It contains 28 current source records and 32 retained raw provider payloads. All 70 tests, branch-aware coverage, static analysis, raw recomputations, source clocks, and refreshed visual-evidence checks pass.
+
 ## Version 1.0.0
 
 Release date: September 6, 2026

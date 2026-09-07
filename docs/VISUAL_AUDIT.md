@@ -13,11 +13,11 @@ The current evidence set is stored under `docs/qa/liquidity_visual_audit_2026-09
 | Check | Result |
 | --- | ---: |
 | Viewport, tab, and disclosure-state combinations | 21 |
-| Sequential screenshots | 90 |
-| Retained evidence files | 93 |
+| Sequential screenshots | 88 |
+| Retained evidence files | 91 |
 | Runtime exceptions | 0 |
 | Manager-facing software alerts | 0 |
 | Horizontal overflow | 0 pixels |
 | Presentation-source hash mismatches | 0 |
 
-The final evidence was captured on September 6, 2026 at 15:33:04 America/New_York and is bound to operating release `US-LIQ-LIVE-2026-09-04`.
+The final evidence was captured on September 6, 2026 at 21:58:01 America/New_York and is bound to operating release `US-LIQ-LIVE-2026-09-06`.

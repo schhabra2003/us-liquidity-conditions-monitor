@@ -69,12 +69,12 @@ class LiquidityFreshnessClockTests(unittest.TestCase):
 
     def test_current_release_is_hash_verified_at_its_own_cutoff(self) -> None:
         self.assertEqual(
-            self.snapshot.manifest["release_id"], "US-LIQ-LIVE-2026-09-04"
+            self.snapshot.manifest["release_id"], "US-LIQ-LIVE-2026-09-06"
         )
         self.assertEqual(len(self.snapshot.sources), 28)
-        self.assertEqual(len(self.snapshot.manifest["raw_files"]), 33)
+        self.assertEqual(len(self.snapshot.manifest["raw_files"]), 32)
         release_clock = pd.Timestamp(self.snapshot.manifest["as_of_et"])
-        self.assertEqual(release_clock.date().isoformat(), "2026-09-04")
+        self.assertEqual(release_clock.date().isoformat(), "2026-09-06")
         self.assertTrue(
             snapshot_is_current(
                 self.snapshot, now=release_clock + pd.Timedelta(minutes=1)
@@ -149,6 +149,8 @@ class LiquidityFreshnessClockTests(unittest.TestCase):
             ("deposits_bn", "2026-09-04 16:15:00", "2026-08-26"),
             ("market", "2026-09-04 16:29:59", "2026-09-03"),
             ("market", "2026-09-04 16:30:00", "2026-09-04"),
+            ("vix", "2026-09-04 16:29:59", "2026-09-03"),
+            ("vix", "2026-09-04 16:30:00", "2026-09-04"),
         )
         for field, stamp, expected_date in cases:
             with self.subTest(field=field, stamp=stamp):

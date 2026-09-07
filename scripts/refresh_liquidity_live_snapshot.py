@@ -13,6 +13,8 @@ import tempfile
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 
 import pandas as pd
 import requests
@@ -47,6 +49,7 @@ FEDERAL_RESERVE_RELEASE_DATES = {
 }
 SECTORS = ["XLB", "XLE", "XLF", "XLI", "XLK", "XLP", "XLU", "XLV", "XLY"]
 MARKET_CONFIRMATION = ["QQQ", "RSP", "IWM", "ARKK", "XBI", "KRE", "BTC-USD", "EEM"]
+YAHOO_VIX = "^VIX"
 
 SPECS = {
     "reserves_bn": ("Reserve balances", "WRBWFRBL", "Federal Reserve H.4.1", "USD billions", 0.001),
@@ -55,7 +58,6 @@ SPECS = {
     "currency_bn": ("Currency in circulation", "WCURCIR", "Federal Reserve H.4.1", "USD billions", 0.001),
     "onrrp_bn": ("Overnight reverse repo", "RRPONTSYD", "New York Fed via FRED", "USD billions", 1.0),
     "baa10y": ("Baa minus 10-year", "BAA10Y", "FRED", "percentage points", 1.0),
-    "vix": ("VIX", "VIXCLS", "Cboe via FRED", "index points", 1.0),
     "iorb": ("IORB", "IORB", "Federal Reserve via FRED", "percent", 1.0),
     "deposits_bn": (
         "Commercial bank deposits",
@@ -90,24 +92,46 @@ def sha256_file(path: Path) -> str:
 
 
 def get(url: str, *, params: dict | None = None) -> requests.Response:
-    last_error: requests.RequestException | None = None
+    separator = "&" if "?" in url else "?"
+    request_url = (
+        f"{url}{separator}{urlencode(params, doseq=True)}" if params else url
+    )
+    fallback_error: Exception | None = None
     for attempt in range(3):
         try:
-            response = requests.get(
-                url,
-                params=params,
-                timeout=(15, 120),
-                headers={"User-Agent": "U.S.-Liquidity-Monitor/1.0"},
-            )
-            response.raise_for_status()
+            request = Request(request_url, headers={"User-Agent": "Mozilla/5.0"})
+            with urlopen(request, timeout=120) as opened:
+                response = requests.Response()
+                response.status_code = int(opened.status)
+                response.url = opened.url
+                response.headers = requests.structures.CaseInsensitiveDict(
+                    opened.headers
+                )
+                response._content = opened.read()
+                response.encoding = (
+                    opened.headers.get_content_charset() or "utf-8"
+                )
             return response
-        except requests.RequestException as error:
-            last_error = error
+        except Exception as error:
+            fallback_error = error
             if attempt < 2:
                 time.sleep(2 ** attempt)
+
+    last_error: requests.RequestException | None = None
+    try:
+        response = requests.get(
+            url,
+            params=params,
+            timeout=(15, 120),
+            headers={"User-Agent": "U.S.-Liquidity-Monitor/1.0"},
+        )
+        response.raise_for_status()
+        return response
+    except requests.RequestException as error:
+        last_error = error
     if last_error is None:
-        raise RuntimeError("HTTP retrieval failed without an exception")
-    raise last_error
+        raise RuntimeError("HTTP retrieval failed without a requests exception") from fallback_error
+    raise last_error from fallback_error
 
 
 def status_for(
@@ -416,8 +440,9 @@ def build(as_of_text: str, output: Path) -> None:
         })
 
         tickers = ["SPY", *SECTORS, *MARKET_CONFIRMATION]
+        download_tickers = [*tickers, YAHOO_VIX]
         adjusted = download_adjusted_close(
-            tickers,
+            download_tickers,
             start=(as_of - pd.Timedelta(days=3653)).date(),
             end=(as_of + pd.Timedelta(days=1)).date(),
         )
@@ -425,7 +450,7 @@ def build(as_of_text: str, output: Path) -> None:
         if adjusted.index.has_duplicates:
             raise ValueError("Market download contains duplicate session dates")
         adjusted = adjusted.loc[adjusted.index <= expected("market")[0]]
-        if adjusted.empty or set(tickers).difference(adjusted.columns):
+        if adjusted.empty or set(download_tickers).difference(adjusted.columns):
             raise ValueError("Market download is incomplete")
         adjusted.to_csv(raw / "market_adjusted_close.csv", index_label="date")
         complete_adjusted = adjusted.dropna(subset=tickers)
@@ -435,12 +460,27 @@ def build(as_of_text: str, output: Path) -> None:
         market_status, market_note = current_status("market", market_date, adjusted["SPY"])
         market_raw_hash = sha256_file(raw / "market_adjusted_close.csv")
         source_rows.append({
-            "field": "market", "series": "Market context inputs", "source_key": "18 instruments; legacy 9-sector breadth",
+            "field": "market", "series": "Market context inputs", "source_key": "18 instruments; 9-sector breadth",
             "provider": "Yahoo Finance", "value": float(adjusted.loc[market_date, "SPY"]), "unit": "USD price",
             "observation_date": market_date.date(), "expected_observation_date": expected("market")[0].date(),
             "verified_through": as_of.date(), "retrieved_at_utc": retrieved, "status": market_status,
-            "status_detail": market_note + f"; all {len(tickers)} instruments share the same close date",
+            "status_detail": market_note + f"; all {len(tickers)} core instruments share the same close date",
             "source_url": "https://finance.yahoo.com/quote/SPY/history/", "raw_sha256": market_raw_hash,
+        })
+        vix = adjusted[YAHOO_VIX].dropna()
+        vix = vix.loc[vix.index <= expected("vix")[0]]
+        if vix.empty:
+            raise ValueError("Yahoo Finance VIX history has no observation by its market-close cutoff")
+        vix_date = pd.Timestamp(vix.index[-1])
+        vix_status, vix_note = current_status("vix", vix_date, vix)
+        histories["vix"] = vix
+        source_rows.append({
+            "field": "vix", "series": "Cboe Volatility Index", "source_key": YAHOO_VIX,
+            "provider": "Yahoo Finance", "value": float(vix.iloc[-1]), "unit": "index points",
+            "observation_date": vix_date.date(), "expected_observation_date": expected("vix")[0].date(),
+            "verified_through": as_of.date(), "retrieved_at_utc": retrieved, "status": vix_status,
+            "status_detail": vix_note,
+            "source_url": "https://finance.yahoo.com/quote/%5EVIX/history/", "raw_sha256": market_raw_hash,
         })
 
         reference_date = pd.Timestamp(histories["reserves_bn"].index[-1])

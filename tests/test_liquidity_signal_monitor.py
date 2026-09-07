@@ -236,7 +236,10 @@ def _independent_market_context_vector(bundle, snapshot) -> np.ndarray:
     baa_date = pd.Timestamp(source_rows.loc["baa10y", "observation_date"])
     vix_date = pd.Timestamp(source_rows.loc["vix", "observation_date"])
     baa10y = float(_raw_fred_series(snapshot.root, "BAA10Y").loc[baa_date])
-    vix = float(_raw_fred_series(snapshot.root, "VIXCLS").loc[vix_date])
+    yahoo_market = pd.read_csv(
+        snapshot.root / "raw" / "market_adjusted_close.csv", parse_dates=["date"]
+    ).set_index("date")
+    vix = float(yahoo_market.loc[vix_date, "^VIX"])
     raw = {
         "spy_mom60": float(market["spy_mom60"]),
         "spy_dist200": float(market["spy_dist200"]),
@@ -687,9 +690,9 @@ class LiquidityBundleTests(unittest.TestCase):
 
     def test_live_release_is_hash_verified_current_and_reconciled(self) -> None:
         live = load_live_snapshot(LIVE_ROOT, verify_hashes=True)
-        self.assertEqual(live.manifest["release_id"], "US-LIQ-LIVE-2026-09-04")
+        self.assertEqual(live.manifest["release_id"], "US-LIQ-LIVE-2026-09-06")
         release_clock = pd.Timestamp(live.manifest["as_of_et"])
-        self.assertEqual(release_clock.date().isoformat(), "2026-09-04")
+        self.assertEqual(release_clock.date().isoformat(), "2026-09-06")
         self.assertTrue(
             snapshot_is_current(live, now=release_clock + pd.Timedelta(minutes=1))
         )
@@ -704,7 +707,7 @@ class LiquidityBundleTests(unittest.TestCase):
         )
         self.assertEqual(len(live.sources), 28)
         self.assertEqual(len(live.manifest["required_sources"]), 28)
-        self.assertEqual(len(live.manifest["raw_files"]), 33)
+        self.assertEqual(len(live.manifest["raw_files"]), 32)
         self.assertEqual(
             set(live.manifest["required_sources"]), set(live.sources["field"])
         )
@@ -762,6 +765,22 @@ class LiquidityBundleTests(unittest.TestCase):
         )
         self.assertEqual(source_dates["onrrp_bn"], "2026-09-04")
         self.assertEqual(source_dates["market"], "2026-09-04")
+        self.assertEqual(source_dates["vix"], "2026-09-04")
+        vix_source = live.sources.set_index("field").loc["vix"]
+        self.assertEqual(vix_source["provider"], "Yahoo Finance")
+        self.assertEqual(vix_source["source_key"], "^VIX")
+        self.assertEqual(
+            vix_source["raw_sha256"],
+            live.sources.set_index("field").loc["market", "raw_sha256"],
+        )
+        yahoo_market = pd.read_csv(
+            live.root / "raw" / "market_adjusted_close.csv", parse_dates=["date"]
+        ).set_index("date")
+        self.assertAlmostEqual(
+            float(vix_source["value"]),
+            float(yahoo_market.loc[pd.Timestamp("2026-09-04"), "^VIX"]),
+            places=10,
+        )
         for field in (
             "deposits_bn",
             "bank_assets_bn",
@@ -783,7 +802,7 @@ class LiquidityBundleTests(unittest.TestCase):
         )
         self.assertTrue(status["Live status"].str.startswith("CURRENT").all())
         iorb = status.loc[status["Series"].eq("IORB")].iloc[0]
-        self.assertEqual(iorb["Live status"], "CURRENT · UNCHANGED")
+        self.assertEqual(iorb["Live status"], "CURRENT · SCHEDULED LAG")
         self.assertEqual(str(iorb["Observation date"]), "2026-09-04")
         reserves = status.loc[status["Series"].eq("Reserve balances")].iloc[0]
         self.assertEqual(reserves["Live status"], "CURRENT · SCHEDULED LAG")
@@ -792,7 +811,7 @@ class LiquidityBundleTests(unittest.TestCase):
         self.assertEqual(deposits["Live status"], "CURRENT · SCHEDULED LAG")
         self.assertEqual(str(deposits["Expected date"]), "2026-08-26")
         onrrp = status.loc[status["Series"].eq("Overnight reverse repo")].iloc[0]
-        self.assertEqual(onrrp["Live status"], "CURRENT · UPDATED")
+        self.assertEqual(onrrp["Live status"], "CURRENT · SCHEDULED LAG")
         self.assertEqual(str(onrrp["Observation date"]), "2026-09-04")
         self.assertEqual(str(onrrp["Expected date"]), "2026-09-04")
 
@@ -813,7 +832,7 @@ class LiquidityBundleTests(unittest.TestCase):
             + pd.Timedelta(minutes=1),
             live_snapshot=live,
         )
-        self.assertEqual(str(summary["observed_as_of"].date()), "2026-09-04")
+        self.assertEqual(str(summary["observed_as_of"].date()), "2026-09-06")
         self.assertTrue(summary["sources_current"])
         state = live.state.iloc[0]
         self.assertAlmostEqual(

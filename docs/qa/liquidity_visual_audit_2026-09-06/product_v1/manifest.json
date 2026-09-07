@@ -1,24 +1,24 @@
 {
   "schema_version": "2.0.0",
   "audit_id": "US-LIQUIDITY-PRODUCT-2026-09-06-V1",
-  "captured_at_et": "2026-09-06T15:33:04-04:00",
+  "captured_at_et": "2026-09-06T21:58:01-04:00",
   "route": "/",
   "page_source": "pages/Liquidity_Conditions_Monitor.py",
   "page_source_sha256": "5fffe1f885d483575d239bd72553a6ac6143e81e2b118078db850faaea3c73bd",
   "live_manifest": "data/liquidity_live_snapshot/manifest.json",
-  "live_manifest_sha256": "ecd3c129571509279aceecd48bb46f9732bcae7ecda26870e03517fe8cb49968",
+  "live_manifest_sha256": "ff2c9578b0fe4d737bdaa2d691621868c6f9935bd3a153f48a0a09eb10b2aa36",
   "presentation_sources": {
     ".streamlit/config.toml": "7e059dec0c82476b6c6820cb578414500ea480002d127c14412f8c7b98533c66",
     "pages/Liquidity_Conditions_Monitor.py": "5fffe1f885d483575d239bd72553a6ac6143e81e2b118078db850faaea3c73bd",
     "liquidity_monitor/ui.py": "87c1bf3d835f5172d7d1a2f8fbdd2182f11db55ff6f9e3202c4f5015ff9930d1",
     "liquidity_monitor/palette.py": "7faef66f51f820954fd018c520d9d6509b7c0893b52d1bf1219127e75862ea92",
     "liquidity_monitor/liquidity_signal_monitor.py": "09f39b691389f8642c012fc9775f33a4ac1f51d7f69145ced19ece8d670b8cc0",
-    "liquidity_monitor/structural_liquidity.py": "104bfb55d692c83f454d72e4efd69088cffdc530d089170c61e7f0c1f7fc5ed2",
+    "liquidity_monitor/structural_liquidity.py": "2de62c808e7da059adb4461c2f6040b4234d092eb7297e50396b8b8fcd03f153",
     "liquidity_monitor/us_liquidity_model.py": "1fd966192d66a7f9cd93d75083ac48b14e4c87d6b63052ed8b2d0ef689c1fab5",
     "scripts/capture_liquidity_visual_audit.py": "cda48682c951797f018099bdf0d13684cb4b18094dae82d32d8a58c76f1150e0"
   },
-  "live_release_id": "US-LIQ-LIVE-2026-09-04",
-  "information_cutoff_et": "2026-09-04T18:44:53-04:00",
+  "live_release_id": "US-LIQ-LIVE-2026-09-06",
+  "information_cutoff_et": "2026-09-06T21:51:21-04:00",
   "required_source_count": 28,
   "all_sources_current_at_release": true,
   "viewports": {
@@ -46,7 +46,7 @@
       "surface": "desktop",
       "tab": "Dashboard",
       "state": "collapsed",
-      "scroll_height_px": 1050,
+      "scroll_height_px": 985,
       "client_height_px": 900,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -64,7 +64,7 @@
       "surface": "desktop",
       "tab": "Dashboard",
       "state": "expanded",
-      "scroll_height_px": 1731,
+      "scroll_height_px": 1669,
       "client_height_px": 900,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -83,7 +83,7 @@
       "surface": "desktop",
       "tab": "Reserve flows",
       "state": "collapsed",
-      "scroll_height_px": 2516,
+      "scroll_height_px": 2451,
       "client_height_px": 900,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -102,7 +102,7 @@
       "surface": "desktop",
       "tab": "Reserve flows",
       "state": "expanded",
-      "scroll_height_px": 2585,
+      "scroll_height_px": 2520,
       "client_height_px": 900,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -121,7 +121,7 @@
       "surface": "desktop",
       "tab": "Funding and markets",
       "state": "collapsed",
-      "scroll_height_px": 1473,
+      "scroll_height_px": 1408,
       "client_height_px": 900,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -136,7 +136,7 @@
       "surface": "desktop",
       "tab": "Data and methodology",
       "state": "collapsed",
-      "scroll_height_px": 1235,
+      "scroll_height_px": 1105,
       "client_height_px": 900,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -153,7 +153,7 @@
       "surface": "desktop",
       "tab": "Data and methodology",
       "state": "expanded",
-      "scroll_height_px": 3141,
+      "scroll_height_px": 3011,
       "client_height_px": 900,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -162,8 +162,7 @@
         "desktop_data_and_methodology_expanded_01.png",
         "desktop_data_and_methodology_expanded_02.png",
         "desktop_data_and_methodology_expanded_03.png",
-        "desktop_data_and_methodology_expanded_04.png",
-        "desktop_data_and_methodology_expanded_05.png"
+        "desktop_data_and_methodology_expanded_04.png"
       ],
       "expanded_sections": [
         "View source status and details"
@@ -173,7 +172,7 @@
       "surface": "mobile",
       "tab": "Dashboard",
       "state": "collapsed",
-      "scroll_height_px": 1725,
+      "scroll_height_px": 1683,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -192,7 +191,7 @@
       "surface": "mobile",
       "tab": "Dashboard",
       "state": "expanded",
-      "scroll_height_px": 2633,
+      "scroll_height_px": 2595,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -212,7 +211,7 @@
       "surface": "mobile",
       "tab": "Reserve flows",
       "state": "collapsed",
-      "scroll_height_px": 3357,
+      "scroll_height_px": 3315,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -232,7 +231,7 @@
       "surface": "mobile",
       "tab": "Reserve flows",
       "state": "expanded",
-      "scroll_height_px": 3519,
+      "scroll_height_px": 3480,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -252,7 +251,7 @@
       "surface": "mobile",
       "tab": "Funding and markets",
       "state": "collapsed",
-      "scroll_height_px": 2335,
+      "scroll_height_px": 2294,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -269,7 +268,7 @@
       "surface": "mobile",
       "tab": "Data and methodology",
       "state": "collapsed",
-      "scroll_height_px": 1956,
+      "scroll_height_px": 1873,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -287,7 +286,7 @@
       "surface": "mobile",
       "tab": "Data and methodology",
       "state": "expanded",
-      "scroll_height_px": 5724,
+      "scroll_height_px": 5624,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -300,8 +299,7 @@
         "mobile_data_and_methodology_expanded_05.png",
         "mobile_data_and_methodology_expanded_06.png",
         "mobile_data_and_methodology_expanded_07.png",
-        "mobile_data_and_methodology_expanded_08.png",
-        "mobile_data_and_methodology_expanded_09.png"
+        "mobile_data_and_methodology_expanded_08.png"
       ],
       "expanded_sections": [
         "View source status and details"
@@ -311,7 +309,7 @@
       "surface": "narrow",
       "tab": "Dashboard",
       "state": "collapsed",
-      "scroll_height_px": 1771,
+      "scroll_height_px": 1729,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -330,7 +328,7 @@
       "surface": "narrow",
       "tab": "Dashboard",
       "state": "expanded",
-      "scroll_height_px": 2698,
+      "scroll_height_px": 2660,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -350,7 +348,7 @@
       "surface": "narrow",
       "tab": "Reserve flows",
       "state": "collapsed",
-      "scroll_height_px": 3545,
+      "scroll_height_px": 3504,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -370,7 +368,7 @@
       "surface": "narrow",
       "tab": "Reserve flows",
       "state": "expanded",
-      "scroll_height_px": 3744,
+      "scroll_height_px": 3703,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -391,7 +389,7 @@
       "surface": "narrow",
       "tab": "Funding and markets",
       "state": "collapsed",
-      "scroll_height_px": 2440,
+      "scroll_height_px": 2399,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -408,7 +406,7 @@
       "surface": "narrow",
       "tab": "Data and methodology",
       "state": "collapsed",
-      "scroll_height_px": 2095,
+      "scroll_height_px": 2011,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -426,7 +424,7 @@
       "surface": "narrow",
       "tab": "Data and methodology",
       "state": "expanded",
-      "scroll_height_px": 6582,
+      "scroll_height_px": 6498,
       "client_height_px": 844,
       "horizontal_overflow_px": 0,
       "runtime_exception_count": 0,
@@ -450,7 +448,7 @@
   ],
   "aggregate_results": {
     "route_viewport_state_combinations": 21,
-    "sequential_viewport_frames": 90,
+    "sequential_viewport_frames": 88,
     "runtime_exceptions": 0,
     "manager_alerts": 0,
     "maximum_horizontal_overflow_px": 0
@@ -458,559 +456,547 @@
   "evidence_files": [
     {
       "path": "desktop_contact_sheet.png",
-      "sha256": "39a2c9b791919fcb1a9311f46c4ca602b8fc6df0c6622600c85c81c029dd484a",
+      "sha256": "3210e0b5b1cfc82e1851d0b6aed4f0540c3c2e8d277ba690e15ae2795971635d",
       "width_px": 1140,
-      "height_px": 2200
+      "height_px": 1925
     },
     {
       "path": "desktop_dashboard_collapsed_01.png",
-      "sha256": "c93e1247922b8155097a9e0a7bc736e1762cc5433c4d274ac1588a0b5a331671",
+      "sha256": "ddd0bca37ab8fd541e3578832d1e19612eb23c0e3976bb60fc8e72c8105962dd",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_dashboard_collapsed_02.png",
-      "sha256": "31d5890d8c9f6f8b3732c1e364cf604d2ad94fd453eaf368e61e159e531cc558",
+      "sha256": "4b7006226f47e1175c2c8e23195185ac1bdb8b23526c9505059cea5bc62f7eff",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_dashboard_expanded_01.png",
-      "sha256": "ab2506f26fbfe6412d7541f64af05bc4eee3e5cce4e3d7170c1ebfb4f95d63b2",
+      "sha256": "a07bc787b7607fde5d0140bc0a0e037fc433e60f81b0081441877066349a81d6",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_dashboard_expanded_02.png",
-      "sha256": "186d695f92a1b708dada15f5e8eb2325f9a308983750a88a41232b03b9eb9b63",
+      "sha256": "b775676208b24d3f60922fc458ad00deefc0b5407b89c899b66369526950119e",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_dashboard_expanded_03.png",
-      "sha256": "6830f88e45a1449d572fa4657ae97061a8030833ca335e7593ecd53a99f096d7",
+      "sha256": "bd5c6feda314c23e93a445162fe83827754b40464bafd93f9f3a8274500e5067",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_data_and_methodology_collapsed_01.png",
-      "sha256": "6e8295c45eb99432daf91777cc76fb55d94ff06f72674b8217f0940e84c176fc",
+      "sha256": "aeb6be021024604d93f65599f6513fded43478944e0accbeb9d8aa0437b5571a",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_data_and_methodology_collapsed_02.png",
-      "sha256": "2fbe9e8d01c52885406006f3ad112a3bdbdd671861b9d3182663f67fb319889f",
+      "sha256": "231539a0a3aa3da285da3c7661bac928aac18a5c2dd1c7de760873a67ff38dce",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_data_and_methodology_expanded_01.png",
-      "sha256": "4013305075f6878f99281f8fc350025535b86d87bb6eec60a1fa3f3dcb19640d",
+      "sha256": "a316cee630ba927f4eb1f6777949b1fb98b4fadfa712f8241d40b25864ca2b50",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_data_and_methodology_expanded_02.png",
-      "sha256": "1f2cbc4c535c42dd93d37274d25f8ce0af4aa6a0ca637527bcc807254360c481",
+      "sha256": "54464e875085e5114a2ae08fb751b4b745c348b6ece4a0401bef98e0085f5f45",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_data_and_methodology_expanded_03.png",
-      "sha256": "e7d6b82e99adf733c96d32ce055190d7cca0d5e9ee46873bbb348cd7b9882d84",
+      "sha256": "58cfe2591aed7beedb2e7d0a19185e357c5bac52625221b05a79ea964a34d4ba",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_data_and_methodology_expanded_04.png",
-      "sha256": "b80f455b7cb8eafc5dd00de5d1fba75d2c916338c968ba2af4ce94c5489bb0bc",
-      "width_px": 1440,
-      "height_px": 900
-    },
-    {
-      "path": "desktop_data_and_methodology_expanded_05.png",
-      "sha256": "1293ef003913d1ff9a7c13da9470464fc509c09b54c0dd7803a7fe0bd5796e44",
+      "sha256": "84ad0a25e602bf1a1d360a8d0210d87faf383d433e67ccaf4dacc78f65bc4fbc",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_funding_and_markets_collapsed_01.png",
-      "sha256": "3fcc72803f6f921440d99212d2dd8dadf83740e22385fbcde9fe8c18537c343d",
+      "sha256": "c7d2b28199efc0b14dfec3b39d10c941260cd272d7a1a64b993c6b93581a239d",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_funding_and_markets_collapsed_02.png",
-      "sha256": "c1f21aa388a555f70412c3be8fbf7daf9317b19ed3dee65052ddce360c3a2455",
+      "sha256": "4fd36b3f8997d19753b0ec4a27d606845bde51dc0d5485eb823e2207336c6aca",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_reserve_flows_collapsed_01.png",
-      "sha256": "01a7ff3dab69be8f26eb09821deed505281d5151add30eb70d036a6f291b2ba3",
+      "sha256": "f521aa02db3c266410a1bc75b69b6b2e36d7eb4cd1c3f57559289a0696b092a5",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_reserve_flows_collapsed_02.png",
-      "sha256": "b516249bfea3dc7c6dcd047fcab7ba8269748f7723363eb241f68194ede0532f",
+      "sha256": "e312e746d65e3473b9ecd1e76213fb3e35f9e9f47ccea10d387e9251ea9d2a75",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_reserve_flows_collapsed_03.png",
-      "sha256": "81a28ec82e18f0f233c2a8d05f03347c4a81c447a00873360f641ca85b159aad",
+      "sha256": "45950a6974aea937bba412e199152eba32ec26f61f84567f7d5445ee41bb30f8",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_reserve_flows_collapsed_04.png",
-      "sha256": "63c99c86d1fc6cfe7c4e1499a8122f5074b93791828a35ddfe5e901dcabf8f25",
+      "sha256": "8014d638a942c88b3c7fa599a145551cb737c2ca2bf6c251723c851083812efa",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_reserve_flows_expanded_01.png",
-      "sha256": "01a7ff3dab69be8f26eb09821deed505281d5151add30eb70d036a6f291b2ba3",
+      "sha256": "f521aa02db3c266410a1bc75b69b6b2e36d7eb4cd1c3f57559289a0696b092a5",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_reserve_flows_expanded_02.png",
-      "sha256": "78db410ac80d5ef896666ba73533898a07fd1ceaff34e9f7fe5b7479d39c41e1",
+      "sha256": "4dfe7b4df152a5ebacd8aa651ebad7e92cf40b0bf8a220adfbc0dcc8eb545948",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_reserve_flows_expanded_03.png",
-      "sha256": "41e7d44069f8344b4a97a32207a49d29668bd2c88ef06faa719d0e3b99e6750d",
+      "sha256": "fdddff16b3441e4b40fb606b5dfc7a5722613bb3d2ab25501c8e25c8d1bf5564",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "desktop_reserve_flows_expanded_04.png",
-      "sha256": "1614da03810ec25ee2d44622228183d74ed38dca7ca443b72365cefe15805c62",
+      "sha256": "7181513723a64557758022e87c50606691c3f23c915f5dbe598f3b997386aedb",
       "width_px": 1440,
       "height_px": 900
     },
     {
       "path": "mobile_contact_sheet.png",
-      "sha256": "4bebba9aa5b680e924ecaa52c2d06f1b84b543238182d129c2723ce506346b7c",
+      "sha256": "4d32cf01160c7bf92e97ac997f3442cc1ccca0bff927bbf66ae26fb581c1682a",
       "width_px": 1120,
-      "height_px": 5508
+      "height_px": 4896
     },
     {
       "path": "mobile_dashboard_collapsed_01.png",
-      "sha256": "2edac4f86051f7f33a14b7a9cde74af3076307d98247537ec677567474e3a760",
+      "sha256": "9a1ffc92691ad331a30e29eb8fe91a7398873b2874883964670cc59f8b981b90",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_dashboard_collapsed_02.png",
-      "sha256": "246f2b0e27837169489da60bb058a024ad6ac7407b83f172a736f40c3415ee2b",
+      "sha256": "334984d0fc2aade8e260f7fc9ca882299a6f4b21b936132f3cf045ba5fc903ca",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_dashboard_collapsed_03.png",
-      "sha256": "4bc9ee8157e215db64c47672c23945a603ffc71a84b632b423ad3e43283ca773",
+      "sha256": "5cf071665664647debadcb3c56836345e45dc6b8063a02c18e89dc65f74c137c",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_dashboard_expanded_01.png",
-      "sha256": "2edac4f86051f7f33a14b7a9cde74af3076307d98247537ec677567474e3a760",
+      "sha256": "9a1ffc92691ad331a30e29eb8fe91a7398873b2874883964670cc59f8b981b90",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_dashboard_expanded_02.png",
-      "sha256": "80147e826296568b13dc37153df5ccee7c9b58f3421e5e98b61bd24283e710b6",
+      "sha256": "82a1dde84251219986b18cf69b8cd19f9eb6ab206736c63b08d1065331b97af5",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_dashboard_expanded_03.png",
-      "sha256": "c255093e45b9dffb9220138b414c9cd80b9d1b9c08be92408f26dec100a6816b",
+      "sha256": "bc713eb1b4c92a4a408ef92b469f402cc2d41edc446aece09b76606db767716c",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_dashboard_expanded_04.png",
-      "sha256": "40ec32b0a98b76150a66fdfba19477fb7fd7cb05b9e050547a156a62a7611b07",
+      "sha256": "113ad5a8fe6f2be3457f129b9d92e844257b1896895dd4351ec4d43c0a6eaaca",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_data_and_methodology_collapsed_01.png",
-      "sha256": "a0d18e913d842b3b2e5bce06985a442abc997d2d21df01a12c7097072c960ff6",
+      "sha256": "2d46672736416ea5629bc90d303e3363100fef7207c4034723ae9b34fa9858d2",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_data_and_methodology_collapsed_02.png",
-      "sha256": "592c3fa841997aea65dd18f96d74defe46ca1f60f21c221d862675cd17ed7be2",
+      "sha256": "05b3ba44c23794766b87c09b1a92be8841890e68cf6a958acea5dc9db8b68294",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_data_and_methodology_collapsed_03.png",
-      "sha256": "ae0c9a77f88e2a98f354d5d830f57514755570d72d5f98d55410a0d9290599ae",
+      "sha256": "36d70f4eccebd0cb3f11a77c9ae2cef589d8e1ceab85405e5260678ba5ffa3a9",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_data_and_methodology_expanded_01.png",
-      "sha256": "fc23fdd8e2e4140ebac2ee84f74d744df4e5fc15b73f9a9ed8bd7be0cf6e33a4",
+      "sha256": "356d0daa45f6b51e1c399be817c47ee133fa26e5acb8f33deb64e96b9f90730c",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_data_and_methodology_expanded_02.png",
-      "sha256": "85002c35298b0b17c458e8765cbba916a0e057cfa49edaa51275eb3fbec33493",
+      "sha256": "b3337ed55fad7c74f595c3e963d97f7c1e12cf7b67576be7bbd7728d8ff649ae",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_data_and_methodology_expanded_03.png",
-      "sha256": "b174c288dc7be0f26cd52a190c2322d92291c27d77c5acf46c6a1796dbf78a45",
+      "sha256": "6e7fd4f1ac9aeb1e5ffd42ee86788f76816d4b38556682771326d97967e486a0",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_data_and_methodology_expanded_04.png",
-      "sha256": "27ace3de850747e2e43073aa5860c284cb33b8af3ac56c1707a12758ca69680d",
+      "sha256": "96d05806075a748ef5123a53c85a3c1f462089ad95f920f2cba0254acf063bff",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_data_and_methodology_expanded_05.png",
-      "sha256": "94619e238cda7f769784b8bb40e3c240435139ef6ce7df777c749d18fc4f4a2b",
+      "sha256": "09ec9dd66dd4582d9df45656379d927525d5a553674f8ae2474bbcb1f8b3d167",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_data_and_methodology_expanded_06.png",
-      "sha256": "0b6c9c2f10276398ae228e389eb09eded531e27eeeb0dc10d241e498e14b4d1b",
+      "sha256": "b882b5a12f9915c5a37a3980ddd490bff5e26d0bafd33eba53d82c2d17ef71d0",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_data_and_methodology_expanded_07.png",
-      "sha256": "7dec03a86a37d2792ee6d171085f492e31b65b606e76cd2bf9c7220329fbb70e",
+      "sha256": "25e7cde555ebc264d44bd8c8e0778de11b6aea9c2a99a49ac45ca7378c466130",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_data_and_methodology_expanded_08.png",
-      "sha256": "43891af35c759a84d1e4d9e66e871f66aeacbc6a4689badc54f9dfd705029c23",
-      "width_px": 390,
-      "height_px": 844
-    },
-    {
-      "path": "mobile_data_and_methodology_expanded_09.png",
-      "sha256": "276139a2e48a5594b90f00c265285b1036d36c832592458f5f2496c147fe06fb",
+      "sha256": "e63bb4eb4a2a306b57dc6ed2fa111cd42bef9447af0e49bc4948d5e780652714",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_funding_and_markets_collapsed_01.png",
-      "sha256": "83dc081bc6cd40e213ab3bc76e2cdb4d553282fdf05cdb672265314366db7522",
+      "sha256": "5fd13bfef2ad8cd8d92317cefe6042c8307d3d71c1cc86feb1ba272036a00313",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_funding_and_markets_collapsed_02.png",
-      "sha256": "6281026becefbbcdb5cdd13b57ec5a273ba793c601dd3ee9bb8a006fcc3b9815",
+      "sha256": "59a2b5210a9b3817cb4ec7c939dc99a9e82a2b8a3df4e3eced8d192a441ef8d6",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_funding_and_markets_collapsed_03.png",
-      "sha256": "03de63c174ad9e3a42848e2b9bcffef9e51e763784002e1e58514dd44c2a9c65",
+      "sha256": "e87b9da142043d9e49eb8072de7eec953574db7957bc16cfb8d9c2fd6efd3211",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_funding_and_markets_collapsed_04.png",
-      "sha256": "500a1e6fc2f963804692736ea9ec962fed47b07e7a8efed04bd7a3a11c4f4fa0",
+      "sha256": "1e4a9c5ccdde34110c7e74d5ea58d466ef1b6353f5eeada0c188461aa0cb8046",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_reserve_flows_collapsed_01.png",
-      "sha256": "a8d766422ec3e7dee3785a8cc482dc670fcf46fc3793dd6e8bda47f90fd0c019",
+      "sha256": "cbd9fa5cca1bbf2fb0512383d3eee40486cbae4b6286cc51f49da89830e13435",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_reserve_flows_collapsed_02.png",
-      "sha256": "8e0754e391cb2db3893a6a23b684936a2987fba9ce2339b7a8ac4543b62b3e24",
+      "sha256": "018d52caed321d1bf052ff8ad944cc2cbcb2894e2289bc72c9b18df0b8cf4d69",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_reserve_flows_collapsed_03.png",
-      "sha256": "4215f1f9d322bc1757de3ea9f91af267a0c98048b5db44b5e4715795f4510e88",
+      "sha256": "bee5b1e715a14786c6ae9c5fb006fb50f511e962269f419a5704d75997e746f7",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_reserve_flows_collapsed_04.png",
-      "sha256": "b48ea568214bdde83a289eb67bb3391aec942ea3cd69d9d8d747bad36ae066bf",
+      "sha256": "346d5e1e52c76404b045b7068bb45395ac8cfdfdbab4d82437460beb9dfd265f",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_reserve_flows_collapsed_05.png",
-      "sha256": "922251c7b5078b65edeed30f9f0876fa354f9c7a273c435c1fba90ce9fbb50b6",
+      "sha256": "52b459e85414e38c1042bd8472688c74142909ea47a192572afe03d08c1cc513",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_reserve_flows_expanded_01.png",
-      "sha256": "7c23126d9a7c004018c6d1ef16a8ebbcde66b99ca7aeac7ab46130b53d0c9f30",
+      "sha256": "cbd9fa5cca1bbf2fb0512383d3eee40486cbae4b6286cc51f49da89830e13435",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_reserve_flows_expanded_02.png",
-      "sha256": "8e0754e391cb2db3893a6a23b684936a2987fba9ce2339b7a8ac4543b62b3e24",
+      "sha256": "018d52caed321d1bf052ff8ad944cc2cbcb2894e2289bc72c9b18df0b8cf4d69",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_reserve_flows_expanded_03.png",
-      "sha256": "4215f1f9d322bc1757de3ea9f91af267a0c98048b5db44b5e4715795f4510e88",
+      "sha256": "bee5b1e715a14786c6ae9c5fb006fb50f511e962269f419a5704d75997e746f7",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_reserve_flows_expanded_04.png",
-      "sha256": "b48ea568214bdde83a289eb67bb3391aec942ea3cd69d9d8d747bad36ae066bf",
+      "sha256": "346d5e1e52c76404b045b7068bb45395ac8cfdfdbab4d82437460beb9dfd265f",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "mobile_reserve_flows_expanded_05.png",
-      "sha256": "b1a8ed23dd99f6c7df2734628ca0b2a53f1c7d0b49e311452baea6ba319f90e9",
+      "sha256": "1c7c7bd58c65187996b0b97995f22d5e952982966805c89235b42bc048b5a79c",
       "width_px": 390,
       "height_px": 844
     },
     {
       "path": "narrow_contact_sheet.png",
-      "sha256": "5b8dfb8d05ba1e808874fe434c0398c86587a902a68e5f6dc98aeea4b0ef3513",
+      "sha256": "6b2468e39a604284e90b32f950be070f6c07f6abebebc7e8ffd96a7eb3bb6f2a",
       "width_px": 1120,
       "height_px": 6615
     },
     {
       "path": "narrow_dashboard_collapsed_01.png",
-      "sha256": "ea71b3decc995b53a4c9214ef71597a701b1a72be7a94d5f5aa82d82216810e6",
+      "sha256": "ba5a90e19caa3c4093f207cc2b91b3fd6765e0610a6810b1b99dab805b2bf66a",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_dashboard_collapsed_02.png",
-      "sha256": "6aece4273a69d8b816d61095467413190668a43d6e59823e2b51e5278cec51b0",
+      "sha256": "7f75d0728be63ad99e11fba7e8651515b0887e395c4afa10d1791a191e6e48f1",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_dashboard_collapsed_03.png",
-      "sha256": "9fc8e1ec4062ab226fd6c84be749e48f2124becd465b7480cf4b29699105b2d8",
+      "sha256": "dc26db137fc3152b44f59f2224da9655f4992f591cfd33453403814db35dbd47",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_dashboard_expanded_01.png",
-      "sha256": "194563abaf8150484afec09775f77c566a36cc8b583566596e7fd1d7ca6724f7",
+      "sha256": "ba5a90e19caa3c4093f207cc2b91b3fd6765e0610a6810b1b99dab805b2bf66a",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_dashboard_expanded_02.png",
-      "sha256": "23f8ba717e9f9234d2ac111998f07193f583a084a5604311bd60b102108dd24b",
+      "sha256": "946c74a45e51119645a2f80ca44e94919c43d44a4e72cf904d3b377ef4c5f5ac",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_dashboard_expanded_03.png",
-      "sha256": "671634c27118194017e3d5927db28748897b259a7a5100638e85662df828b562",
+      "sha256": "053c5f4f8c84db2ff5577bfd9667cd748aef88d749979054f165e690d2f7470a",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_dashboard_expanded_04.png",
-      "sha256": "2d87b31bded404ad1ff4e5f0e5e806ba65bffe3dd7f191398834aa0eddb769b0",
+      "sha256": "a4bc355ec056f3cf5bee98eb84d7fd46c91d567a6e9b3b12b25afe0f9ee0a95c",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_collapsed_01.png",
-      "sha256": "fc2af7f47b82d77cb7c5d9eaaa3d8d9b49a8bda391d6a8cf0267358f604c2f07",
+      "sha256": "40cf5d78a7ce53a952656041ce47bcc0b8baeac378f64604afb9222ca0dc3706",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_collapsed_02.png",
-      "sha256": "204c6ce1739ab65484626d34221cc3fb47ea4cf889fb6522ff9437b5916b1a97",
+      "sha256": "8e4deecf49895fa2d0a86104f23230a25058684aa78e81829c322c8dd3e6af56",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_collapsed_03.png",
-      "sha256": "fb2de213985d99e777ee31fdd665006bb4b0e00efc53058e95cad9f740dec065",
+      "sha256": "cc817d7a5bd0d19cdcb38b05cd90b569c8b21fa029bec07b946f316b753a4dde",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_expanded_01.png",
-      "sha256": "f5154fe90711d90ee66aad9bde712a0c6eee998d237c54be13880091477a6aa0",
+      "sha256": "37511effa1acc17fecd0b3fd80c5d4f8435e0aaf0a043835601dae17e66e5bfa",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_expanded_02.png",
-      "sha256": "c737ffcbb042c1492308d67c5ce6ab87d418677c0bb841b2b9074db27edb4336",
+      "sha256": "79b7bbe2609658609718893d93fd3f23eda27e0812c2dcc996ca49a77ed8b32e",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_expanded_03.png",
-      "sha256": "dabb75a296f607234c5a369278c7693436179c6d669cd7a9084f394e1fbeb0cd",
+      "sha256": "196da19da0694b12a81714887ccc539a74086dfba01c6d3644242525ab74b0dc",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_expanded_04.png",
-      "sha256": "6a41daee7b5455480ef5bc9dec83e4e7397f19000d311fa56573db73ab950e67",
+      "sha256": "bded6fc8008f89eca70b04a7915e0db01bfefe4a8759f44c810d5e6f4302aa32",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_expanded_05.png",
-      "sha256": "e096d050638ee93a0a75bf15e3eba186357ea1c2a8a5d3c8e3e2663ebd5830de",
+      "sha256": "8566dff0b84e327e6d53942c64e1a102617101a03a59b8f6141743db98c549c2",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_expanded_06.png",
-      "sha256": "7f0657d82f715686f52e5445d2e1da96bcd782e39c50728788be9bcffad0a861",
+      "sha256": "9de88acd8d6e7b638dc78e9f3277d43f23349476830fcf33549ad414f59e6b60",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_expanded_07.png",
-      "sha256": "64b445fbf49ef9958ac730f515329ff8da8b8ba0323bd3e30177025177497799",
+      "sha256": "aadc40ad0d3d0797efa5d12a355f53a8111c64e3dfeb50db5e1a5c42d4819573",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_expanded_08.png",
-      "sha256": "19dffbe523700c3ac5f1214f4a32c291c298faa8d0df1274e7140d78c5d48a63",
+      "sha256": "03acd0e672a2cf2ca47ed38852f3419d19f75c6ef1cf5448f5c4d81d8fbb09d2",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_expanded_09.png",
-      "sha256": "f3a88c598f7c979dff8ec291408177f5fef5a014e3da4dc518a42c3b41ab5b89",
+      "sha256": "8fbb72fb02cd44d25b74175ced9723c77a3c144e503eca7ad5d8a98b3e87fddb",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_data_and_methodology_expanded_10.png",
-      "sha256": "5132a1629609d5ad37ffed3d24e83086671cc1a0235c642abe8b84b0b44e363e",
+      "sha256": "2ecc923634d1d9398f6df4f87ac5b21f4e58797acaef8ff65504b0c84a726b1d",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_funding_and_markets_collapsed_01.png",
-      "sha256": "b6deeed532de48530f06e654c9942f0a12561606307d86391283889ef3f0bd44",
+      "sha256": "65b3353f6d6b9065db27081ab6e5c77ef88ae4712830dab38890532ced13caf7",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_funding_and_markets_collapsed_02.png",
-      "sha256": "58e2dfc24fb0859c8e77eb5e0062087a8c00b267a7213e5b25af252400d1d2f8",
+      "sha256": "8214b7c76dcc5d5434b10628f321f646422276c66e9b3eadb1d965712fd76a5b",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_funding_and_markets_collapsed_03.png",
-      "sha256": "5f1f4fd687e1e7535b30ac781b0aefdda71f5c791eecf762427c279b68353495",
+      "sha256": "6ccc9c6bbdcbd226459cf7d3535258994a14690533ea57dda8e8acb84a55d00d",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_funding_and_markets_collapsed_04.png",
-      "sha256": "440edde61c994c0bdadd59547b6113d39d25737d9c7a422dadb5516ab19e5fb5",
+      "sha256": "0fffb294760f4d4b20c20c8feb99e13c1d020d43d2120815b42f9a5accce5cf2",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_reserve_flows_collapsed_01.png",
-      "sha256": "c1f1f65fa6a83ffcb45391b5b92cdf8902ac41c38572056b3067646891d69093",
+      "sha256": "d3fea78082be05a20ad664030118bc3eaf067a593f9d01321832843a10854f6f",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_reserve_flows_collapsed_02.png",
-      "sha256": "47f5a2a32b1ccea4dc3c85f88b95f470e321c8383c1dfe5a21e225038990069a",
+      "sha256": "f67b29e3b394376a7731d3aa7e6957cf548a497f372992e6d6c505e42f3c7e77",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_reserve_flows_collapsed_03.png",
-      "sha256": "21b95155d7c8c230d5ebd1f6f6af421035a644827fc538942d6ad3dc6f6a003d",
+      "sha256": "262beef3ca306a9d4d094c46200e7f7dddab1e9b4998a7f04995918216a1519c",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_reserve_flows_collapsed_04.png",
-      "sha256": "4acf9ac243213c94219024a238ee8348a8146a3ee3c826758702ffddb0a5716c",
+      "sha256": "856d2f82e26e3df67c6bec05f69ecbbf8d84aceaf3a2b00604221e60dc355ebd",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_reserve_flows_collapsed_05.png",
-      "sha256": "393b5f571a99161ed153e91049d4480588e4a236b79388439d63444394195ccb",
+      "sha256": "b73a8eef1cd1446079a9a5b401cee40c8d252e1c4f3f4112c1745826fc9f998e",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_reserve_flows_expanded_01.png",
-      "sha256": "bd37dc147dad4c2ca58f239a8d2ed627f1dcaeca1b6482bf1fb1a85057678905",
+      "sha256": "d3fea78082be05a20ad664030118bc3eaf067a593f9d01321832843a10854f6f",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_reserve_flows_expanded_02.png",
-      "sha256": "47f5a2a32b1ccea4dc3c85f88b95f470e321c8383c1dfe5a21e225038990069a",
+      "sha256": "f67b29e3b394376a7731d3aa7e6957cf548a497f372992e6d6c505e42f3c7e77",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_reserve_flows_expanded_03.png",
-      "sha256": "21b95155d7c8c230d5ebd1f6f6af421035a644827fc538942d6ad3dc6f6a003d",
+      "sha256": "262beef3ca306a9d4d094c46200e7f7dddab1e9b4998a7f04995918216a1519c",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_reserve_flows_expanded_04.png",
-      "sha256": "4acf9ac243213c94219024a238ee8348a8146a3ee3c826758702ffddb0a5716c",
+      "sha256": "856d2f82e26e3df67c6bec05f69ecbbf8d84aceaf3a2b00604221e60dc355ebd",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_reserve_flows_expanded_05.png",
-      "sha256": "1ff4d0734e333d182d7471e59a4df81c8764d3572a8b34d84f9335fc2eef897c",
+      "sha256": "54aa618a0bdff3a890cce1db39b5a49d1addc2cfc82e2ee3376b6bb641a2c893",
       "width_px": 320,
       "height_px": 844
     },
     {
       "path": "narrow_reserve_flows_expanded_06.png",
-      "sha256": "108960ea819c7630983eb5f674fff71441d9a1289d055c83f085dcd91c560ea4",
+      "sha256": "1d25b8c359bcb8b7d7031787b775854780b9615d107c3f494456138ac9acb575",
       "width_px": 320,
       "height_px": 844
     }

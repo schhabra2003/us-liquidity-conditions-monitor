@@ -34,7 +34,7 @@ from pandas.tseries.offsets import CustomBusinessDay
 EXPECTED_RAW_FILES = {
     "fred_BAA10Y.csv", "fred_BAMLC0A0CM.csv", "fred_BAMLH0A0HYM2.csv",
     "fred_DFII10.csv", "fred_DPSACBW027SBOG.csv", "fred_DTWEXBGS.csv",
-    "fred_EFFR.csv", "fred_IORB.csv", "fred_RRPONTSYD.csv", "fred_VIXCLS.csv",
+    "fred_EFFR.csv", "fred_IORB.csv", "fred_RRPONTSYD.csv",
     "fred_WALCL.csv", "fred_WCURCIR.csv", "fred_WDTGAL.csv", "fred_WRBWFRBL.csv",
     "market_adjusted_close.csv", "nyfed_sofr.json", "treasury_tga.json",
     "fred_CASACBW027SBOG.csv", "fred_CASLCBW027SBOG.csv", "fred_CASSCBW027SBOG.csv",
@@ -637,7 +637,7 @@ def expected_observation_date(
             ),
             "latest completed New York Fed operation under its operating-day calendar and 2:00 p.m. ET publication checkpoint",
         )
-    if field == "market":
+    if field in {"market", "vix"}:
         return (
             latest_same_day_observation(NYSE_DAY, (16, 30)),
             "latest completed U.S. equity-market close under the exchange holiday calendar",
@@ -651,11 +651,6 @@ def expected_observation_date(
         return (
             lagged_daily_observation(FEDERAL_RESERVE_DAY, (9, 0)),
             "latest completed next-morning EFFR publication under the New York Fed holiday calendar",
-        )
-    if field == "vix":
-        return (
-            day - NYSE_DAY if is_session(day, NYSE_DAY) else NYSE_DAY.rollback(day),
-            "latest scheduled prior-session publication under the exchange holiday calendar",
         )
     if field == "iorb":
         return (
@@ -815,7 +810,6 @@ def _validate_raw_recomputations(
         "onrrp_bn": ("RRPONTSYD", 1.0),
         "currency_bn": ("WCURCIR", 0.001),
         "baa10y": ("BAA10Y", 1.0),
-        "vix": ("VIXCLS", 1.0),
         "iorb": ("IORB", 1.0),
         "deposits_bn": ("DPSACBW027SBOG", 1.0),
         "effr": ("EFFR", 1.0),
@@ -991,6 +985,17 @@ def _validate_raw_recomputations(
         raise ValueError("Live market constituent date does not reconcile")
     if not np.isclose(float(state["spy_adj_close"]), float(complete["SPY"].iloc[-1]), atol=1e-10):
         raise ValueError("Live SPY close does not reconcile")
+    if "^VIX" not in market.columns:
+        raise ValueError("Yahoo Finance market input lacks ^VIX")
+    vix_row = source_rows.loc["vix"]
+    vix_date = pd.Timestamp(vix_row["observation_date"])
+    vix = market["^VIX"].dropna()
+    if vix_date not in vix.index:
+        raise ValueError("Yahoo Finance market input lacks the selected VIX close")
+    if not np.isclose(float(vix_row["value"]), float(vix.loc[vix_date]), atol=1e-10):
+        raise ValueError("VIX source ledger does not reconcile to Yahoo Finance input")
+    if not np.isclose(float(state["vix"]), float(vix.loc[vix_date]), atol=1e-10):
+        raise ValueError("Live VIX state does not reconcile to Yahoo Finance input")
     sectors = ["XLB", "XLE", "XLF", "XLI", "XLK", "XLP", "XLU", "XLV", "XLY"]
     breadth = (complete[sectors] > complete[sectors].rolling(50).mean()).mean(axis=1)
     market_expected = {

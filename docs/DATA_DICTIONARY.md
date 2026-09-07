@@ -21,7 +21,7 @@
 | `baa10y`, `hy_oas`, `ig_oas` | Percentage points | Daily | Zero-weight credit diagnostics |
 | `broad_usd` | Index | Daily | Zero-weight dollar diagnostic |
 | `real_yield_10y` | Percent | Daily | Zero-weight real-rate diagnostic |
-| `vix` | Index | Daily | Zero-weight volatility diagnostic |
+| `vix` | Index points | Daily | Zero-weight volatility diagnostic sourced from Yahoo Finance `^VIX` |
 | `market` | Adjusted prices | Daily | Zero-weight transmission diagnostics |
 
 The source ledger records field, provider, series, observation date, release date, expected observation date, retrieval timestamp, freshness status, unit, raw value, normalized value, and raw payload path. Monetary values are normalized to USD billions in the backend. The UI applies a shared T, B, or M formatter and fixed decimal conventions.
@@ -29,4 +29,3 @@ The source ledger records field, provider, series, observation date, release dat
 ## Release artifacts
 
 `current_state.csv` contains the latest source values and derived fields. `source_status.csv` is the authoritative coverage and freshness ledger. `manifest.json` binds both tables, every raw payload, and the three calculation modules with SHA-256 hashes.
-

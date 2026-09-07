@@ -65,7 +65,7 @@ The expected seasonal value is the one-sided median of prior ISO years near the 
 
 ## Market confirmation
 
-Credit spreads, broad dollar, real yields, volatility, equity breadth, equal weight, small caps, high-beta innovation, biotechnology, regional banks, Bitcoin, and emerging markets are displayed as independent transmission checks. They cannot create or improve the liquidity regime score.
+Credit spreads, broad dollar, real yields, volatility, equity breadth, equal weight, small caps, high-beta innovation, biotechnology, regional banks, Bitcoin, and emerging markets are displayed as independent transmission checks. They cannot create or improve the liquidity regime score. The operating volatility check uses Yahoo Finance `^VIX` and is dated to the latest completed U.S. equity-market close.
 
 Publication status is separated by role. A stale required model or absolute-funding-control input holds the core index at its last verified value. These inputs include weighted index sources and the TGCR, BGCR, and Federal Reserve repo series used by the independent funding stress check. A stale zero-weight market-confirmation series does not suppress an otherwise current core index; it is excluded from the current confirmation count and identified separately in the interface.
 

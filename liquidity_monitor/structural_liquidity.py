@@ -83,7 +83,6 @@ FRED_SERIES_TO_FIELD = {
     "BAMLC0A0CM": "ig_oas",
     "DTWEXBGS": "broad_usd",
     "DFII10": "real_yield_10y",
-    "VIXCLS": "vix",
 }
 
 
@@ -786,7 +785,12 @@ def market_confirmation_snapshot(
                 "date": valid.index[-1],
             }
         )
-    vix = _fred(snapshot, "VIXCLS").dropna()
+    vix_cutoff = pd.Timestamp(
+        snapshot.sources.set_index("field").loc["vix", "observation_date"]
+    )
+    if "^VIX" not in market.columns:
+        raise ValueError("Yahoo Finance market history lacks ^VIX")
+    vix = market.loc[market.index <= vix_cutoff, "^VIX"].dropna()
     vix_change = -(vix.diff(20))
     vix_z = lagged_scaled_change(vix_change, window=756, min_periods=252)
     vix_valid = pd.concat({"response": vix_change, "score": vix_z}, axis=1).dropna()

@@ -1,9 +1,9 @@
 {
   "schema_version": "3.0.0",
-  "release_id": "US-LIQ-LIVE-2026-09-04",
-  "as_of_et": "2026-09-04T18:44:53-04:00",
-  "information_cutoff_et": "2026-09-04T18:44:53-04:00",
-  "retrieved_at_utc": "2026-09-04T22:44:53.307841+00:00",
+  "release_id": "US-LIQ-LIVE-2026-09-06",
+  "as_of_et": "2026-09-06T21:51:21-04:00",
+  "information_cutoff_et": "2026-09-06T21:51:21-04:00",
+  "retrieved_at_utc": "2026-09-07T01:51:21.712939+00:00",
   "purpose": "point-in-time U.S. liquidity conditions release for discretionary regime monitoring; not a standalone trading model",
   "required_sources": [
     "reserves_bn",
@@ -40,11 +40,11 @@
     "version": "3.0.0-research",
     "model_code_sha256": "1fd966192d66a7f9cd93d75083ac48b14e4c87d6b63052ed8b2d0ef689c1fab5",
     "implementation_files": {
-      "liquidity_monitor/liquidity_live_snapshot.py": "9d879955723e39159862987d8e738734216cbc7c557688418e5f69dee97375db",
-      "liquidity_monitor/structural_liquidity.py": "104bfb55d692c83f454d72e4efd69088cffdc530d089170c61e7f0c1f7fc5ed2",
+      "liquidity_monitor/liquidity_live_snapshot.py": "e1fe5ea8122b2ef7d8ed5273bd78b7b55fdd1d9d84fc670f7262f2f75085aeac",
+      "liquidity_monitor/structural_liquidity.py": "2de62c808e7da059adb4461c2f6040b4234d092eb7297e50396b8b8fcd03f153",
       "liquidity_monitor/us_liquidity_model.py": "1fd966192d66a7f9cd93d75083ac48b14e4c87d6b63052ed8b2d0ef689c1fab5"
     },
-    "implementation_bundle_sha256": "625c4f0254f0c9986fd9f2825d021bff1e3f8d7af850b69d8cb56e59c4d02b70",
+    "implementation_bundle_sha256": "045d17a97f43c7f7b2555de25b0451947e79feea24541c48e48691275b3cd408",
     "weights": {
       "reserve_capacity": 0.35,
       "funding_support": 0.25,
@@ -63,12 +63,12 @@
   },
   "files": {
     "current_state.csv": {
-      "sha256": "b548624dba699aa6330ec43b5976a8a4e3804537204225cf1eb7979bef1f4cc9",
+      "sha256": "4ba13ab25d62c08ec6c105e44cbef8f84972a4d330b4650916e5e2351afdcd4c",
       "rows": 1,
       "columns": 50
     },
     "source_status.csv": {
-      "sha256": "50005f726a4f4eb04bb614c8adf7fa5f84f8c9cdd6fd86a48af32d93c5790e97",
+      "sha256": "dcafe471769e317d917b5d2f7de221e5fac4d0ff2a1bf754d60af10ba4b071bc",
       "rows": 28,
       "columns": 14
     }
@@ -88,7 +88,7 @@
     },
     {
       "path": "raw/fedwire_monthly.html",
-      "sha256": "05751368536e67c4ea644400f683de8de937f0f5516e65a0602c2e4e20647111"
+      "sha256": "0ced6a4d44ec20e4e1e84e54bb07df4e2bbd15493b55aef5e0b84b53ae22ad36"
     },
     {
       "path": "raw/fedwire_monthly.txt",
@@ -167,10 +167,6 @@
       "sha256": "e9e888105628622805e4593e5049a3964ad908ed75fdd09bc88aac3678a9f557"
     },
     {
-      "path": "raw/fred_VIXCLS.csv",
-      "sha256": "6b2cd4028784f69ae160250c3c10dbce88150e125f5fdc18f0c8d43ae557d5a3"
-    },
-    {
       "path": "raw/fred_WALCL.csv",
       "sha256": "3433fe438b3b39d07701b6f6a3cadea6b7daabfb8418c60891b13935dd3e8890"
     },
@@ -188,7 +184,7 @@
     },
     {
       "path": "raw/market_adjusted_close.csv",
-      "sha256": "d8686f24edeec15d99c13779de1202a36a239313ecc73b5cefc49123734977db"
+      "sha256": "7cc585a74cb3996316795793bd8c86cee0a0dea46295a46f666de85029ce0313"
     },
     {
       "path": "raw/nyfed_bgcr.json",
@@ -204,7 +200,7 @@
     },
     {
       "path": "raw/treasury_tga.json",
-      "sha256": "e8bad1ebac6f67e2617dcb11e65b3522d33f5ef23b38ebf6edbd746217568507"
+      "sha256": "5a3dcb66cc7f92040e2fc59b4bd03bf00e36da04221d062a0e1aabf70fb627f2"
     }
   ]
 }

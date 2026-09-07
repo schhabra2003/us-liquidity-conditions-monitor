@@ -32,7 +32,7 @@ source .venv/bin/activate
 python scripts/refresh_liquidity_live_snapshot.py
 ```
 
-Refreshes are staged and promoted atomically only when required-source freshness, schemas, dates, raw-payload hashes, accounting identities, and model construction all pass. An invalid refresh leaves the last-good release intact.
+Refreshes are staged and promoted atomically only when required-source freshness, schemas, dates, raw-payload hashes, accounting identities, and model construction all pass. An invalid refresh leaves the last-good release intact. The operating volatility confirmation uses Yahoo Finance `^VIX` on the latest-completed-market-close clock.
 
 ## Verify a release
 
