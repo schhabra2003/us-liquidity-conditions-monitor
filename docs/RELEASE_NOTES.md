@@ -1,5 +1,11 @@
 # Final release notes
 
+## Version 1.0.2
+
+Release date: September 6, 2026
+
+This maintenance release updates the official GitHub checkout and Python setup actions to their current Node.js 24-compatible major versions. It removes the runner deprecation annotation without changing the application, model, data snapshot, or source-bound visual evidence.
+
 ## Version 1.0.1
 
 Release date: September 6, 2026
