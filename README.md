@@ -1,6 +1,6 @@
 # U.S. Liquidity Monitor
 
-An independently developed, public-data monitor of U.S. dollar liquidity conditions for discretionary macro and equity research.
+An independently developed, public-data monitor of U.S. dollar liquidity conditions for discretionary macroeconomic research.
 
 The application separates four questions that are often mixed together:
 
